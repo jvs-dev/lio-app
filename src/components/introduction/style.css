@@ -1,0 +1,21 @@
+.div--introduction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark-gray);
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.introduction__img {
+    border-radius: 100%;
+    width: 35%;
+    transition: 1s;
+    position: absolute;
+}
+
+.introduction__img.loaded {
+    transform: translateX(-100vw);
+}
