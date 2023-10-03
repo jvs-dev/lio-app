@@ -1,21 +1,30 @@
 .div--introduction {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--dark-gray);
+    color: var(--white);
     width: 100vw;
     height: 100vh;
     z-index: 100;
     overflow: hidden;
+    position: fixed;
+    transition: 0.5s;
 }
 
-.introduction__img {
-    border-radius: 100%;
-    width: 35%;
-    transition: 1s;
+.introduction__h1 {
+    font-family: 'Jim Nightshade', cursive;
+    font-weight: 400;
+    font-size: 32px;
     position: absolute;
+    left: 0;
+    top: 0;
+    margin: 20px 0px 0px 20px;
 }
 
-.introduction__img.loaded {
-    transform: translateX(-100vw);
+.introduction__p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: var(--white);
 }

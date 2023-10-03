@@ -1,31 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lio Hairstyle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jim+Nightshade&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
   <link rel="shortcut icon" href="assets/296123107_122225713872532_7342779468138834687_n.jpg" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="src/styles/reset.css">
   <link rel="stylesheet" href="src/styles/base.css">
   <link rel="stylesheet" href="src/components/introduction/style.css">
-  
+  <link rel="stylesheet" href="src/components/loaders/dot-spinner/style.css">
+  <link rel="stylesheet" href="src/pages/login/style.css">
+  <link rel="stylesheet" href="src/pages/signin/style.css">
+
 </head>
 
 <body>
   <div class="div--introduction" id="introductionSection">
-    <img class="introduction__img" id="introductionImg" src="assets/296123107_122225713872532_7342779468138834687_n.jpg" alt="">
+    <h1 class="introduction__h1">Lio Hairstyle</h1>
+    <div class="dot-spinner">
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+    </div>
+    <p class="introduction__p">Carregando...</p>
 
   </div>
   <main id="main">
+    <section class="main__login" id="loginSection">
+      <h1 class="login__h1" id="loginTitle">Lio Hairstyle</h1>
+      <form action="" class="login__form">
+        <h2 class="login__h2">Login</h2>
+        <div class="login__div">
+          <ion-icon name="mail-outline" class="login__icon"></ion-icon>
+          <input type="email" placeholder="Email" class="login__input">
+        </div>
+        <div class="login__div">
+          <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon>
+          <input type="password" placeholder="Senha" class="login__input" id="loginPassword">
+          <ion-icon name="eye-outline" class="login__icon" id="showloginPassword"></ion-icon>
+        </div>
+        <button class="login__Btn" type="button">Login</button>
+        <span class="login__span">Esqueceu a senha?</span>
+      </form>
+      <p class="login__p">Não tem conta?<br><span class="login__p__span" id="replaceToSignin">Criar conta</span></p>
+    </section>
 
+    <section class="main__signin" id="signinSection">
+      <h1 class="login__h1"></h1>
+      <form action="" class="login__form">
+        <h2 class="login__h2">Cadastre-se</h2>
+        <div class="login__div">
+          <ion-icon name="mail-outline" class="login__icon"></ion-icon>
+          <input type="email" placeholder="Email" class="login__input">
+        </div>
+        <div class="login__div">
+          <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon>
+          <input type="password" placeholder="Senha" class="login__input" id="signinPassword">
+          <ion-icon name="eye-outline" class="login__icon" id="showsigninPassword"></ion-icon>
+        </div>
+        <div class="login__div">
+          <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon>
+          <input type="password" placeholder="Confirmar senha" class="login__input" id="signinPasswordConfirm">
+          <ion-icon name="eye-outline" class="login__icon" id="showsigninPasswordConfirm"></ion-icon>
+        </div>
+        <button class="login__Btn" type="button">Criar conta</button>
+      </form>
+      <p class="login__p">Já tem uma conta?<br><span class="login__p__span" id="replaceToLogin">Login</span></p>
+    </section>
   </main>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script type="module" src="src/components/introduction/script.js"></script>
+  <script type="module" src="src/pages/login/script.js"></script>
+  <script type="module" src="src/pages/signin/script.js"></script>
   <script>
     AOS.init();
   </script>

@@ -1,0 +1,111 @@
+.main__login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    transform: translateX(0vw);
+    z-index: 2;
+    transition: 0.5s;
+}
+
+.login__h1 {
+    font-family: 'Jim Nightshade', cursive;
+    font-size: 14vw;
+    font-weight: 400;
+    color: var(--primary-color);
+    margin: 8vh 0px 0px 0px;
+    transition: 0.5s;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0px 40px;
+}
+
+.login__h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    color: var(--white);
+    font-size: 32px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin: 0px 0px 18px 0px;
+}
+
+.login__div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--white);
+    margin: 0px;
+    border-radius: 100px;
+    border: solid 1.5px var(--white);
+    padding: 6px 10px 6px 14px;
+    width: 100%;
+    margin: 0px 0px 20px 0px;
+}
+
+.login__icon {
+    font-size: 25px;
+    margin-right: 8px;
+}
+
+.login__input {
+    background: transparent;
+    color: var(--white);
+    width: 100%;
+    border: 0px;
+    outline-width: 0px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+div.login__div:has(> input.login__input:focus) {
+    border: solid 1.5px var(--primary-color);
+    color: var(--primary-color);
+}
+
+.login__input::placeholder {
+    opacity: 0.7;
+}
+
+.login__Btn {
+    width: 100%;
+    background: var(--primary-color);
+    color: var(--white);
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    padding: 8px 0px;
+    border-radius: 360px;
+    border: 0px;
+    outline-width: 0px;
+    letter-spacing: 1.2px;
+}
+
+.login__span {
+    color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-top: 12px;
+}
+
+.login__p {
+    font-family: 'Poppins', sans-serif;
+    color: var(--white);
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 0px 25px 0px;
+}
+.login__p__span {
+    color: var(--primary-color);
+}
