@@ -1,0 +1,85 @@
+.postCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.postCard__div--1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--light-gray);
+}
+.postCard__mainImg {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    max-width: none;
+}
+.postCard__div--2 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+    z-index: 2;
+    padding: 10px;
+}
+.postCard__div--3 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
+    z-index: 2;
+    padding: 10px;
+}
+.postCard__userImg {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    margin: 0px 5px 0px 0px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.postCard__userName {
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    margin: 0px;
+}
+.postCard__span {
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    margin: 0px;
+}
+.postCard__likeThis {
+    color: var(--white);
+    margin-right: 5px;
+    font-size: 28px;
+}
+.postCard__text {
+    font-family: 'Poppins', sans-serif;
+    color: var(--white);
+    text-align: left;
+    margin: 5px 0px 0px 0px;
+    font-size: 16px;
+}
+.postCard__div--4 {
+    background: var(--light-gray);
+    width: 100%;
+    height: 2px;
+    margin: 10px 0px 20px 0px;
+}

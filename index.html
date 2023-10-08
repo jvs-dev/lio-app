@@ -19,6 +19,10 @@
   <link rel="stylesheet" href="src/components/loaders/dot-spinner/style.css">
   <link rel="stylesheet" href="src/pages/login/style.css">
   <link rel="stylesheet" href="src/pages/signin/style.css">
+  <link rel="stylesheet" href="src/components/welcomeSection/style.css">
+  <link rel="stylesheet" href="src/pages/home/style.css">
+  <link rel="stylesheet" href="src/components/header/style.css">
+  <link rel="stylesheet" href="src/components/postCard/style.css">
 
 </head>
 
@@ -45,14 +49,15 @@
         <h2 class="login__h2">Login</h2>
         <div class="login__div">
           <ion-icon name="mail-outline" class="login__icon"></ion-icon>
-          <input type="email" placeholder="Email" class="login__input">
+          <input type="email" placeholder="Email" class="login__input" id="loginEmail">
         </div>
         <div class="login__div">
           <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon>
           <input type="password" placeholder="Senha" class="login__input" id="loginPassword">
           <ion-icon name="eye-outline" class="login__icon" id="showloginPassword"></ion-icon>
         </div>
-        <button class="login__Btn" type="button">Login</button>
+        <p id="loginErrorP"></p>
+        <button class="login__Btn" type="button" id="loginBtn">Login</button>
         <span class="login__span">Esqueceu a senha?</span>
       </form>
       <p class="login__p">Não tem conta?<br><span class="login__p__span" id="replaceToSignin">Criar conta</span></p>
@@ -60,11 +65,15 @@
 
     <section class="main__signin" id="signinSection">
       <h1 class="login__h1"></h1>
-      <form action="" class="login__form">
+      <form action="" class="login__form form--2">
         <h2 class="login__h2">Cadastre-se</h2>
         <div class="login__div">
+          <ion-icon name="person-outline" class="login__icon"></ion-icon>
+          <input type="tel" placeholder="Nome de usuário" class="login__input" id="signinName">
+        </div>
+        <div class="login__div">
           <ion-icon name="mail-outline" class="login__icon"></ion-icon>
-          <input type="email" placeholder="Email" class="login__input">
+          <input type="email" placeholder="Email" class="login__input" id="signinEmail">
         </div>
         <div class="login__div">
           <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon>
@@ -76,9 +85,46 @@
           <input type="password" placeholder="Confirmar senha" class="login__input" id="signinPasswordConfirm">
           <ion-icon name="eye-outline" class="login__icon" id="showsigninPasswordConfirm"></ion-icon>
         </div>
-        <button class="login__Btn" type="button">Criar conta</button>
+        <p id="signinErrorP"></p>
+        <button class="login__Btn" type="button" id="createAccount">Criar conta</button>
       </form>
       <p class="login__p">Já tem uma conta?<br><span class="login__p__span" id="replaceToLogin">Login</span></p>
+    </section>
+    <section id="welcomeSection">
+      <h2>Bem vindo</h2>
+    </section>
+    <section class="main__home" id="homeSection">
+      <header class="section__header">
+        <p>Lio Hairstyle</p>
+        <img src="assets/perfilImg.jpg" class="">
+      </header>
+
+      <article class="postCard">
+        <div class="postCard__div--1">
+          <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
+            <p class="postCard__userName">Jv.santzz</p>
+          </div>
+          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span class="postCard__span">0 Likes</span></div>
+          <img src="assets/pexels-tony-clay-933949.jpg" class="postCard__mainImg">
+        </div>
+        
+        <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
+        <div class="postCard__div--4"></div>
+      </article>
+
+      <article class="postCard">
+        <div class="postCard__div--1">
+          <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
+            <p class="postCard__userName">Jv.santzz</p>
+          </div>
+          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span class="postCard__span">0 Likes</span></div>
+          <img src="assets/pexels-thgusstavo-santana-1813272.jpg" class="postCard__mainImg">
+        </div>
+        
+        <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
+        <div class="postCard__div--4"></div>
+      </article>
+
     </section>
   </main>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -87,6 +133,9 @@
   <script type="module" src="src/components/introduction/script.js"></script>
   <script type="module" src="src/pages/login/script.js"></script>
   <script type="module" src="src/pages/signin/script.js"></script>
+
+
+  <script type="module" src="src/script/authVerifier.js"></script>
   <script>
     AOS.init();
   </script>

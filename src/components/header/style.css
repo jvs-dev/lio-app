@@ -1,0 +1,24 @@
+.section__header {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.section__header p {
+    color: var(--white);
+    font-family: 'Jim Nightshade', cursive;
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0px;
+}
+.section__header img {
+    height: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    cursor: pointer;
+}

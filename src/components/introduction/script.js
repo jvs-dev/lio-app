@@ -6,5 +6,5 @@ window.addEventListener("load", () => {
         setTimeout(() => {
             introductionSection.style.display = "none"
         }, 500);
-    }, 2000);
+    }, 1000);
 })

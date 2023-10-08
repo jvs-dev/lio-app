@@ -5,8 +5,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden;
+    overflow-x: hidden;
     position: fixed;
     transform: translateX(100vw);
     transition: 0.5s;
+}
+#signinErrorP {
+    font-family: 'Poppins', sans-serif;
+    color: #FF4A4A;
+    margin: 0px 0px 20px 0px;
+    font-weight: 500;
+    text-align: center;
+    font-size: 16px;
 }
