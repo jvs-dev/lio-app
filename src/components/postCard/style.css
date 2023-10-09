@@ -11,15 +11,13 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    aspect-ratio: 1/1;
-    border-radius: 10px;
+    height: auto;
     overflow: hidden;
     background: var(--light-gray);
 }
 .postCard__mainImg {
-    position: absolute;
     top: 0;
-    height: 100%;
+    width: 100%;
     max-width: none;
 }
 .postCard__div--2 {
@@ -30,17 +28,15 @@
     top: 0;
     background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
     z-index: 2;
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
 }
 .postCard__div--3 {
     display: flex;
     align-items: center;
     width: 100%;
-    position: absolute;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%);
     z-index: 2;
-    padding: 10px;
+    padding: 10px 0px 0px 20px;
 }
 .postCard__userImg {
     height: 40px;
@@ -74,7 +70,7 @@
     font-family: 'Poppins', sans-serif;
     color: var(--white);
     text-align: left;
-    margin: 5px 0px 0px 0px;
+    margin: 5px 20px 0px 20px;
     font-size: 16px;
 }
 .postCard__div--4 {
