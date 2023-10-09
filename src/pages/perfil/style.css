@@ -1,0 +1,60 @@
+.main__perfil {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0px 40px 0px;
+    background: var(--dark-gray);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.perfil__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 20px;
+    color: var(--white);
+}
+
+.perfil__info__resetImg {
+    width: 100px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    border: solid 1px var(--white);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-gray);
+    box-shadow: 3px 2px 8px #000;
+}
+
+.perfil__info__img {
+    width: 100%;
+}
+
+.perfil__info__div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil__info__p {
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0px;
+    font-size: 20px;
+    letter-spacing: 1.2px;
+    font-weight: 400;
+}
+
+.perfil__info__span {
+    font-size: 20px;
+    font-weight: 400;
+}

@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="src/components/header/style.css">
   <link rel="stylesheet" href="src/components/postCard/style.css">
   <link rel="stylesheet" href="src/components/navBar/style.css">
+  <link rel="stylesheet" href="src/pages/perfil/style.css">
 
 </head>
 
@@ -100,7 +101,8 @@
         <p>Lio Hairstyle</p>
         <img src="assets/perfilImg.jpg" class="">
       </header>
-      
+      <h2 class="home__h2"><ion-icon name="cut-outline"></ion-icon>Inspire-se<ion-icon name="cut-outline"></ion-icon>
+      </h2>
       <div class="home__cardsSection">
 
         <article class="postCard">
@@ -115,7 +117,7 @@
           <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
           <div class="postCard__div--4"></div>
         </article>
-  
+
         <article class="postCard">
           <div class="postCard__div--1">
             <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
@@ -133,28 +135,48 @@
     </section>
 
     <section class="main__section main__perfil" id="perfilSection">
-      
+      <header class="section__header">
+        <p>Lio Hairstyle</p>
+        <img src="assets/perfilImg.jpg" class="">
+      </header>
+      <div class="perfil__info">
+        <div class="perfil__info__resetImg">
+          <img src="assets/perfilImg.jpg" alt="" class="perfil__info__img">
+        </div>
+        <div class="perfil__info__div">
+          <p class="perfil__info__p">Posts</p>
+          <span class="perfil__info__span">2</span>
+        </div>
+        <div class="perfil__info__div">
+          <p class="perfil__info__p">Crédito</p>
+          <span class="perfil__info__span">11</span>
+        </div>
+        <div class="perfil__info__div">
+          <p class="perfil__info__p">Cortes</p>
+          <span class="perfil__info__span">1</span>
+        </div>
+      </div>
     </section>
 
 
 
     <nav class="main__navBar" id="navBar">
-        <div class="navBar__div active" id="goHome">
-          <i class="bi bi-house navBar__icon"></i>
-          <p class="navBar__text">Home</p>
-        </div>
-        <div class="navBar__div">
-          <i class="bi bi-calendar-week navBar__icon"></i>
-          <p class="navBar__text">Agendar</p>
-        </div>
-        <div class="navBar__div">
-          <i class="bi bi-bell navBar__icon"></i>
-          <p class="navBar__text">Avisos</p>
-        </div>
-        <div class="navBar__div" id="goPerfil">
-          <i class="bi bi-person navBar__icon"></i>
-          <p class="navBar__text">Perfil</p>
-        </div>
+      <div class="navBar__div active" id="goHome">
+        <i class="bi bi-house navBar__icon"></i>
+        <p class="navBar__text">Home</p>
+      </div>
+      <div class="navBar__div">
+        <i class="bi bi-calendar-week navBar__icon"></i>
+        <p class="navBar__text">Agendar</p>
+      </div>
+      <div class="navBar__div">
+        <i class="bi bi-bell navBar__icon"></i>
+        <p class="navBar__text">Avisos</p>
+      </div>
+      <div class="navBar__div" id="goPerfil">
+        <i class="bi bi-person navBar__icon"></i>
+        <p class="navBar__text">Perfil</p>
+      </div>
     </nav>
   </main>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

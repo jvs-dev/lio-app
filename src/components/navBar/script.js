@@ -20,6 +20,9 @@ navBar_div.forEach(element => {
 });
 
 goPerfil.addEventListener("click", () => {
-    let perfilSection = document.getElementById("perfilSection")
-    desativePages(perfilSection)
+    desativePages(document.getElementById("perfilSection"))
+})
+
+goHome.addEventListener("click", ()=> {
+    desativePages(document.getElementById("homeSection"))
 })
