@@ -1,0 +1,50 @@
+.main__navBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0px;
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background: var(--light-gray);
+}
+
+.navBar__div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin: 0px;
+    width: 20%;
+    padding: 10px 0px 14px 0px;
+    color: var(--white);
+    transition: 0.5s;
+}
+
+.navBar__div.active {
+    color: var(--primary-color);
+}
+.navBar__div.active::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    background: var(--primary-color);
+}
+
+.navBar__icon {
+    font-size: 24px;
+}
+
+.navBar__text {
+    margin: 0px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+}

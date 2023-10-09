@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="src/pages/home/style.css">
   <link rel="stylesheet" href="src/components/header/style.css">
   <link rel="stylesheet" href="src/components/postCard/style.css">
+  <link rel="stylesheet" href="src/components/navBar/style.css">
 
 </head>
 
@@ -98,34 +99,56 @@
         <p>Lio Hairstyle</p>
         <img src="assets/perfilImg.jpg" class="">
       </header>
+      
+      <div class="home__cardsSection">
 
-      <article class="postCard">
-        <div class="postCard__div--1">
-          <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
-            <p class="postCard__userName">Jv.santzz</p>
+        <article class="postCard">
+          <div class="postCard__div--1">
+            <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
+              <p class="postCard__userName">Jv.santzz</p>
+            </div>
+            <img src="assets/pexels-tony-clay-933949.jpg" class="postCard__mainImg">
           </div>
-          <img src="assets/pexels-tony-clay-933949.jpg" class="postCard__mainImg">
-        </div>
-        <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
-            class="postCard__span">0 Likes</span></div>
-        <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
-        <div class="postCard__div--4"></div>
-      </article>
-
-      <article class="postCard">
-        <div class="postCard__div--1">
-          <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
-            <p class="postCard__userName">Jv.santzz</p>
+          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
+              class="postCard__span">0 Likes</span></div>
+          <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
+          <div class="postCard__div--4"></div>
+        </article>
+  
+        <article class="postCard">
+          <div class="postCard__div--1">
+            <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
+              <p class="postCard__userName">Jv.santzz</p>
+            </div>
+            <img src="assets/pexels-thgusstavo-santana-1813272.jpg" class="postCard__mainImg">
           </div>
-          <img src="assets/pexels-thgusstavo-santana-1813272.jpg" class="postCard__mainImg">
-        </div>
-        <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
-            class="postCard__span">0 Likes</span></div>
-        <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
-        <div class="postCard__div--4"></div>
-      </article>
+          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
+              class="postCard__span">0 Likes</span></div>
+          <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
+          <div class="postCard__div--4"></div>
+        </article>
 
+      </div>
     </section>
+
+    <nav class="main__navBar" id="navBar">
+        <div class="navBar__div active">
+          <i class="bi bi-house navBar__icon"></i>
+          <p class="navBar__text">Home</p>
+        </div>
+        <div class="navBar__div">
+          <i class="bi bi-calendar-week navBar__icon"></i>
+          <p class="navBar__text">Agendar</p>
+        </div>
+        <div class="navBar__div">
+          <i class="bi bi-bell navBar__icon"></i>
+          <p class="navBar__text">Avisos</p>
+        </div>
+        <div class="navBar__div">
+          <i class="bi bi-person navBar__icon"></i>
+          <p class="navBar__text">Perfil</p>
+        </div>
+    </nav>
   </main>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

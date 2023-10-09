@@ -12,3 +12,32 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.home__cardsSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.home__h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 10vw;
+    letter-spacing: 2px;
+    color: var(--primary-color);
+    margin: 0px 0px 20px 0px;
+}
+.home__h2 ion-icon {
+    color: var(--primary-color);
+    margin: 0px 10px;
+    font-size: 8vw;
+}
+.home__h2 ion-icon:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+.home__h2 ion-icon:nth-child(1) {
+    transform: rotate(225deg);
+}
