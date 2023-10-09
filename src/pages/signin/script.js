@@ -140,10 +140,12 @@ function activeWelcome() {
 }
 
 function activePages() {
+    let navBar = document.getElementById("navBar")
     let homeSection = document.getElementById("homeSection")
     let signinSection = document.getElementById("signinSection")
     let loginSection = document.getElementById("loginSection")
     loginSection.style.display = "none"
+    navBar.style.display = "flex"
     homeSection.style.display = "flex"
     signinSection.style.display = "none"
 }
