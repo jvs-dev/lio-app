@@ -23,7 +23,7 @@
 }
 
 .perfil__info__resetImg {
-    width: 100px;
+    width: 80px;
     aspect-ratio: 1/1;
     border-radius: 100%;
     border: solid 1px var(--white);
@@ -49,12 +49,50 @@
 .perfil__info__p {
     font-family: 'Bebas Neue', sans-serif;
     margin: 0px;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 1.2px;
     font-weight: 400;
 }
 
 .perfil__info__span {
-    font-size: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0px;
+    font-size: 22px;
     font-weight: 400;
+}
+
+.perfil__userName {
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 10px 0px;
+    padding: 0px 20px;
+    font-size: 22px;
+    font-weight: 400;
+    min-width: 120px;
+    max-width: 100%;
+    text-align: center;
+    color: var(--white);
+    align-self: baseline;
+}
+
+.perfil__userPhotos {
+    width: 100%;
+    padding: 0px 4px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 4px;
+}
+
+.perfil__userPhotos__div {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #000;
+}
+
+.perfil__userPhotos__img {
+    min-width: 100%;
+    width: auto;
+    height: auto;
 }

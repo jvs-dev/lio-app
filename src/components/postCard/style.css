@@ -37,6 +37,7 @@
     bottom: 0;
     z-index: 2;
     padding: 10px 0px 0px 20px;
+    position: relative;
 }
 .postCard__userImg {
     height: 40px;
@@ -78,4 +79,12 @@
     width: 100%;
     height: 2px;
     margin: 10px 0px 20px 0px;
+}
+
+.postCard__elipsis {
+    color: var(--white);
+    font-size: 25px;
+    position: absolute;
+    right: 0;
+    margin-right: 12px;
 }
