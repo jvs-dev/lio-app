@@ -1,5 +1,6 @@
 let goPerfil = document.getElementById("goPerfil")
 let goHome = document.getElementById("goHome")
+let goAgend = document.getElementById("goAgend")
 let navBar_div = document.querySelectorAll(".navBar__div")
 
 function desativePages(activethis) {
@@ -25,4 +26,8 @@ goPerfil.addEventListener("click", () => {
 
 goHome.addEventListener("click", ()=> {
     desativePages(document.getElementById("homeSection"))
+})
+
+goAgend.addEventListener("click", ()=> {
+    desativePages(document.getElementById("agendSection"))
 })

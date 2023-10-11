@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="src/components/postCard/style.css">
   <link rel="stylesheet" href="src/components/navBar/style.css">
   <link rel="stylesheet" href="src/pages/perfil/style.css">
+  <link rel="stylesheet" href="src/pages/agend/style.css">
 
 </head>
 
@@ -180,8 +181,16 @@
             alt="">
         </div>
       </div>
+      <button class="perfil__addPhoto"><ion-icon name="add-outline"></ion-icon></button>
     </section>
 
+    <section class="main__section main__agend" id="agendSection">
+      <header class="section__header">
+        <p>Lio Hairstyle</p>
+        <img src="assets/perfilImg.jpg" class="">
+      </header>
+      <h2 class="agend__h2">Hórarios Disponiveis<br><span class="agend__h2__span">Esta semana</span></h2>
+    </section>
 
 
     <nav class="main__navBar" id="navBar">
@@ -189,7 +198,7 @@
         <i class="bi bi-house navBar__icon"></i>
         <p class="navBar__text">Home</p>
       </div>
-      <div class="navBar__div">
+      <div class="navBar__div" id="goAgend">
         <i class="bi bi-calendar-week navBar__icon"></i>
         <p class="navBar__text">Agendar</p>
       </div>
