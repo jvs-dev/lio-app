@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="src/components/navBar/style.css">
   <link rel="stylesheet" href="src/pages/perfil/style.css">
   <link rel="stylesheet" href="src/pages/agend/style.css">
+  <link rel="stylesheet" href="src/components/agendCard/style.css">
 
 </head>
 
@@ -190,6 +191,65 @@
         <img src="assets/perfilImg.jpg" class="">
       </header>
       <h2 class="agend__h2">Hórarios Disponiveis<br><span class="agend__h2__span">Esta semana</span></h2>
+      <div class="agend__cardsDiv">
+        <article class="agendCard today">
+          <p class="agendCard__p">Terça(hoje)</p>
+          <div class="agendCard__div">
+            <button class="agendCard__hour">08:00</button>
+            <button class="agendCard__hour">09:00</button>
+            <button class="agendCard__hour">10:00</button>
+            <button class="agendCard__hour">11:00</button>
+            <button class="agendCard__hour">12:00</button>
+            <button class="agendCard__hour">13:00</button>
+            <button class="agendCard__hour">14:00</button>
+            <button class="agendCard__hour">15:00</button>
+            <button class="agendCard__hour">16:00</button>
+            <button class="agendCard__hour">17:00</button>
+            <button class="agendCard__hour">18:00</button>
+            <button class="agendCard__hour">19:00</button>
+          </div>
+          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
+        </article>
+
+        <article class="agendCard">
+          <p class="agendCard__p">Quarta</p>
+          <div class="agendCard__div">
+            <button class="agendCard__hour">08:00</button>
+            <button class="agendCard__hour">09:00</button>
+            <button class="agendCard__hour">10:00</button>
+            <button class="agendCard__hour">11:00</button>
+            <button class="agendCard__hour">12:00</button>
+            <button class="agendCard__hour">13:00</button>
+            <button class="agendCard__hour">14:00</button>
+            <button class="agendCard__hour">15:00</button>
+            <button class="agendCard__hour">16:00</button>
+            <button class="agendCard__hour">17:00</button>
+            <button class="agendCard__hour">18:00</button>
+            <button class="agendCard__hour">19:00</button>
+          </div>
+          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
+        </article>
+
+        <article class="agendCard">
+          <p class="agendCard__p">Quinta</p>
+          <div class="agendCard__div">
+            <button class="agendCard__hour">08:00</button>
+            <button class="agendCard__hour">09:00</button>
+            <button class="agendCard__hour">10:00</button>
+            <button class="agendCard__hour">11:00</button>
+            <button class="agendCard__hour closed">Fechado</button>
+            <button class="agendCard__hour">13:00</button>
+            <button class="agendCard__hour">14:00</button>
+            <button class="agendCard__hour">15:00</button>
+            <button class="agendCard__hour">16:00</button>
+            <button class="agendCard__hour">17:00</button>
+            <button class="agendCard__hour">18:00</button>
+            <button class="agendCard__hour">19:00</button>
+          </div>
+          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
+        </article>
+
+      </div>
     </section>
 
 
@@ -219,7 +279,7 @@
   <script type="module" src="src/pages/login/script.js"></script>
   <script type="module" src="src/pages/signin/script.js"></script>
   <script type="module" src="src/components/navBar/script.js"></script>
-
+  <script type="module" src="src/pages/agend/script.js"></script>
 
   <script type="module" src="src/script/authVerifier.js"></script>
   <script>
