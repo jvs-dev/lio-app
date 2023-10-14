@@ -31,6 +31,7 @@ let addPostSection = document.getElementById("addPostSection")
 let publicNewPost = document.getElementById("publicNewPost")
 let loadingResource = document.getElementById("loadingResource")
 let allUserPhotos = document.getElementById("allUserPhotos")
+let deletePost = document.getElementById("deletePost")
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -109,7 +110,8 @@ async function addPost(img, text) {
 
 
 async function loadPosts(email) {
-    allUserPhotos.innerHTML=""
+    let i = 0
+    allUserPhotos.innerHTML = ""
     const q = query(collection(db, "posts"), where("authorEmail", "==", `${email}`));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -125,7 +127,58 @@ async function loadPosts(email) {
                 let div = document.createElement("div")
                 allUserPhotos.insertAdjacentElement("beforeend", div)
                 div.classList.add("perfil__userPhotos__div")
+                div.style.order = `${doc.data().timestamp.seconds}`
                 div.innerHTML = `<img class="perfil__userPhotos__img" src="${url}">`
+                div.addEventListener("click", () => {
+                    let viewPostSection_div = document.querySelector(".viewPostSection__div")
+                    viewPostSectionImg.src = `${url}`
+                    viewPostSection.style.display = "flex"
+                    setTimeout(() => {
+                        viewPostSection.style.opacity = "1"
+                    }, 1);
+                    viewPostSection_div.addEventListener("click", (evt) => {
+                        evt.stopPropagation()
+                    })
+                    viewPostSection.addEventListener("click", () => {
+                        viewPostSection.style.opacity = "0"
+                        setTimeout(() => {
+                            viewPostSection.style.display = "none"
+                        }, 200);
+                    })
+                    deletePost.addEventListener("click", () => {
+                        deleteThisPost(doc.id)
+                        loadingResource.style.display = "flex"
+                        setTimeout(() => {
+                            loadingResource.style.opacity = "0.8"
+                        }, 1);
+                    })
+                })
+                i++
+                actualUserPosts = i
+                perfilPosts.textContent = `${i}`
             })
     });
+}
+
+async function deleteThisPost(id) {
+    await deleteDoc(doc(db, "posts", `${id}`));
+    let desertRef = ref(storage, `posts/${id}.jpg`);
+    deleteObject(desertRef).then(() => {
+        loadPosts(actualUserEmail)
+        viewPostSection.style.opacity = "0"
+        loadingResource.style.opacity = "0"
+        setTimeout(() => {
+            loadingResource.style.display = "none"
+            viewPostSection.style.display = "none"
+        }, 200);
+    }).catch((error) => {
+        loadPosts(actualUserEmail)
+        viewPostSection.style.opacity = "0"
+        loadingResource.style.opacity = "0"
+        setTimeout(() => {
+            loadingResource.style.display = "none"
+            viewPostSection.style.display = "none"
+        }, 200);
+    });
+
 }
