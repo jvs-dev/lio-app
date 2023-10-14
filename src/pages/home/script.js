@@ -21,10 +21,9 @@ const storage = getStorage(app);
 
 let actualUserEmail = ""
 let actualUserPhoto = ""
-let actualUserCredits = ""
+let actualUserCredits = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
-let actualUserPosts = ""
 let homePostsSection = document.getElementById("homePostsSection")
 
 onAuthStateChanged(auth, (user) => {
@@ -35,7 +34,6 @@ onAuthStateChanged(auth, (user) => {
             actualUserCredits = doc.data().credits
             actualUserName = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
-            actualUserPosts = doc.data().posts
             loadPosts()
         });
     }
@@ -77,13 +75,16 @@ async function loadPosts() {
                         article.id = doc.id
                         article.innerHTML = `
                             <div class="postCard__div--1">
-                                <div class="postCard__div--2"><img src="${authorUrl}" class="postCard__userImg">
-                                <p class="postCard__userName">${doc.data().authorName}</p>
+                                <div class="postCard__div--2">
+                                    <div class="postCard__div--resetUserImg">
+                                        <img src="${authorUrl}" class="postCard__userImg">
+                                    </div>
+                                    <p class="postCard__userName">${doc.data().authorName}</p>
                                 </div>
                                 <img src="${url}" class="postCard__mainImg">
                             </div>
                             <div class="postCard__div--3"><div class="heart-container postCard__likeThis" title="Like">
-                            <input type="checkbox" class="checkbox postCard__checkbox" id="Give-It-An-Id" ${like == true ? "checked": ""}>
+                            <input type="checkbox" class="checkbox postCard__checkbox" ${like == true ? "checked" : ""}>
                             <div class="svg-container">
                                 <svg viewBox="0 0 24 24" class="svg-outline" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z">
@@ -109,6 +110,10 @@ async function loadPosts() {
                             <div class="postCard__div--4"></div>`
                         let likeBtn = document.querySelector(`#${doc.id} .postCard__likeThis`)
                         let likeNumber = document.querySelector(`#${doc.id} .postCard__span`)
+                        let mainImg = document.querySelector(`#${doc.id} .postCard__mainImg`)
+                        mainImg.ondblclick = function () {
+                            verifyLike(doc.id, likeBtn, likeNumber)
+                        }
                         likeBtn.addEventListener("click", () => {
                             verifyLike(doc.id, likeBtn, likeNumber)
                         })

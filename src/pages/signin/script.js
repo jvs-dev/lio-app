@@ -118,7 +118,6 @@ async function addData(email, name) {
     await setDoc(doc(db, "users", `${email}`), {
         userName: name,
         userPhoto: "assets/perfilImg.jpg",
-        posts: 0,
         credits: 0,
         hairCuts: 0
     });

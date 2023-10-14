@@ -21,16 +21,18 @@ const storage = getStorage(app);
 
 let actualUserEmail = ""
 let actualUserPhoto = ""
-let actualUserCredits = ""
+let actualUserCredits = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
-let actualUserPosts = ""
+let actualUserPosts = 0
 let perfilUsername = document.getElementById("perfilUsername")
 let perfilCredits = document.getElementById("perfilCredits")
 let perfilPosts = document.getElementById("perfilPosts")
 let perfilHaircuts = document.getElementById("perfilHaircuts")
 let perfilImg = document.getElementById("perfilImg")
 let allUserPhotos = document.getElementById("allUserPhotos")
+let viewPostSection = document.getElementById("viewPostSection")
+let viewPostSectionImg = document.getElementById("viewPostSectionImg")
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -43,8 +45,6 @@ onAuthStateChanged(auth, (user) => {
             perfilUsername.textContent = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
             perfilHaircuts.textContent = doc.data().hairCuts
-            actualUserPosts = doc.data().posts
-            perfilPosts.textContent = doc.data().posts
             if (doc.data().userPhoto == "assets/perfilImg.jpg") {
                 perfilImg.src = `${doc.data().userPhoto}`
             } else {
@@ -66,7 +66,8 @@ onAuthStateChanged(auth, (user) => {
 });
 
 async function loadPosts(email) {
-    allUserPhotos.innerHTML=""
+    let i = 0
+    allUserPhotos.innerHTML = ""
     const q = query(collection(db, "posts"), where("authorEmail", "==", `${email}`));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -84,6 +85,16 @@ async function loadPosts(email) {
                 div.classList.add("perfil__userPhotos__div")
                 div.style.order = `${doc.data().timestamp.seconds}`
                 div.innerHTML = `<img class="perfil__userPhotos__img" src="${url}">`
+                div.addEventListener("click", () => {
+                    viewPostSectionImg.src = `${url}`
+                    viewPostSection.style.display = "flex"
+                    setTimeout(() => {
+                        viewPostSection.style.opacity = "1"
+                    }, 1);
+                })
+                i++
+                actualUserPosts = i
+                perfilPosts.textContent = `${i}`
             })
     });
 }

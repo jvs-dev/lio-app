@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="src/components/addPostSection/style.css">
   <link rel="stylesheet" href="src/components/editDataSection/style.css">
   <link rel="stylesheet" href="src/components/loadingResorceWindow/style.css">
-
+  <link rel="stylesheet" href="src/components/viewPostSection/style.css">
 </head>
 
 <body>
@@ -122,38 +122,47 @@
       </h2>
       <div class="home__cardsSection" id="homePostsSection">
 
-        <article class="postCard">
-          <div class="postCard__div--1">
-            <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
-              <p class="postCard__userName">Jv.santzz</p>
-            </div>
-            <img src="assets/pexels-tony-clay-933949.jpg" class="postCard__mainImg">
-          </div>
-          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
-              class="postCard__span">0 Likes</span><ion-icon class="postCard__elipsis"
-              name="ellipsis-vertical"></ion-icon></div>
-          <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
-          <div class="postCard__div--4"></div>
-        </article>
-
-        <article class="postCard">
-          <div class="postCard__div--1">
-            <div class="postCard__div--2"><img src="assets/perfilImg.jpg" class="postCard__userImg">
-              <p class="postCard__userName">Jv.santzz</p>
-            </div>
-            <img src="assets/pexels-thgusstavo-santana-1813272.jpg" class="postCard__mainImg">
-          </div>
-          <div class="postCard__div--3"><ion-icon name="heart-outline" class="postCard__likeThis"></ion-icon><span
-              class="postCard__span">0 Likes</span><ion-icon class="postCard__elipsis"
-              name="ellipsis-vertical"></ion-icon></div>
-          <p class="postCard__text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, quos ea.</p>
-          <div class="postCard__div--4"></div>
-        </article>
-
       </div>
     </section>
 
     <section class="main__section main__perfil" id="perfilSection">
+
+      <div class="perfil__viewPostSection" id="viewPostSection">
+        <ion-icon name="close-outline" class="viewPostSection__close" id="viewPostSectionClose"></ion-icon>
+        <div class="viewPostSection__div">
+          <img src="" class="viewPostSection__img" id="viewPostSectionImg">
+          <p class="viewPostSection__p">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="viewPostSection__div--2">
+            <div class="viewPostSection__div--3">
+              <div class="heart-container postCard__likeThis  viewPostSection__like" title="Like">
+                <input type="checkbox" class="checkbox postCard__checkbox">
+                <div class="svg-container">
+                  <svg viewBox="0 0 24 24" class="svg-outline" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z">
+                    </path>
+                  </svg>
+                  <svg viewBox="0 0 24 24" class="svg-filled" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z">
+                    </path>
+                  </svg>
+                  <svg class="svg-celebrate" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="10,10 20,20"></polygon>
+                    <polygon points="10,50 20,50"></polygon>
+                    <polygon points="20,80 30,70"></polygon>
+                    <polygon points="90,10 80,20"></polygon>
+                    <polygon points="90,50 80,50"></polygon>
+                    <polygon points="80,80 70,70"></polygon>
+                  </svg>
+                </div>
+              </div><span class="postCard__span viewPostSection__span">0 Likes</span>
+            </div>
+            <ion-icon name="trash-outline" class="viewPostSection__trash"></ion-icon>
+          </div>
+        </div>
+      </div>
+
       <div class="perfil__addPostSection" id="addPostSection">
         <input type="file" name="newPostImg" id="newPostImg" class="addPost__input"
           accept="image/png, image/jpeg, image/jpg">
@@ -173,7 +182,8 @@
           <div class="perfil__info__resetImg">
             <img src="" alt="" class="perfil__info__img" id="replacePerfilImgPreview">
           </div>
-          <label for="replaceUserPhoto" class="editDataSection__btn"><ion-icon name="camera-reverse-outline"></ion-icon></label>
+          <label for="replaceUserPhoto" class="editDataSection__btn"><ion-icon
+              name="camera-reverse-outline"></ion-icon></label>
         </div>
         <div class="login__div">
           <ion-icon name="person-outline" class="login__icon"></ion-icon>
@@ -207,7 +217,7 @@
       <p class="perfil__userName" id="perfilUsername"></p>
       <button type="button" class="perfil__editData" id="editData">Editar perfil</button>
       <div class="perfil__userPhotos" id="allUserPhotos">
-        
+
       </div>
       <label for="newPostImg" class="perfil__addPhoto" id="newPost"><ion-icon name="add-outline"></ion-icon></label>
     </section>
@@ -311,6 +321,7 @@
   <script type="module" src="src/components/addPostSection/script.js"></script>
   <script type="module" src="src/components/editDataSection/script.js"></script>
   <script type="module" src="src/pages/home/script.js"></script>
+  <script type="module" src="src/components/viewPostSection/script.js"></script>
 
   <script type="module" src="src/script/getUserInfo.js"></script>
   <script type="module" src="src/script/authVerifier.js"></script>
