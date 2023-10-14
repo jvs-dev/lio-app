@@ -1,0 +1,57 @@
+.editDataSection {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: var(--dark-gray);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    padding: 40px 40px 120px 40px;
+    opacity: 0;
+    transition: 0.2s;
+}
+.editDataSection__div {
+    position: relative;
+    margin-bottom: 40px;
+}
+.editDataSection__div .perfil__info__resetImg {
+    width: 160px;
+}
+.editDataSection__btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: var(--light-gray);
+    color: var(--white);
+    border-radius: 100%;
+    width: 50px;
+    aspect-ratio: 1/1;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    transform: translate( 0px, 0px );
+    border: solid 1px var(--white);
+    outline-width: 0px;
+}
+.editDataSection__btn--2 {
+    background: var(--primary-color);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1.2px;
+    font-weight: 400;
+    padding: 6px 0px;
+    width: 100%;
+    color: var(--white);
+    border-radius: 10px;
+    outline-width: 0px;
+    border: 0px;
+}
+.editDataSection__btn--2.btn--cancel {
+    background: var(--light-gray);
+    margin-top: 10px;
+}

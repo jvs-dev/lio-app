@@ -72,6 +72,9 @@
     text-align: center;
     color: var(--white);
     align-self: baseline;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .perfil__userPhotos {
@@ -80,6 +83,7 @@
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 4px;
+    justify-content: start;
 }
 
 .perfil__userPhotos__div {
@@ -89,6 +93,8 @@
     justify-content: center;
     position: relative;
     background: #000;
+    height: 118px;
+    width: 118px;
 }
 
 .perfil__userPhotos__img {
@@ -96,6 +102,7 @@
     width: auto;
     height: auto;
 }
+
 .perfil__addPhoto {
     display: flex;
     align-items: center;
@@ -112,4 +119,17 @@
     border-radius: 100%;
     border: 0px;
     outline-width: 0px;
+}
+
+.perfil__editData {
+    font-family: 'Poppins', sans-serif;
+    margin: 0px 20px 20px 20px;
+    width: calc(100% - 40px);
+    background: var(--primary-color);
+    border: 0px;
+    border-radius: 10px;
+    outline-width: 0px;
+    color: var(--white);
+    padding: 6px 0px;
+    font-size: 18px;
 }

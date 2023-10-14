@@ -1,0 +1,72 @@
+.perfil__addPostSection {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: var(--dark-gray);
+    padding: 40px 40px 120px 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 0.2s;
+}
+
+.addPost__input {
+    visibility: hidden;
+}
+
+.addPost__img {
+    background: #000;
+    width: 100%;
+}
+
+.addPost__text {
+    background: var(--light-gray);
+    border-radius: 5px;
+    width: 100%;
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    border: 0px;
+    outline-width: 0px;
+    margin: 20px 0px;
+    padding: 10px;
+    min-height: 75px;
+}
+
+.addPost__text::placeholder {
+    opacity: 0.5;
+}
+
+.addPost__div {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column: auto auto;
+    width: 100%;
+    gap: 20px;
+}
+
+.addPost__button {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--white);
+    border-radius: 10px;
+    border: 0px;
+    outline-width: 0px;
+    padding: 6px 0px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+}
+
+.addPost__button.button--cancel {
+    background: var(--light-gray);
+}
+
+.addPost__button.button--public {
+    background: var(--primary-color);
+}

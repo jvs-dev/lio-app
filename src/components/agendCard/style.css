@@ -15,8 +15,8 @@
 }
 
 .agendCard.today {
-    background: #FF4A4A;
-    color: var(--dark-gray);
+    background: var(--dark-gray);
+    color: #FF4A4A;
 }
 
 .agendCard__p {
@@ -52,8 +52,8 @@
 }
 
 .agendCard__hour.closed {
-    background: #FF4A4A;
-    color: var(--dark-gray);
+    background: var(--light-gray);
+    color: #FF4A4A;
     font-size: 20px;
 }
 
