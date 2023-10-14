@@ -91,7 +91,6 @@ async function addPost(img, text) {
         authorName: `${actualUserName}`,
         authorEmail: `${actualUserEmail}`,
         authorPhoto: `${actualUserPhoto}`,
-        likes: 0,
         timestamp: serverTimestamp(),
         likedBy: []
     });
