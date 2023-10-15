@@ -40,6 +40,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 async function loadPosts() {
+    let i = 0
     homePostsSection.innerHTML = ""
     let q = query(collection(db, "posts"), where("authorName", "!=", ""));
     let querySnapshot = await getDocs(q);
@@ -121,7 +122,9 @@ async function loadPosts() {
                         })
                     })
             })
+        i++
     });
+    addListener(i)
 }
 
 async function verifyDataLoop(id, component, txt) {
@@ -182,4 +185,40 @@ async function removeLike(id, component, txt, likes) {
     component.style.color = ""
     component.name = "heart-outline"
     txt.textContent = `${likes - 1} Likes`
+}
+
+function addListener(totalCards) {
+    let i = 1
+    let q = query(collection(db, "posts"), where("authorEmail", "!=", ""));
+    let unsubscribe = onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+                if (i <= totalCards) {
+                    console.log("sem novos posts");
+                } else {
+                    let scrollY = window.pageYOffset;
+                    window.addEventListener('scroll', function (e) {
+                        scrollY = window.pageYOffset;
+                        if (scrollY > 100) {
+                            let viewNewPostBtn = document.getElementById("viewNewPostBtn")
+                            viewNewPostBtn.style.transform = "translateY(0px)"
+                            viewNewPostBtn.onclick = function () {
+                                homePostsSection.innerHTML = ""
+                                loadPosts()
+                                viewNewPostBtn.style.transform = "translateY(-200px)"
+                                window.scroll({
+                                    top: 0,
+                                    behavior: "smooth",
+                                });
+                            }
+                        } else {
+                            let viewNewPostBtn = document.getElementById("viewNewPostBtn")
+                            viewNewPostBtn.style.transform = "translateY(-200px)"
+                        }
+                    })
+                }
+                i++
+            }
+        });
+    });
 }

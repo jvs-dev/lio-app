@@ -26,9 +26,8 @@
     position: relative;
 }
 .viewPostSection__img {
+    width: 100vw;
     max-width: 100%;
-    max-height: 75vh;
-    min-height: 45vh;
 }
 .viewPostSection__p {
     position: absolute;
