@@ -59,7 +59,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateY(0px);
+    transform: translateY(-200px);
     transition: 0.6s;
 }
 .homeSection__viewNewPostBtn ion-icon {
