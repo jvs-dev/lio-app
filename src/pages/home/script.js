@@ -109,8 +109,10 @@ async function loadPosts() {
                             <p class="postCard__text">${doc.data().description}</p>
                             <div class="postCard__div--4"></div>`
                         let likeBtn = document.querySelector(`#${doc.id} .postCard__likeThis`)
+                        let likeBtnInput = document.querySelector(`#${doc.id} .postCard__checkbox`)
                         let likeNumber = document.querySelector(`#${doc.id} .postCard__span`)
                         let mainImg = document.querySelector(`#${doc.id} .postCard__mainImg`)
+                        verifyDataLoop(doc.id, likeBtnInput, likeNumber)
                         mainImg.ondblclick = function () {
                             verifyLike(doc.id, likeBtn, likeNumber)
                         }
@@ -120,6 +122,26 @@ async function loadPosts() {
                     })
             })
     });
+}
+
+async function verifyDataLoop(id, component, txt) {
+    let unsub = onSnapshot(doc(db, "posts", `${id}`), (doc) => {
+        txt.textContent = `${doc.data().likedBy.length} Likes`
+        let i = 0
+        let e = 0
+        while (i < doc.data().likedBy.length) {
+            if (doc.data().likedBy[i] == actualUserEmail) {
+                e++
+            }
+            i++
+        }
+        if (e == 0) {
+            component.checked = false
+        } else {
+            component.checked = true
+        }
+    });
+
 }
 
 async function verifyLike(id, component, txt) {

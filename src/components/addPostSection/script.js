@@ -130,23 +130,33 @@ async function loadPosts(email) {
                 div.style.order = `${doc.data().timestamp.seconds}`
                 div.innerHTML = `<img class="perfil__userPhotos__img" src="${url}">`
                 div.addEventListener("click", () => {
+                    postSelected = `${doc.id}`
                     let viewPostSection_div = document.querySelector(".viewPostSection__div")
+                    let viewPostSectionText = document.getElementById("viewPostSectionText")
+                    let viewPostSectionAllLikes = document.getElementById("viewPostSectionAllLikes")
+                    let viewPostSectionLike = document.getElementById("viewPostSectionLike")
+                    loadLikes(postSelected, viewPostSectionLike, viewPostSectionAllLikes)
+                    viewPostSectionText.textContent = `${doc.data().description}`
                     viewPostSectionImg.src = `${url}`
                     viewPostSection.style.display = "flex"
                     setTimeout(() => {
                         viewPostSection.style.opacity = "1"
                     }, 1);
+                    viewPostSectionLike.addEventListener("click", () => {
+                        verifyLike(postSelected, viewPostSectionLike, viewPostSectionAllLikes)
+                    })
                     viewPostSection_div.addEventListener("click", (evt) => {
                         evt.stopPropagation()
                     })
                     viewPostSection.addEventListener("click", () => {
+                        viewPostSectionLike.checked = false
                         viewPostSection.style.opacity = "0"
                         setTimeout(() => {
                             viewPostSection.style.display = "none"
                         }, 200);
                     })
                     deletePost.addEventListener("click", () => {
-                        deleteThisPost(doc.id)
+                        deleteThisPost(postSelected)
                         loadingResource.style.display = "flex"
                         setTimeout(() => {
                             loadingResource.style.opacity = "0.8"
@@ -182,4 +192,61 @@ async function deleteThisPost(id) {
         }, 200);
     });
 
+}
+
+async function loadLikes(id, component, text) {
+    let unsub = onSnapshot(doc(db, "posts", `${id}`), (doc) => {
+        text.textContent = `${doc.data().likedBy.length} Likes`
+        let i = 0
+        let e = 0
+        while (i < doc.data().likedBy.length) {
+            if (doc.data().likedBy[i] == actualUserEmail) {
+                e++
+            }
+            i++
+        }
+        if (e == 0) {
+            component.checked = false
+        } else {
+            component.checked = true
+        }
+    });
+}
+
+async function verifyLike(id, component, txt) {
+    const docRef = doc(db, "posts", `${id}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        let i = 0
+        let e = 0
+        while (i < docSnap.data().likedBy.length) {
+            if (docSnap.data().likedBy[i] == actualUserEmail) {
+                e++
+            }
+            i++
+        }
+        if (e == 0) {
+            addLike(id, component, txt, docSnap.data().likedBy.length)
+        } else {
+            removeLike(id, component, txt, docSnap.data().likedBy.length)
+        }
+    }
+}
+
+async function addLike(id, component, txt, likes) {
+    let washingtonRef = doc(db, "posts", `${id}`);
+    await updateDoc(washingtonRef, {
+        likedBy: arrayUnion(`${actualUserEmail}`)
+    });
+    component.checked = true
+    txt.textContent = `${likes + 1} Likes`
+}
+
+async function removeLike(id, component, txt, likes) {
+    let washingtonRef = doc(db, "posts", `${id}`);
+    await updateDoc(washingtonRef, {
+        likedBy: arrayRemove(`${actualUserEmail}`)
+    });
+    component.checked = false
+    txt.textContent = `${likes - 1} Likes`
 }

@@ -130,11 +130,11 @@
       <div class="perfil__viewPostSection" id="viewPostSection">
         <div class="viewPostSection__div">
           <img src="" class="viewPostSection__img" id="viewPostSectionImg">
-          <p class="viewPostSection__p">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p class="viewPostSection__p" id="viewPostSectionText"></p>
           <div class="viewPostSection__div--2">
             <div class="viewPostSection__div--3">
               <div class="heart-container postCard__likeThis  viewPostSection__like" title="Like">
-                <input type="checkbox" class="checkbox postCard__checkbox">
+                <input type="checkbox" class="checkbox postCard__checkbox" id="viewPostSectionLike">
                 <div class="svg-container">
                   <svg viewBox="0 0 24 24" class="svg-outline" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -155,7 +155,7 @@
                     <polygon points="80,80 70,70"></polygon>
                   </svg>
                 </div>
-              </div><span class="postCard__span viewPostSection__span">0 Likes</span>
+              </div><span class="postCard__span viewPostSection__span" id="viewPostSectionAllLikes">0 Likes</span>
             </div>
             <ion-icon name="trash-outline" class="viewPostSection__trash" id="deletePost"></ion-icon>
           </div>

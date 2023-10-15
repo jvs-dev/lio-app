@@ -38,7 +38,11 @@
     bottom: 0;
     margin-bottom: 50px;
     padding: 0px 20px;
-    text-shadow: 0px 0px 10px #000;
+    text-shadow: 0px 2px 10px #000;
+    text-align: left;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+
 }
 .viewPostSection__div--2 {
     position: absolute;
