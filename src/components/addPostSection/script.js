@@ -32,6 +32,7 @@ let publicNewPost = document.getElementById("publicNewPost")
 let loadingResource = document.getElementById("loadingResource")
 let allUserPhotos = document.getElementById("allUserPhotos")
 let deletePost = document.getElementById("deletePost")
+let postSelected = ""
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
