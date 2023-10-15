@@ -48,7 +48,7 @@
     letter-spacing: 1px;
     font-family: 'Bebas Neue', sans-serif;
     font-weight: 400;
-    padding: 6px 15px;
+    padding: 6px 20px;
     border-radius: 100px;
     position: fixed;
     top: 0;
@@ -59,11 +59,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateY(-200px);
+    transform: translateY(0px);
     transition: 0.6s;
 }
 .homeSection__viewNewPostBtn ion-icon {
-    margin: 0px 4px;
+    margin: 0px 0px 0px 5px;
     font-size: 20px;
     color: var(--white);
 }

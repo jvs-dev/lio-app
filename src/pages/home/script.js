@@ -196,26 +196,14 @@ function addListener(totalCards) {
                 if (i <= totalCards) {
                     console.log("sem novos posts");
                 } else {
-                    let scrollY = window.pageYOffset;
-                    window.addEventListener('scroll', function (e) {
-                        scrollY = window.pageYOffset;
-                        if (scrollY > 100) {
-                            let viewNewPostBtn = document.getElementById("viewNewPostBtn")
-                            viewNewPostBtn.style.transform = "translateY(0px)"
-                            viewNewPostBtn.onclick = function () {
-                                homePostsSection.innerHTML = ""
-                                loadPosts()
-                                viewNewPostBtn.style.transform = "translateY(-200px)"
-                                window.scroll({
-                                    top: 0,
-                                    behavior: "smooth",
-                                });
-                            }
-                        } else {
-                            let viewNewPostBtn = document.getElementById("viewNewPostBtn")
-                            viewNewPostBtn.style.transform = "translateY(-200px)"
-                        }
-                    })
+                    let viewNewPostBtn = document.getElementById("viewNewPostBtn")
+                    viewNewPostBtn.style.transform = "translateY(0px)"
+                    viewNewPostBtn.onclick = function () {
+                        homePostsSection.innerHTML = ""
+                        loadPosts()
+                        viewNewPostBtn.style.transform = "translateY(-200px)"
+                        scroll(0, 0)
+                    }
                 }
                 i++
             }
