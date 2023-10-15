@@ -113,9 +113,10 @@ async function loadPosts(email) {
                 })
                 i++
                 actualUserPosts = i
-                perfilPosts.textContent = `${i}`
+                perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
             })
     });
+    perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
 }
 
 async function deleteThisPost(id) {

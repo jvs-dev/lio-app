@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, query, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 const firebaseConfig = {
     apiKey: `${import.meta.env.VITE_API_KEY}`,
@@ -155,9 +155,10 @@ async function loadPosts(email) {
                 })
                 i++
                 actualUserPosts = i
-                perfilPosts.textContent = `${i}`
+                perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
             })
     });
+    perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
 }
 
 async function deleteThisPost(id) {
