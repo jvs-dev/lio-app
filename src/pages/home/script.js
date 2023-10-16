@@ -194,7 +194,7 @@ function addListener(totalCards) {
         snapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
                 if (i <= totalCards) {
-                    console.log("sem novos posts");
+
                 } else {
                     let viewNewPostBtn = document.getElementById("viewNewPostBtn")
                     viewNewPostBtn.style.transform = "translateY(0px)"
@@ -202,7 +202,11 @@ function addListener(totalCards) {
                         homePostsSection.innerHTML = ""
                         loadPosts()
                         viewNewPostBtn.style.transform = "translateY(-200px)"
-                        scroll(0, 0)
+                        window.scroll({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth",
+                          });
                     }
                 }
                 i++

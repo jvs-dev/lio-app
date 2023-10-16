@@ -114,7 +114,10 @@
     </section>
 
     <section class="main__section main__home" id="homeSection">
-      <button class="homeSection__viewNewPostBtn" id="viewNewPostBtn">Novos posts<ion-icon name="refresh-outline"></ion-icon></button>
+      <button class="homeSection__viewNewPostBtn" id="viewNewPostBtn">Novos posts<lord-icon
+          src="https://cdn.lordicon.com/rsbokaso.json" trigger="loop" delay="1000" state="in-autorenew"
+          colors="primary:#f2f2f2" style="width:25px;height:25px">
+        </lord-icon></button>
       <header class="section__header">
         <p>Lio Hairstyle</p>
         <img src="assets/perfilImg.jpg" class="">
@@ -167,8 +170,8 @@
         <input type="file" name="newPostImg" id="newPostImg" class="addPost__input"
           accept="image/png, image/jpeg, image/jpg">
         <img src="" class="addPost__img" id="postPreviewImg">
-        <textarea id="newPostText" cols="30" rows="3" placeholder="Descrição" class="addPost__text" style="resize: none"
-          maxlength="45"></textarea>
+        <textarea id="newPostText" cols="30" rows="3" placeholder="Descrição (opcional)" class="addPost__text"
+          style="resize: none" maxlength="45"></textarea>
         <div class="addPost__div">
           <button type="button" class="addPost__button button--cancel" id="cancelNewPost">Cancelar</button>
           <button type="button" class="addPost__button button--public" id="publicNewPost">Publicar</button>
@@ -222,69 +225,49 @@
       <label for="newPostImg" class="perfil__addPhoto" id="newPost"><ion-icon name="add-outline"></ion-icon></label>
     </section>
 
+    <div class="agend__paymentDiv" id="paymentDiv">
+      <section class="agend__paymentSection" id="paymentSection">
+        <ion-icon name="close-outline" class="paymentSection__close" id="closePaymentSection"></ion-icon>
+        <h2 class="paymentSection__h2">Checkout<br><span>Sábado ás 09:00</span></h2>
+        <article class="paymentSection__article">
+          <p class="paymentSection__article__p">Cabelo</p>
+          <span class="paymentSection__article__span">$20.00</span>
+        </article>
+        <article class="paymentSection__article">
+          <p class="paymentSection__article__p">Sobrancelha</p>
+          <span class="paymentSection__article__span">$10.00</span>
+        </article>
+        <article class="paymentSection__article">
+          <p class="paymentSection__article__p">Barba</p>
+          <span class="paymentSection__article__span">$10.00</span>
+        </article>
+        <article class="paymentSection__article">
+          <p class="paymentSection__article__p">25% OFF</p>
+          <span class="paymentSection__article__span discount">$10.00</span>
+        </article>
+        <div class="paymentSection__dashed"></div>
+        <article class="paymentSection__total">
+          <p class="paymentSection__total__p">Total</p>
+          <span class="paymentSection__total__span"><span>$40.00</span>$30.00</span>
+        </article>
+        <p class="paymentSection__pixKey">Envie para esta chave pix:<br>71987986035</p>
+        <label for="paymentVoucherInput" class="paymentSection__paymentVoucher">
+          <input type="file" name="paymentVoucherInput" id="paymentVoucherInput">
+          <img src="" class="paymentVoucher__img" id="paymentVoucherImg">
+          <p class="paymentVoucher__p">Anexe o comprovante aqui<lord-icon src="https://cdn.lordicon.com/smwmetfi.json"
+              trigger="hover" colors="primary:#252525" style="width:40px;height:40px">
+            </lord-icon></p>
+        </label>
+        <button class="paymentSection__confirmPay">Confirmar pagamento</button>
+      </section>
+    </div>
     <section class="main__section main__agend" id="agendSection">
       <header class="section__header">
         <p>Lio Hairstyle</p>
         <img src="assets/perfilImg.jpg" class="">
       </header>
-      <h2 class="agend__h2">Hórarios Disponiveis<br><span class="agend__h2__span">Esta semana</span></h2>
-      <div class="agend__cardsDiv">
-        <article class="agendCard today">
-          <p class="agendCard__p">Terça(hoje)</p>
-          <div class="agendCard__div">
-            <button class="agendCard__hour">08:00</button>
-            <button class="agendCard__hour">09:00</button>
-            <button class="agendCard__hour">10:00</button>
-            <button class="agendCard__hour">11:00</button>
-            <button class="agendCard__hour">12:00</button>
-            <button class="agendCard__hour">13:00</button>
-            <button class="agendCard__hour">14:00</button>
-            <button class="agendCard__hour">15:00</button>
-            <button class="agendCard__hour">16:00</button>
-            <button class="agendCard__hour">17:00</button>
-            <button class="agendCard__hour">18:00</button>
-            <button class="agendCard__hour">19:00</button>
-          </div>
-          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
-        </article>
-
-        <article class="agendCard">
-          <p class="agendCard__p">Quarta</p>
-          <div class="agendCard__div">
-            <button class="agendCard__hour">08:00</button>
-            <button class="agendCard__hour">09:00</button>
-            <button class="agendCard__hour">10:00</button>
-            <button class="agendCard__hour">11:00</button>
-            <button class="agendCard__hour">12:00</button>
-            <button class="agendCard__hour">13:00</button>
-            <button class="agendCard__hour">14:00</button>
-            <button class="agendCard__hour">15:00</button>
-            <button class="agendCard__hour">16:00</button>
-            <button class="agendCard__hour">17:00</button>
-            <button class="agendCard__hour">18:00</button>
-            <button class="agendCard__hour">19:00</button>
-          </div>
-          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
-        </article>
-
-        <article class="agendCard">
-          <p class="agendCard__p">Quinta</p>
-          <div class="agendCard__div">
-            <button class="agendCard__hour">08:00</button>
-            <button class="agendCard__hour">09:00</button>
-            <button class="agendCard__hour">10:00</button>
-            <button class="agendCard__hour">11:00</button>
-            <button class="agendCard__hour closed">Fechado</button>
-            <button class="agendCard__hour">13:00</button>
-            <button class="agendCard__hour">14:00</button>
-            <button class="agendCard__hour">15:00</button>
-            <button class="agendCard__hour">16:00</button>
-            <button class="agendCard__hour">17:00</button>
-            <button class="agendCard__hour">18:00</button>
-            <button class="agendCard__hour">19:00</button>
-          </div>
-          <ion-icon name="caret-down-sharp" class="agendCard__icon"></ion-icon>
-        </article>
+      <h2 class="agend__h2">Hórarios Disponiveis<br><span class="agend__h2__span">Em uma semana</span></h2>
+      <div class="agend__cardsDiv" id="agendCardsSection">
 
       </div>
     </section>
@@ -312,6 +295,7 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.lordicon.com/lordicon-1.1.0.js"></script>
   <script type="module" src="src/components/introduction/script.js"></script>
   <script type="module" src="src/pages/login/script.js"></script>
   <script type="module" src="src/pages/signin/script.js"></script>

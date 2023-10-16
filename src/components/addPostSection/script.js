@@ -82,8 +82,12 @@ publicNewPost.addEventListener("click", () => {
     }, 1);
     let postText = document.getElementById("newPostText").value
     let postImg = previewElement.src
-    if (postImg != "" && postText != "") {
-        addPost(postImg, postText)
+    if (postImg != "") {
+        if (postText != "") {
+            addPost(postImg, postText)   
+        } else {
+            addPost(postImg, "")
+        }
     }
 })
 

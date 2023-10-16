@@ -14,7 +14,7 @@
     transition: 0.5s;
 }
 
-.agendCard.today {
+.agendCard.closed {
     background: var(--dark-gray);
     color: #FF4A4A;
 }
@@ -64,7 +64,7 @@
     transition: 0.5s;
 }
 
-.agendCard.today .agendCard__icon {
+.agendCard.closed .agendCard__icon {
     display: none;
 }
 

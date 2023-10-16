@@ -25,6 +25,7 @@
     letter-spacing: 1px;
     line-height: 24px;
 }
+
 .agend__h2__span {
     color: var(--white);
     font-family: 'Bebas Neue', sans-serif;
@@ -32,6 +33,7 @@
     font-weight: 400;
     letter-spacing: 1px;
 }
+
 .agend__cardsDiv {
     display: flex;
     flex-direction: column;
@@ -39,4 +41,169 @@
     justify-content: baseline;
     width: 100%;
     padding: 0px 20px;
+}
+
+.agend__paymentDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    display: none;
+    opacity: 0;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    padding: 80px 0px 0px 0px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background: rgba(0, 0, 0, 0.849);
+    transition: 0.2s;
+}
+
+.agend__paymentSection {
+    border-radius: 40px 40px 0px 0px;
+    background: var(--light-gray);
+    padding: 30px;
+    width: 100%;
+    bottom: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(100%);
+    transition: 0.5s ease;
+}
+
+.paymentSection__close {
+    color: var(--white);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 40px 20px 0px 0px;
+    font-size: 30px;
+}
+.paymentSection__h2 {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    letter-spacing: 1.3px;
+    font-weight: 400;
+    margin: 0px;
+}
+.paymentSection__h2 span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    margin-top: -14px;
+}
+.paymentSection__article {
+    color: var(--white);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px var(--white);
+    margin: 8px 0px;
+}
+.paymentSection__article__p {
+    margin: 0px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+.paymentSection__article__span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 25px;
+    letter-spacing: 1.2px;
+}
+.paymentSection__article__span.discount {
+    color: #FF4A4A;
+    text-decoration: line-through;
+}
+.paymentSection__dashed {
+    width: 100vw;
+    border: dashed 1px var(--white);
+    margin: 30px 0px 20px 0px;
+}
+.paymentSection__total {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.paymentSection__total__p {
+    margin: 0px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 2px;
+}
+.paymentSection__total__span {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1.2px;
+}
+.paymentSection__total__span span {
+    color: #FF4A4A;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.2px;
+    margin-bottom: -4px;
+    text-decoration: line-through;
+}
+.paymentSection__pixKey {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: var(--white);
+    text-align: center;
+    margin: 15px 0px;
+}
+.paymentSection__paymentVoucher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    aspect-ratio: 1/1;
+    background: var(--white);
+    border-radius: 20px;
+    flex-direction: column;
+    position: relative;
+}
+#paymentVoucherInput {
+    visibility: hidden;
+}
+.paymentVoucher__p {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1.2px;
+    color: var(--dark-gray);
+    margin: 0px 10px;
+    text-align: center;
+}
+.paymentVoucher__img {
+    height: 100%;
+    width: auto;
+    position: absolute;
+}
+.paymentSection__confirmPay {
+    width: 100%;
+    padding: 8px 0px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    border-radius: 15px;
+    background: #4AFF9D;
+    margin-top: 40px;
+    border: 0px;
+    outline-width: 0px;
 }
