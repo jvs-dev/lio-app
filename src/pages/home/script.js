@@ -73,7 +73,13 @@ async function loadPosts() {
                         homePostsSection.insertAdjacentElement("beforeend", article)
                         article.classList.add("postCard")
                         article.style.order = `-${doc.data().timestamp.seconds}`
-                        article.id = doc.id
+                        let elementsId = ""
+                        if (!isNaN(`${doc.id}`.charAt(0))) {
+                            elementsId = `a${doc.id}`
+                        } else {
+                            elementsId = `${doc.id}`
+                        }
+                        article.id = elementsId
                         article.innerHTML = `
                             <div class="postCard__div--1">
                                 <div class="postCard__div--2">
@@ -109,10 +115,10 @@ async function loadPosts() {
                                 name="ellipsis-vertical"></ion-icon></div>
                             <p class="postCard__text">${doc.data().description}</p>
                             <div class="postCard__div--4"></div>`
-                        let likeBtn = document.querySelector(`#${doc.id} .postCard__likeThis`)
-                        let likeBtnInput = document.querySelector(`#${doc.id} .postCard__checkbox`)
-                        let likeNumber = document.querySelector(`#${doc.id} .postCard__span`)
-                        let mainImg = document.querySelector(`#${doc.id} .postCard__mainImg`)
+                        let likeBtn = document.querySelector(`#${elementsId} .postCard__likeThis`)
+                        let likeBtnInput = document.querySelector(`#${elementsId} .postCard__checkbox`)
+                        let likeNumber = document.querySelector(`#${elementsId} .postCard__span`)
+                        let mainImg = document.querySelector(`#${elementsId} .postCard__mainImg`)
                         verifyDataLoop(doc.id, likeBtnInput, likeNumber)
                         mainImg.ondblclick = function () {
                             verifyLike(doc.id, likeBtn, likeNumber)
@@ -206,7 +212,7 @@ function addListener(totalCards) {
                             top: 0,
                             left: 0,
                             behavior: "smooth",
-                          });
+                        });
                     }
                 }
                 i++
