@@ -16,7 +16,7 @@
     font-size: 14vw;
     font-weight: 400;
     color: var(--primary-color);
-    margin: 8vh 0px 0px 0px;
+    margin: 7vh 0px 0px 0px;
     transition: 0.5s;
 }
 
@@ -117,7 +117,7 @@ div.login__div:has(> input.login__input:focus) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0px 45px 0px;
+    margin: 20px 0px 65px 0px;
 }
 
 .login__p__span {
