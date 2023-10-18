@@ -270,3 +270,11 @@
     opacity: 0;
     transition: 0.5s;
 }
+.paymentSection__alertVouncher {
+    color: #FF4A4A;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin: 20px 40px -20px 40px;   
+    text-align: center;
+    display: none;
+}

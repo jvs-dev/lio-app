@@ -1,8 +1,47 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+const firebaseConfig = {
+    apiKey: `${import.meta.env.VITE_API_KEY}`,
+    authDomain: `${import.meta.env.VITE_AUTH_DOMAIN}`,
+    projectId: `${import.meta.env.VITE_PROJECT_ID}`,
+    storageBucket: `${import.meta.env.VITE_STORAGE_BUCKET}`,
+    messagingSenderId: `${import.meta.env.VITE_MESSAGING_SENDER_ID}`,
+    appId: `${import.meta.env.VITE_APP_ID}`,
+    measurementId: `${import.meta.env.VITE_MEASUREMENT_ID}`
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+
 let data = new Date();
 let numeroDoDiaDaSemana = data.getDay();
 let nomesDosDiasDaSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
 let nomeDoDiaDaSemana = nomesDosDiasDaSemana[numeroDoDiaDaSemana];
 let agendCardsSection = document.getElementById("agendCardsSection")
+let actualUserEmail = ""
+let actualUserPhoto = ""
+let actualUserCredits = 0
+let actualUserName = ""
+let actualUserHairCuts = ""
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        actualUserEmail = user.email
+        let unsub = onSnapshot(doc(db, "users", `${user.email}`), (doc) => {
+            actualUserPhoto = doc.data().userPhoto
+            actualUserCredits = doc.data().credits
+            actualUserName = doc.data().userName
+            actualUserHairCuts = doc.data().hairCuts
+        });
+        loadAgendCards()
+    }
+});
 
 
 function loadAgendCards() {
@@ -44,6 +83,13 @@ function loadAgendCards() {
                                 setTimeout(() => {
                                     paymentDiv.style.overflowY = "auto"
                                     let confirmPayment = document.getElementById("confirmPayment")
+                                    confirmPayment.onclick = function () {
+                                        let alertVouncher = document.getElementById("alertVouncher")
+                                        alertVouncher.style.display = "flex"
+                                        setTimeout(() => {
+                                            alertVouncher.style.display = "none"
+                                        }, 7000);
+                                    }
                                     document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
                                         let file = event.target.files[0];
                                         let reader = new FileReader();
@@ -65,19 +111,39 @@ function loadAgendCards() {
                                                     page.render(renderContext).promise.then(function () {
                                                         const img = document.getElementById('paymentVoucherImg');
                                                         img.src = canvas.toDataURL('image/jpeg');
+                                                        confirmPayment.onclick = function () {
+                                                            if (img.src != "") {
+                                                                scheduling(dayName, thisHour, img.src)                                                                
+                                                            } else {
+                                                                let alertVouncher = document.getElementById("alertVouncher")
+                                                                alertVouncher.style.display = "flex"
+                                                                setTimeout(() => {
+                                                                    alertVouncher.style.display = "none"
+                                                                }, 7000);
+                                                            }
+                                                        }
                                                     });
                                                 });
                                             } else {
                                                 let paymentVoucherImg = document.getElementById('paymentVoucherImg');
                                                 paymentVoucherImg.src = reader.result;
                                                 reader.readAsDataURL(file);
+                                                confirmPayment.onclick = function () {
+                                                    let paymentVoucherImg = document.getElementById('paymentVoucherImg');                
+                                                    if (paymentVoucherImg.src != "") {
+                                                        scheduling(dayName, thisHour, paymentVoucherImg.src)                                                                    
+                                                    } else {
+                                                        let alertVouncher = document.getElementById("alertVouncher")
+                                                        alertVouncher.style.display = "flex"
+                                                        setTimeout(() => {
+                                                            alertVouncher.style.display = "none"
+                                                        }, 7000);
+                                                    }
+                                                }
                                             }
                                         };
                                         reader.readAsArrayBuffer(file);
                                     });
-                                    confirmPayment.onclick = function () {
-                                        animatedConfirmPay()
-                                    }
                                 }, 500);
                             }, 200);
                         }, 1);
@@ -146,8 +212,12 @@ function loadAgendCards() {
 }
 
 
-function scheduling() {
-
+function scheduling(dayName, hours, vouncher) {
+    let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let agendRef = doc(db, `${dayName}`, `${formatHours}`);
+    setDoc(agendRef, { agended: true }, { vouncherID: `${dayName}-${formatHours}` });
+    
+    animatedConfirmPay()
 }
 
 function animatedConfirmPay() {
@@ -171,11 +241,12 @@ function animatedConfirmPay() {
                 paymentDiv.style.opacity = "0"
                 paymentDiv.style.display = "none"
                 setTimeout(() => {
+                    animatedCheckPaymentIcon.src = "https://cdn.lordicon.com/oqdmuxru.json"
                     animatedCheckPaymentIcon.trigger = "in"
                     setTimeout(() => {
                         animatedCheckPaymentSpan.style.opacity = "1"
                         animatedCheckPayment.onclick = function () {
-                            animatedCheckPaymentIcon.trigger = "out"
+                            animatedCheckPaymentIcon.src = ""
                             animatedCheckPayment.style.opacity = "0"
                             setTimeout(() => {
                                 animatedCheckPayment.style.display = "none"
@@ -188,6 +259,3 @@ function animatedConfirmPay() {
         }, 1);
     }, 400);
 }
-
-
-loadAgendCards()
