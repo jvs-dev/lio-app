@@ -133,3 +133,16 @@
     padding: 6px 0px;
     font-size: 18px;
 }
+.header__btn {
+    color: var(--primary-color);
+    font-size: 30px;
+    cursor: pointer;
+    background: transparent;
+    border: 0px;
+    outline-width: 0px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

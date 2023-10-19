@@ -67,124 +67,7 @@ function loadAgendCards() {
                     let button = document.createElement("button")
                     div.insertAdjacentElement("beforeend", button)
                     button.classList.add("agendCard__hour")
-                    button.textContent = `${`${thisHour}`.length == 1 ? `0${thisHour}:00` : `${thisHour}:00`}`
-                    button.addEventListener("click", (evt) => {
-                        evt.stopPropagation()
-                        let paymentDiv = document.getElementById("paymentDiv")
-                        let paymentSection = document.getElementById("paymentSection")
-                        let paymentDateComponent = document.querySelector("#paymentSection .paymentSection__h2 span")
-                        let closePaymentSection = document.getElementById("closePaymentSection")
-                        paymentDateComponent.textContent = `${dayName.replace("-feira", "")} ás ${`${thisHour}`.length == 1 ? `0${thisHour}:00` : `${thisHour}:00`}`
-                        paymentDiv.style.display = "flex"
-                        setTimeout(() => {
-                            paymentDiv.style.opacity = "1"
-                            setTimeout(() => {
-                                paymentSection.style.transform = "translateY(0%)"
-                                setTimeout(() => {
-                                    paymentDiv.style.overflowY = "auto"
-                                    let confirmPayment = document.getElementById("confirmPayment")
-                                    confirmPayment.onclick = function () {
-                                        let alertVouncher = document.getElementById("alertVouncher")
-                                        alertVouncher.style.display = "flex"
-                                        setTimeout(() => {
-                                            alertVouncher.style.display = "none"
-                                        }, 7000);
-                                    }
-                                    document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
-                                        let file = event.target.files[0];
-                                        let reader = new FileReader();
-                                        reader.onload = function () {
-                                            if (event.target.files[0].type == "application/pdf") {
-                                                let arrayBuffer = this.result;
-                                                pdfjsLib.getDocument(arrayBuffer).promise.then(function (pdf) {
-                                                    return pdf.getPage(1);
-                                                }).then(function (page) {
-                                                    let canvas = document.createElement('canvas');
-                                                    let context = canvas.getContext('2d');
-                                                    let viewport = page.getViewport({ scale: 1.0 });
-                                                    canvas.width = viewport.width;
-                                                    canvas.height = viewport.height;
-                                                    let renderContext = {
-                                                        canvasContext: context,
-                                                        viewport: viewport
-                                                    };
-                                                    page.render(renderContext).promise.then(function () {
-                                                        const img = document.getElementById('paymentVoucherImg');
-                                                        img.src = canvas.toDataURL('image/jpeg');
-                                                        confirmPayment.onclick = function () {
-                                                            if (img.src != "") {
-                                                                scheduling(dayName, thisHour, img.src)                                                                
-                                                            } else {
-                                                                let alertVouncher = document.getElementById("alertVouncher")
-                                                                alertVouncher.style.display = "flex"
-                                                                setTimeout(() => {
-                                                                    alertVouncher.style.display = "none"
-                                                                }, 7000);
-                                                            }
-                                                        }
-                                                    });
-                                                });
-                                            } else {
-                                                let paymentVoucherImg = document.getElementById('paymentVoucherImg');
-                                                paymentVoucherImg.src = reader.result;
-                                                reader.readAsDataURL(file);
-                                                confirmPayment.onclick = function () {
-                                                    let paymentVoucherImg = document.getElementById('paymentVoucherImg');                
-                                                    if (paymentVoucherImg.src != "") {
-                                                        scheduling(dayName, thisHour, paymentVoucherImg.src)                                                                    
-                                                    } else {
-                                                        let alertVouncher = document.getElementById("alertVouncher")
-                                                        alertVouncher.style.display = "flex"
-                                                        setTimeout(() => {
-                                                            alertVouncher.style.display = "none"
-                                                        }, 7000);
-                                                    }
-                                                }
-                                            }
-                                        };
-                                        reader.readAsArrayBuffer(file);
-                                    });
-                                }, 500);
-                            }, 200);
-                        }, 1);
-                        paymentSection.addEventListener("click", (evt) => {
-                            evt.stopPropagation()
-                        })
-                        paymentDiv.addEventListener("click", () => {
-                            paymentDiv.style.overflowY = ""
-                            paymentSection.style.transform = ""
-                            setTimeout(() => {
-                                paymentDiv.style.opacity = "0"
-                                setTimeout(() => {
-                                    paymentDiv.style.display = "none"
-                                    let paymentVoucherInput = document.getElementById('paymentVoucherInput');
-                                    let paymentVoucherImg = document.getElementById('paymentVoucherImg');
-                                    paymentVoucherInput.value = ""
-                                    paymentVoucherImg.src = ""
-                                    confirmPayment.onclick = function () {
-
-                                    }
-                                }, 200);
-                            }, 400);
-                        })
-                        closePaymentSection.addEventListener("click", () => {
-                            paymentDiv.style.overflowY = ""
-                            paymentSection.style.transform = ""
-                            setTimeout(() => {
-                                paymentDiv.style.opacity = "0"
-                                setTimeout(() => {
-                                    paymentDiv.style.display = "none"
-                                    let paymentVoucherInput = document.getElementById('paymentVoucherInput');
-                                    let paymentVoucherImg = document.getElementById('paymentVoucherImg');
-                                    paymentVoucherInput.value = ""
-                                    paymentVoucherImg.src = ""
-                                    confirmPayment.onclick = function () {
-
-                                    }
-                                }, 200);
-                            }, 400);
-                        })
-                    })
+                    verifyDate(dayName, thisHour, button)
                 } else {
                     let button = document.createElement("button")
                     div.insertAdjacentElement("beforeend", button)
@@ -212,13 +95,281 @@ function loadAgendCards() {
 }
 
 
-function scheduling(dayName, hours, vouncher) {
+async function verifyDate(dayName, hours, button) {
+    let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let docRef = doc(db, `${dayName}`, `${hourFormated}`);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        if (docSnap.data().agended == true) {
+            button.classList.add("closed")
+            button.textContent = `Fechado`
+            button.addEventListener("click", (evt) => {
+                evt.stopPropagation()
+            })
+        } else {
+            button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+            button.addEventListener("click", (evt) => {
+                evt.stopPropagation()
+                let paymentDiv = document.getElementById("paymentDiv")
+                let paymentSection = document.getElementById("paymentSection")
+                let paymentDateComponent = document.querySelector("#paymentSection .paymentSection__h2 span")
+                let closePaymentSection = document.getElementById("closePaymentSection")
+                paymentDateComponent.textContent = `${dayName.replace("-feira", "")} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+                paymentDiv.style.display = "flex"
+                setTimeout(() => {
+                    paymentDiv.style.opacity = "1"
+                    setTimeout(() => {
+                        paymentSection.style.transform = "translateY(0%)"
+                        setTimeout(() => {
+                            paymentDiv.style.overflowY = "auto"
+                            let confirmPayment = document.getElementById("confirmPayment")
+                            confirmPayment.onclick = function () {
+                                let alertVouncher = document.getElementById("alertVouncher")
+                                alertVouncher.style.display = "flex"
+                                setTimeout(() => {
+                                    alertVouncher.style.display = "none"
+                                }, 7000);
+                            }
+                            document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
+                                let file = event.target.files[0];
+                                let reader = new FileReader();
+                                reader.onload = function () {
+                                    if (event.target.files[0].type == "application/pdf") {
+                                        let arrayBuffer = this.result;
+                                        pdfjsLib.getDocument(arrayBuffer).promise.then(function (pdf) {
+                                            return pdf.getPage(1);
+                                        }).then(function (page) {
+                                            let canvas = document.createElement('canvas');
+                                            let context = canvas.getContext('2d');
+                                            let viewport = page.getViewport({ scale: 1.0 });
+                                            canvas.width = viewport.width;
+                                            canvas.height = viewport.height;
+                                            let renderContext = {
+                                                canvasContext: context,
+                                                viewport: viewport
+                                            };
+                                            page.render(renderContext).promise.then(function () {
+                                                const img = document.getElementById('paymentVoucherImg');
+                                                img.src = canvas.toDataURL('image/jpeg');
+                                                confirmPayment.onclick = function () {
+                                                    if (img.src != "") {
+                                                        scheduling(dayName, hours, img.src)
+                                                    } else {
+                                                        let alertVouncher = document.getElementById("alertVouncher")
+                                                        alertVouncher.style.display = "flex"
+                                                        setTimeout(() => {
+                                                            alertVouncher.style.display = "none"
+                                                        }, 7000);
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                                        paymentVoucherImg.src = reader.result;
+                                        reader.readAsDataURL(file);
+                                        confirmPayment.onclick = function () {
+                                            let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                                            if (paymentVoucherImg.src != "") {
+                                                scheduling(dayName, hours, paymentVoucherImg.src)
+                                            } else {
+                                                let alertVouncher = document.getElementById("alertVouncher")
+                                                alertVouncher.style.display = "flex"
+                                                setTimeout(() => {
+                                                    alertVouncher.style.display = "none"
+                                                }, 7000);
+                                            }
+                                        }
+                                    }
+                                };
+                                reader.readAsArrayBuffer(file);
+                            });
+                        }, 500);
+                    }, 200);
+                }, 1);
+                paymentSection.addEventListener("click", (evt) => {
+                    evt.stopPropagation()
+                })
+                paymentDiv.addEventListener("click", () => {
+                    paymentDiv.style.overflowY = ""
+                    paymentSection.style.transform = ""
+                    setTimeout(() => {
+                        paymentDiv.style.opacity = "0"
+                        setTimeout(() => {
+                            paymentDiv.style.display = "none"
+                            let paymentVoucherInput = document.getElementById('paymentVoucherInput');
+                            let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                            paymentVoucherInput.value = ""
+                            paymentVoucherImg.src = ""
+                            confirmPayment.onclick = function () {
+
+                            }
+                        }, 200);
+                    }, 400);
+                })
+                closePaymentSection.addEventListener("click", () => {
+                    paymentDiv.style.overflowY = ""
+                    paymentSection.style.transform = ""
+                    setTimeout(() => {
+                        paymentDiv.style.opacity = "0"
+                        setTimeout(() => {
+                            paymentDiv.style.display = "none"
+                            let paymentVoucherInput = document.getElementById('paymentVoucherInput');
+                            let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                            paymentVoucherInput.value = ""
+                            paymentVoucherImg.src = ""
+                            confirmPayment.onclick = function () {
+
+                            }
+                        }, 200);
+                    }, 400);
+                })
+            })
+        }
+    } else {
+        button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+        button.addEventListener("click", (evt) => {
+            evt.stopPropagation()
+            let paymentDiv = document.getElementById("paymentDiv")
+            let paymentSection = document.getElementById("paymentSection")
+            let paymentDateComponent = document.querySelector("#paymentSection .paymentSection__h2 span")
+            let closePaymentSection = document.getElementById("closePaymentSection")
+            paymentDateComponent.textContent = `${dayName.replace("-feira", "")} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+            paymentDiv.style.display = "flex"
+            setTimeout(() => {
+                paymentDiv.style.opacity = "1"
+                setTimeout(() => {
+                    paymentSection.style.transform = "translateY(0%)"
+                    setTimeout(() => {
+                        paymentDiv.style.overflowY = "auto"
+                        let confirmPayment = document.getElementById("confirmPayment")
+                        confirmPayment.onclick = function () {
+                            let alertVouncher = document.getElementById("alertVouncher")
+                            alertVouncher.style.display = "flex"
+                            setTimeout(() => {
+                                alertVouncher.style.display = "none"
+                            }, 7000);
+                        }
+                        document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
+                            let file = event.target.files[0];
+                            let reader = new FileReader();
+                            reader.onload = function () {
+                                if (event.target.files[0].type == "application/pdf") {
+                                    let arrayBuffer = this.result;
+                                    pdfjsLib.getDocument(arrayBuffer).promise.then(function (pdf) {
+                                        return pdf.getPage(1);
+                                    }).then(function (page) {
+                                        let canvas = document.createElement('canvas');
+                                        let context = canvas.getContext('2d');
+                                        let viewport = page.getViewport({ scale: 1.0 });
+                                        canvas.width = viewport.width;
+                                        canvas.height = viewport.height;
+                                        let renderContext = {
+                                            canvasContext: context,
+                                            viewport: viewport
+                                        };
+                                        page.render(renderContext).promise.then(function () {
+                                            const img = document.getElementById('paymentVoucherImg');
+                                            img.src = canvas.toDataURL('image/jpeg');
+                                            confirmPayment.onclick = function () {
+                                                if (img.src != "") {
+                                                    scheduling(dayName, hours, img.src)
+                                                } else {
+                                                    let alertVouncher = document.getElementById("alertVouncher")
+                                                    alertVouncher.style.display = "flex"
+                                                    setTimeout(() => {
+                                                        alertVouncher.style.display = "none"
+                                                    }, 7000);
+                                                }
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                                    paymentVoucherImg.src = reader.result;
+                                    reader.readAsDataURL(file);
+                                    confirmPayment.onclick = function () {
+                                        let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                                        if (paymentVoucherImg.src != "") {
+                                            scheduling(dayName, hours, paymentVoucherImg.src)
+                                        } else {
+                                            let alertVouncher = document.getElementById("alertVouncher")
+                                            alertVouncher.style.display = "flex"
+                                            setTimeout(() => {
+                                                alertVouncher.style.display = "none"
+                                            }, 7000);
+                                        }
+                                    }
+                                }
+                            };
+                            reader.readAsArrayBuffer(file);
+                        });
+                    }, 500);
+                }, 200);
+            }, 1);
+            paymentSection.addEventListener("click", (evt) => {
+                evt.stopPropagation()
+            })
+            paymentDiv.addEventListener("click", () => {
+                paymentDiv.style.overflowY = ""
+                paymentSection.style.transform = ""
+                setTimeout(() => {
+                    paymentDiv.style.opacity = "0"
+                    setTimeout(() => {
+                        paymentDiv.style.display = "none"
+                        let paymentVoucherInput = document.getElementById('paymentVoucherInput');
+                        let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                        paymentVoucherInput.value = ""
+                        paymentVoucherImg.src = ""
+                        confirmPayment.onclick = function () {
+
+                        }
+                    }, 200);
+                }, 400);
+            })
+            closePaymentSection.addEventListener("click", () => {
+                paymentDiv.style.overflowY = ""
+                paymentSection.style.transform = ""
+                setTimeout(() => {
+                    paymentDiv.style.opacity = "0"
+                    setTimeout(() => {
+                        paymentDiv.style.display = "none"
+                        let paymentVoucherInput = document.getElementById('paymentVoucherInput');
+                        let paymentVoucherImg = document.getElementById('paymentVoucherImg');
+                        paymentVoucherInput.value = ""
+                        paymentVoucherImg.src = ""
+                        confirmPayment.onclick = function () {
+
+                        }
+                    }, 200);
+                }, 400);
+            })
+        })
+    }
+
+}
+
+async function requestAgend(dayName, hours, vouncher) {
     let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
-    let agendRef = doc(db, `${dayName}`, `${formatHours}`);
-    setDoc(agendRef, { agended: true }, { vouncherID: `${dayName}-${formatHours}` });
-    
+    let docRef = await addDoc(collection(db, `requests`), {
+        dayName: dayName,
+        hours: hours,
+        vouncherID: `${dayName}-${formatHours}`,
+        userName: actualUserName,
+        userEmail: actualUserEmail,
+        value: 0//inserir valor dos cortes
+    });
     animatedConfirmPay()
 }
+
+/* async function scheduling(dayName, hours, vouncher) {
+    let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    await setDoc(doc(db, `${dayName}`, `${formatHours}`), {
+        agended: true,
+        
+    });
+    animatedConfirmPay()
+} */
 
 function animatedConfirmPay() {
     let animatedCheckPayment = document.getElementById("animatedCheckPayment")

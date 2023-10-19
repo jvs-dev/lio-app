@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 const firebaseConfig = {
@@ -35,11 +35,42 @@ let viewPostSection = document.getElementById("viewPostSection")
 let viewPostSectionImg = document.getElementById("viewPostSectionImg")
 let deletePost = document.getElementById("deletePost")
 let loadingResource = document.getElementById("loadingResource")
+let exitAccount = document.getElementById("exitAccount")
 let postSelected = ""
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
         actualUserEmail = user.email
+        exitAccount.onclick = function () {
+            loadingResource.style.display = "flex"
+            setTimeout(() => {
+                loadingResource.style.opacity = "0.8"
+                let auth = getAuth();
+                signOut(auth).then(() => {
+                    let navBar = document.getElementById("navBar")
+                    let homeSection = document.getElementById("homeSection")
+                    let signinSection = document.getElementById("signinSection")
+                    let loginSection = document.getElementById("loginSection")
+                    let perfilSection = document.getElementById("perfilSection")
+                    let agendSection = document.getElementById("agendSection")
+                    agendSection.style.display = "none"
+                    perfilSection.style.display = "none"
+                    loginSection.style.display = "flex"
+                    navBar.style.display = "none"
+                    homeSection.style.display = "none"
+                    signinSection.style.display = "flex"
+                    loadingResource.style.opacity = "0"
+                    setTimeout(() => {
+                        loadingResource.style.display = "none"
+                    }, 200);
+                }).catch((error) => {
+                    loadingResource.style.opacity = "0"
+                    setTimeout(() => {
+                        loadingResource.style.display = "none"
+                    }, 200);
+                });
+            }, 1);
+        }
         let unsub = onSnapshot(doc(db, "users", `${user.email}`), (doc) => {
             actualUserPhoto = doc.data().userPhoto
             actualUserCredits = doc.data().credits
@@ -49,7 +80,7 @@ onAuthStateChanged(auth, (user) => {
             actualUserHairCuts = doc.data().hairCuts
             perfilHaircuts.textContent = doc.data().hairCuts
             if (doc.data().userPhoto == "assets/perfilImg.jpg") {
-                perfilImg.src = `${doc.data().userPhoto}`
+                perfilImg.src = `assets/perfilImg.jpg`
             } else {
                 getDownloadURL(ref(storage, `users/${user.email}.jpg`))
                     .then((url) => {
