@@ -56,7 +56,7 @@ function loadAgendCards() {
             let article = document.createElement("article")
             agendCardsSection.insertAdjacentElement("beforeend", article)
             article.classList.add("agendCard")
-            if (dayName == nomeDoDiaDaSemana || i < numeroDoDiaDaSemana) {
+            if (dayName == nomeDoDiaDaSemana) {
                 article.classList.add("closed")
             }
             article.id = dayName
