@@ -75,6 +75,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 
 .perfil__userPhotos {
@@ -145,4 +147,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+.editDataSection__alertReplace {
+    color: #FF4A4A;
+    font-family: 'Poppins', sans-serif;
+    margin: 0px 0px 15px 0px;
+    font-size: 18px;
+    text-align: center;
+    display: none;
 }

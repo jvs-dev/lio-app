@@ -33,6 +33,7 @@ let loadingResource = document.getElementById("loadingResource")
 let allUserPhotos = document.getElementById("allUserPhotos")
 let deletePost = document.getElementById("deletePost")
 let postSelected = ""
+let userAdmin = false
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -43,6 +44,9 @@ onAuthStateChanged(auth, (user) => {
             actualUserName = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
             actualUserPosts = doc.data().posts
+            if (doc.data().admin == true) {
+                userAdmin = true
+            }
         });
     }
 });
@@ -84,7 +88,7 @@ publicNewPost.addEventListener("click", () => {
     let postImg = previewElement.src
     if (postImg != "") {
         if (postText != "") {
-            addPost(postImg, postText)   
+            addPost(postImg, postText)
         } else {
             addPost(postImg, "")
         }
@@ -92,25 +96,48 @@ publicNewPost.addEventListener("click", () => {
 })
 
 async function addPost(img, text) {
-    let docRef = await addDoc(collection(db, "posts"), {
-        description: `${text}`,
-        authorName: `${actualUserName}`,
-        authorEmail: `${actualUserEmail}`,
-        authorPhoto: `${actualUserPhoto}`,
-        timestamp: serverTimestamp(),
-        likedBy: []
-    });
-    let itemsImagesRef = ref(storage, `posts/${docRef.id}.jpg`);
-    let image = `${img}`;
-    uploadString(itemsImagesRef, image, 'data_url').then((snapshot) => {
-        loadingResource.style.opacity = "0";
-        addPostSection.style.opacity = "0"
-        loadPosts(actualUserEmail)
-        setTimeout(() => {
-            loadingResource.style.display = "none";
-            addPostSection.style.display = "none"
-        }, 200);
-    });
+    if (userAdmin == true) {
+        let docRef = await addDoc(collection(db, "posts"), {
+            description: `${text}`,
+            authorName: `${actualUserName}`,
+            authorEmail: `${actualUserEmail}`,
+            authorPhoto: `${actualUserPhoto}`,
+            timestamp: serverTimestamp(),
+            likedBy: [],
+            byAdmin: true
+        });
+        let itemsImagesRef = ref(storage, `posts/${docRef.id}.jpg`);
+        let image = `${img}`;
+        uploadString(itemsImagesRef, image, 'data_url').then((snapshot) => {
+            loadingResource.style.opacity = "0";
+            addPostSection.style.opacity = "0"
+            loadPosts(actualUserEmail)
+            setTimeout(() => {
+                loadingResource.style.display = "none";
+                addPostSection.style.display = "none"
+            }, 200);
+        });
+    } else {
+        let docRef = await addDoc(collection(db, "posts"), {
+            description: `${text}`,
+            authorName: `${actualUserName}`,
+            authorEmail: `${actualUserEmail}`,
+            authorPhoto: `${actualUserPhoto}`,
+            timestamp: serverTimestamp(),
+            likedBy: []
+        });
+        let itemsImagesRef = ref(storage, `posts/${docRef.id}.jpg`);
+        let image = `${img}`;
+        uploadString(itemsImagesRef, image, 'data_url').then((snapshot) => {
+            loadingResource.style.opacity = "0";
+            addPostSection.style.opacity = "0"
+            loadPosts(actualUserEmail)
+            setTimeout(() => {
+                loadingResource.style.display = "none";
+                addPostSection.style.display = "none"
+            }, 200);
+        });
+    }
 }
 
 

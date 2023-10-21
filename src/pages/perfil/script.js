@@ -79,6 +79,9 @@ onAuthStateChanged(auth, (user) => {
             perfilUsername.textContent = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
             perfilHaircuts.textContent = doc.data().hairCuts
+            if (doc.data().admin == true) {
+                perfilUsername.innerHTML = `${doc.data().userName}<i class="bi bi-patch-check-fill" style="color: dodgerblue; margin: 0px 0px 0px 8px;"></i>`
+            }
             if (doc.data().userPhoto == "assets/perfilImg.jpg") {
                 perfilImg.src = `assets/perfilImg.jpg`
             } else {

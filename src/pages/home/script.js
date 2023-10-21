@@ -86,7 +86,7 @@ async function loadPosts() {
                                     <div class="postCard__div--resetUserImg">
                                         <img src="${authorUrl}" class="postCard__userImg">
                                     </div>
-                                    <p class="postCard__userName">${doc.data().authorName}</p>
+                                    <p class="postCard__userName">${doc.data().byAdmin == true ? `${doc.data().authorName}<i class="bi bi-patch-check-fill" style="color: dodgerblue; margin: 0px 0px 0px 8px;"></i>` : `${doc.data().authorName}`}</p>
                                 </div>
                                 <img src="${url}" class="postCard__mainImg">
                             </div>

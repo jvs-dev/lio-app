@@ -92,9 +92,7 @@ function loginAccount(password, email) {
 function activeWelcome() {
     let welcomeSection = document.getElementById("welcomeSection")
     welcomeSection.style.display = "flex"
-    setTimeout(() => {
-        welcomeSection.style.opacity = "1"
-    }, 1);
+    welcomeSection.style.opacity = "1"
 }
 
 function activePages() {
@@ -103,6 +101,8 @@ function activePages() {
     let signinSection = document.getElementById("signinSection")
     let loginSection = document.getElementById("loginSection")
     loginSection.style.display = "none"
+    loginBtn.innerHTML = `Login`
+    loginBtn.classList.remove("loading")
     navBar.style.display = "flex"
     homeSection.style.display = "flex"
     signinSection.style.display = "none"
@@ -110,8 +110,10 @@ function activePages() {
 
 function desativeWelcome() {
     let welcomeSection = document.getElementById("welcomeSection")
+    welcomeSection.style.transition = "0.5s"
     welcomeSection.style.opacity = "0"
     setTimeout(() => {
         welcomeSection.style.display = "none"
+        welcomeSection.style.transition = ""
     }, 500);
 }

@@ -97,7 +97,7 @@ replaceUserPhoto.addEventListener('change', function () {
 });
 
 confirmReplaceData.addEventListener("click", () => {
-    if (replacePerfilImgPreview.src != "" && replaceUserName.value != "") {
+    if (replacePerfilImgPreview.src != "" && replaceUserName.value != "" && replacePerfilImgPreview.src != window.location.href) {
         loadingResource.style.display = "flex"
         setTimeout(() => {
             loadingResource.style.opacity = "0.8"
@@ -105,9 +105,17 @@ confirmReplaceData.addEventListener("click", () => {
         perfilImg.src = replacePerfilImgPreview.src
         if (replacePerfilImgPreview.src != "assets/perfilImg.jpg" && replacePerfilImgPreview.src != actualUserPhotoUrl) {
             replaceAll(replacePerfilImgPreview.src, replaceUserName.value)
+            let perfilImg = document.getElementById("perfilImg")
+            perfilImg.src = replacePerfilImgPreview.src
         } else {
             replaceName(replacePerfilImgPreview.src, replaceUserName.value)
         }
+    } else {
+        let alertReplace = document.getElementById("alertReplace")
+        alertReplace.style.display = "flex"
+        setTimeout(() => {
+            alertReplace.style.display = "none"
+        }, 7000);
     }
 })
 
