@@ -30,6 +30,9 @@ let actualUserCredits = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
 let userAdmin = false
+let userSelectedCuts = ""
+let userSelectedCutsValue = 0
+
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -45,9 +48,44 @@ onAuthStateChanged(auth, (user) => {
             }
         });
         loadAgendCards()
+        loadServicesToPay()
     }
 });
 
+async function loadServicesToPay() {
+    let paymentSectionServices = document.getElementById("paymentSectionServices")
+    paymentSectionServices.innerHTML = ""
+    let querySnapshot = await getDocs(collection(db, "service"));
+    querySnapshot.forEach((doc) => {
+        let article = document.createElement("article")
+        let selectThis = document.createElement("span")
+        paymentSectionServices.insertAdjacentElement("beforeend", article)
+        article.classList.add("serviceArticle")
+        article.innerHTML = `
+            <ul class="serviceArticle__ul">
+                ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
+                ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
+                ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
+            </ul>
+            <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
+        article.insertAdjacentElement("afterbegin", selectThis)
+        selectThis.classList.add("serviceArticle__selectThis")
+        selectThis.onclick = function () {
+            if (selectThis.classList.contains("active")) {
+                if (doc.data().ServiceValue != "A combinar") {
+                    userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+                }
+                selectThis.classList.remove("active")
+            } else {
+                if (doc.data().ServiceValue != "A combinar") {
+                    userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
+                }
+                selectThis.classList.add("active")
+            }
+        }
+    });
+
+}
 
 function loadAgendCards() {
     let i = 0
