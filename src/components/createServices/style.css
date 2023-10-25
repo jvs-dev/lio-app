@@ -1,0 +1,236 @@
+.agend__createServices {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    background: var(--dark-gray);
+    padding: 40px 40px 120px 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 0.2s;
+}
+
+.createServices__h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--white);
+    font-weight: 400;
+    margin: 0px 0px 20px 0px;
+}
+
+.createServices__cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.createServices__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    aspect-ratio: 1/1;
+    background: var(--primary-color);
+    border: 0px;
+    outline-width: 0px;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 20px;
+    border-radius: 100%;
+    position: fixed;
+}
+
+#goCreateService {
+    bottom: 0;
+    right: 0;
+    margin: 0px 40px 40px 0px;
+}
+
+#closeCreateServices {
+    bottom: 0;
+    left: 0;
+    margin: 0px 0px 40px 40px;
+}
+
+.createServices__form {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    background: var(--dark-gray);
+    padding: 40px 40px 120px 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 0.2s;
+}
+
+.createServices__form__close {
+    color: var(--white);
+    background: var(--primary-color);
+    border-radius: 100%;
+    outline-width: 0px;
+    border: 0px;
+    font-size: 26px;
+    cursor: pointer;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    aspect-ratio: 1/1;
+    left: 0;
+    bottom: 0;
+    margin: 0px 0px 40px 40px;
+}
+
+.createServices__form__h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--white);
+    font-weight: 400;
+    margin: 40px 0px 20px 0px;
+}
+
+.createServices__form__input {
+    color: var(--white);
+    border-radius: 20px;
+    border: solid 1px var(--white);
+    background: transparent;
+    outline-width: 0px;
+    font-size: 18px;
+    padding: 5px 15px;
+    width: 100%;
+    max-width: 250px;
+    margin: 6px 0px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.createServices__form__input::placeholder {
+    opacity: 0.7;
+    font-family: 'Poppins', sans-serif;
+}
+
+.createServices__form__input:focus {
+    border: solid 1px var(--primary-color);
+}
+
+.createServices__form__p {
+    font-size: 18px;
+    margin: 8px 0px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    color: var(--white);
+}
+
+.createServices__form__p span {
+    height: 18px;
+    aspect-ratio: 1/1;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 100%;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+.createServices__form__p.active span {
+    background: transparent;
+    border: solid 1px var(--primary-color);
+}
+
+
+.createServices__form__p.active span::before {
+    content: '';
+    position: absolute;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+    height: 10px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+}
+.createServices__form__btn {
+    color: var(--white);
+    background: var(--primary-color);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 250px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    border: 0px;
+    outline-width: 0px;
+    padding: 5px 0px;
+    margin-top: 10px;
+}
+#alertCreateService {
+    display: none;
+    color: #FF4A4A;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    margin: 8px 0px 5px 0px;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+}
+
+.serviceArticle {
+    border: solid 1px var(--white);
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0px;
+}
+.serviceArticle__icon {
+    color: #FF4A4A;
+    font-size: 36px;
+}
+.serviceArticle__ul {
+    list-style: disc;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    padding: 0px;
+    margin: 0px 10px 0px 30px;
+    width: 100%;
+}
+.serviceArticle__ul li {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--white);
+}
+.serviceArticle__span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    white-space: nowrap;
+}

@@ -39,6 +39,7 @@ onAuthStateChanged(auth, (user) => {
             actualUserCredits = doc.data().credits
             actualUserName = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
+            userAdmin = false
             if (doc.data().admin == true) {
                 userAdmin = true
             }
@@ -116,6 +117,12 @@ async function verifyDate(dayName, hours, button) {
             button.addEventListener("click", (evt) => {
                 evt.stopPropagation()
             })
+            if (dayName == nomeDoDiaDaSemana) {
+                verifyRemoveAgend(dayName, hours, button)
+                button.addEventListener("click", (evt) => {
+                    evt.stopPropagation()
+                })
+            }
         } else {
             if (docSnap.data().closed == true) {
                 button.classList.add("closed")
@@ -384,6 +391,21 @@ async function verifyDate(dayName, hours, button) {
         }
     }
 
+}
+
+async function verifyRemoveAgend(dayName, hours, button) {
+    let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let dataAtual = new Date();
+    let horaAtual = dataAtual.getHours();
+    let minutosAtuais = dataAtual.getMinutes();
+    let horarioDeReferencia = `${hourFormated}`;
+    let partesHorario = horarioDeReferencia.split(":");
+    let horaDeReferencia = parseInt(partesHorario[0]);
+    let minutosDeReferencia = parseInt(partesHorario[1]);
+    if (horaAtual > horaDeReferencia || (horaAtual === horaDeReferencia && minutosAtuais > minutosDeReferencia)) {
+        let cityRef = doc(db, `${dayName}`, `${hourFormated}`);
+        setDoc(cityRef, { agended: false }, { vouncherID: "" });
+    }
 }
 
 async function openCloseData(dayName, hours, button) {

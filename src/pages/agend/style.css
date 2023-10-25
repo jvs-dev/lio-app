@@ -278,3 +278,24 @@
     text-align: center;
     display: none;
 }
+.agendHeader__btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    background: transparent;
+    border: 0px;
+    outline-width: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+.agendHeader__btn ion-icon {
+    margin-right: 5px;
+    margin-bottom: 2px;
+    rotate: -45deg;
+    padding: 0px;
+}

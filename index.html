@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="src/components/editDataSection/style.css">
   <link rel="stylesheet" href="src/components/loadingResorceWindow/style.css">
   <link rel="stylesheet" href="src/components/viewPostSection/style.css">
+  <link rel="stylesheet" href="src/components/createServices/style.css">
 </head>
 
 <body>
@@ -189,7 +190,8 @@
           <ion-icon name="person-outline" class="login__icon"></ion-icon>
           <input type="text" placeholder="Nome de usuário" class="login__input" id="replaceUserName">
         </div>
-        <p class="editDataSection__alertReplace" id="alertReplace">Escolha uma foto e digite seu usuário para continuar</p>
+        <p class="editDataSection__alertReplace" id="alertReplace">Escolha uma foto e digite seu usuário para continuar
+        </p>
         <button class="editDataSection__btn--2" id="confirmReplaceData">Salvar</button>
         <button class="editDataSection__btn--2 btn--cancel" id="cancelReplaceData">Cancelar</button>
       </div>
@@ -263,20 +265,39 @@
 
     <div class="agend__animatedCheckPayment" id="animatedCheckPayment">
       <h2 class="animatedCheckPayment__h2">Agendamento solicitado com sucesso</h2>
-      <lord-icon class="animatedCheckPayment__icon" src="https://cdn.lordicon.com/oqdmuxru.json" trigger="" state="in-check" colors="primary:#d79a3a"
-        style="width:40vw;height:40vw">
+      <lord-icon class="animatedCheckPayment__icon" src="https://cdn.lordicon.com/oqdmuxru.json" trigger=""
+        state="in-check" colors="primary:#d79a3a" style="width:40vw;height:40vw">
       </lord-icon>
       <p class="animatedCheckPayment__p">Você receberá seu ticket em breve. fique ligado!</p>
       <span class="animatedCheckPayment__span">Toque em qualquer lugar para fechar</span>
     </div>
 
 
-
+    <div class="agend__createServices" id="createServices">
+      <form class="createServices__form" id="createServicesForm">
+        <h2 class="createServices__form__h2">Criar Serviço</h2>
+        <input type="number" placeholder="Valor" class="createServices__form__input" id="ServiceValue">
+        <p class="createServices__form__p" id="combineServiceVale"><span></span>A combinar</p>
+        <input type="text" placeholder="Serviço" class="createServices__form__input" id="Service1">
+        <input type="text" placeholder="Serviço 2 (opcional)" class="createServices__form__input" id="Service2">
+        <input type="text" placeholder="Serviço 3 (opcional)" class="createServices__form__input" id="Service3">
+        <p id="alertCreateService">Preencha o valor e um serviço</p>
+        <button type="button" class="createServices__form__btn" id="confirmCreateService">Criar</button>
+        <button type="button" class="createServices__form__close" id="closeCreateServicesForm"><ion-icon name="return-up-back-outline"></ion-icon></button>
+      </form>
+      <h2 class="createServices__h2">Serviços e combos</h2>
+      <div class="createServices__cards" id="createServicesSection">
+        
+      </div>
+      <button class="createServices__btn" id="closeCreateServices" type="button"><ion-icon name="arrow-back-outline"></ion-icon></button>
+      <button class="createServices__btn" id="goCreateService" type="button"><ion-icon name="add-outline"></ion-icon></button>
+    </div>
 
 
     <section class="main__section main__agend" id="agendSection">
       <header class="section__header">
         <p>Lio Hairstyle</p>
+        <ion-icon name="cut-outline"></ion-icon>
       </header>
       <h2 class="agend__h2">Hórarios Disponiveis<br><span class="agend__h2__span">Em uma semana</span></h2>
       <div class="agend__cardsDiv" id="agendCardsSection">
@@ -319,6 +340,8 @@
   <script type="module" src="src/components/editDataSection/script.js"></script>
   <script type="module" src="src/pages/home/script.js"></script>
   <script type="module" src="src/components/viewPostSection/script.js"></script>
+  <script type="module" src="src/components/header/script.js"></script>
+  <script type="module" src="src/components/createServices/script.js"></script>
 
   <script type="module" src="src/script/getUserInfo.js"></script>
   <script type="module" src="src/script/authVerifier.js"></script>
