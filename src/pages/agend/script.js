@@ -76,14 +76,48 @@ async function loadServicesToPay() {
                     userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                 }
                 selectThis.classList.remove("active")
+                article.style.borderColor = ""
             } else {
                 if (doc.data().ServiceValue != "A combinar") {
                     userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                 }
                 selectThis.classList.add("active")
+                article.style.borderColor = "var(--primary-color)"
             }
         }
     });
+    /* let querySnapshot2 = await getDocs(collection(db, "serviceCombo"));
+    querySnapshot2.forEach((doc) => {
+        let article = document.createElement("article")
+        let selectThis = document.createElement("span")
+        paymentSectionServices.insertAdjacentElement("beforeend", article)
+        article.classList.add("serviceArticle")
+        article.innerHTML = `
+            <ul class="serviceArticle__ul">
+                ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
+                ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
+                ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
+            </ul>
+            <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
+        article.insertAdjacentElement("afterbegin", selectThis)
+        selectThis.classList.add("serviceArticle__selectThis")
+        selectThis.onclick = function () {
+            if (selectThis.classList.contains("active")) {
+                if (doc.data().ServiceValue != "A combinar") {
+                    userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+                }
+                selectThis.classList.remove("active")
+                article.style.borderColor = ""
+            } else {
+                if (doc.data().ServiceValue != "A combinar") {
+                    userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
+                }
+                selectThis.classList.add("active")
+                article.style.borderColor = "var(--primary-color)"
+                console.log(userSelectedCutsValue);
+            }
+        }
+    }); */
 
 }
 

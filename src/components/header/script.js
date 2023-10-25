@@ -34,6 +34,9 @@ onAuthStateChanged(auth, (user) => {
             actualUserName = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
             userAdmin = false
+            agendHeader.innerHTML = `
+                    <p>Lio Hairstyle</p>
+                `
             if (doc.data().admin == true) {
                 userAdmin = true
                 agendHeader.innerHTML = `
