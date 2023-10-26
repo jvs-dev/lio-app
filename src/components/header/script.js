@@ -111,36 +111,23 @@ onAuthStateChanged(auth, (user) => {
 });
 
 async function createNewService() {
-    let confirmCreateService = document.getElementById("confirmCreateService")
-    let loadingResource = document.getElementById("loadingResource")
-    let createServicesForm = document.getElementById("createServicesForm")
-    loadingResource.style.display = "flex"
-    loadingResource.style.opacity = "0.7"
-    confirmCreateService.style.pointerEvents = "none"
-    let ServiceValue = document.getElementById("ServiceValue").value
-    let Service1 = document.getElementById("Service1").value
-    let Service2 = document.getElementById("Service2").value
-    let Service3 = document.getElementById("Service3").value
-    if (ServiceValue != "" && Service1 != "" && Service2 != "" && Service3 != "") {
-        let docRef1 = await addDoc(collection(db, "serviceCombo"), {
-            ServiceValue: ServiceValue,
-            Service1: Service1,
-            Service2: Service2,
-            Service3: Service3
-        });
-        confirmCreateService.style.pointerEvents = ""
-        createServicesForm.style.opacity = "0"
-        createServicesForm.style.display = "none"
-        loadingResource.style.display = "none"
-        loadingResource.style.opacity = "0"
-        clearInputs()
-        loadServices()
-    } else {
-        if (ServiceValue != "" && Service1 != "" && Service2 != "") {
-            let docRef2 = await addDoc(collection(db, "serviceCombo"), {
+    if (userAdmin == true) {
+        let confirmCreateService = document.getElementById("confirmCreateService")
+        let loadingResource = document.getElementById("loadingResource")
+        let createServicesForm = document.getElementById("createServicesForm")
+        loadingResource.style.display = "flex"
+        loadingResource.style.opacity = "0.7"
+        confirmCreateService.style.pointerEvents = "none"
+        let ServiceValue = document.getElementById("ServiceValue").value
+        let Service1 = document.getElementById("Service1").value
+        let Service2 = document.getElementById("Service2").value
+        let Service3 = document.getElementById("Service3").value
+        if (ServiceValue != "" && Service1 != "" && Service2 != "" && Service3 != "") {
+            let docRef1 = await addDoc(collection(db, "serviceCombo"), {
                 ServiceValue: ServiceValue,
                 Service1: Service1,
-                Service2: Service2
+                Service2: Service2,
+                Service3: Service3
             });
             confirmCreateService.style.pointerEvents = ""
             createServicesForm.style.opacity = "0"
@@ -150,10 +137,11 @@ async function createNewService() {
             clearInputs()
             loadServices()
         } else {
-            if (ServiceValue != "" && Service1 != "") {
-                let docRef3 = await addDoc(collection(db, "service"), {
+            if (ServiceValue != "" && Service1 != "" && Service2 != "") {
+                let docRef2 = await addDoc(collection(db, "serviceCombo"), {
                     ServiceValue: ServiceValue,
-                    Service1: Service1
+                    Service1: Service1,
+                    Service2: Service2
                 });
                 confirmCreateService.style.pointerEvents = ""
                 createServicesForm.style.opacity = "0"
@@ -162,6 +150,20 @@ async function createNewService() {
                 loadingResource.style.opacity = "0"
                 clearInputs()
                 loadServices()
+            } else {
+                if (ServiceValue != "" && Service1 != "") {
+                    let docRef3 = await addDoc(collection(db, "service"), {
+                        ServiceValue: ServiceValue,
+                        Service1: Service1
+                    });
+                    confirmCreateService.style.pointerEvents = ""
+                    createServicesForm.style.opacity = "0"
+                    createServicesForm.style.display = "none"
+                    loadingResource.style.display = "none"
+                    loadingResource.style.opacity = "0"
+                    clearInputs()
+                    loadServices()
+                }
             }
         }
     }
@@ -175,49 +177,53 @@ function clearInputs() {
 }
 
 async function loadServices() {
-    let createServicesSection = document.getElementById("createServicesSection")
-    createServicesSection.innerHTML = ""
-    let querySnapshot = await getDocs(collection(db, "service"));
-    querySnapshot.forEach((doc) => {
-        let article = document.createElement("article")
-        let deletServiceBtn = document.createElement("ion-icon")
-        createServicesSection.insertAdjacentElement("beforeend", article)
-        article.classList.add("serviceArticle")
-        article.innerHTML = `
+    if (userAdmin == true) {
+        let createServicesSection = document.getElementById("createServicesSection")
+        createServicesSection.innerHTML = ""
+        let querySnapshot = await getDocs(collection(db, "service"));
+        querySnapshot.forEach((doc) => {
+            let article = document.createElement("article")
+            let deletServiceBtn = document.createElement("ion-icon")
+            createServicesSection.insertAdjacentElement("beforeend", article)
+            article.classList.add("serviceArticle")
+            article.innerHTML = `
             <ul class="serviceArticle__ul">
                 ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
             </ul>
             <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
-        article.insertAdjacentElement("afterbegin", deletServiceBtn)
-        deletServiceBtn.name = "trash-outline"
-        deletServiceBtn.classList.add("serviceArticle__icon")
-        deletServiceBtn.onclick = function () {
-            deletService("service", doc.id)
-        }
-    });
-    let querySnapshot2 = await getDocs(collection(db, "serviceCombo"));
-    querySnapshot2.forEach((doc) => {
-        let article = document.createElement("article")
-        let deletServiceBtn = document.createElement("ion-icon")
-        createServicesSection.insertAdjacentElement("beforeend", article)
-        article.classList.add("serviceArticle")
-        article.innerHTML = `
+            article.insertAdjacentElement("afterbegin", deletServiceBtn)
+            deletServiceBtn.name = "trash-outline"
+            deletServiceBtn.classList.add("serviceArticle__icon")
+            deletServiceBtn.onclick = function () {
+                deletService("service", doc.id)
+            }
+        });
+        let querySnapshot2 = await getDocs(collection(db, "serviceCombo"));
+        querySnapshot2.forEach((doc) => {
+            let article = document.createElement("article")
+            let deletServiceBtn = document.createElement("ion-icon")
+            createServicesSection.insertAdjacentElement("beforeend", article)
+            article.classList.add("serviceArticle")
+            article.innerHTML = `
             <ul class="serviceArticle__ul">
                 ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
                 ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
                 ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
             </ul>
             <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
-        article.insertAdjacentElement("afterbegin", deletServiceBtn)
-        deletServiceBtn.name = "trash-outline"
-        deletServiceBtn.classList.add("serviceArticle__icon")
-        deletServiceBtn.onclick = function () {
-            deletService("serviceCombo", doc.id)
-        }
-    });
+            article.insertAdjacentElement("afterbegin", deletServiceBtn)
+            deletServiceBtn.name = "trash-outline"
+            deletServiceBtn.classList.add("serviceArticle__icon")
+            deletServiceBtn.onclick = function () {
+                deletService("serviceCombo", doc.id)
+            }
+        });
+    }
 }
 
 async function deletService(serviceType, id) {
-    await deleteDoc(doc(db, `${serviceType}`, `${id}`));
-    loadServices()
+    if (userAdmin == true) {
+        await deleteDoc(doc(db, `${serviceType}`, `${id}`));
+        loadServices()
+    }
 }

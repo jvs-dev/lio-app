@@ -229,13 +229,17 @@
       <section class="agend__paymentSection" id="paymentSection">
         <ion-icon name="close-outline" class="paymentSection__close" id="closePaymentSection"></ion-icon>
         <h2 class="paymentSection__h2">Checkout<br><span>Sábado ás 09:00</span></h2>
+        <select name="comboSelect" id="comboSelect" class="paymentSection__select">
+          <option value="service">Serviços</option>
+          <option value="serviceCombo">Combos</option>
+        </select>
         <div id="paymentSectionServices">
           
         </div>
         <div class="paymentSection__dashed"></div>
         <article class="paymentSection__total">
           <p class="paymentSection__total__p">Total</p>
-          <span class="paymentSection__total__span"><span>$40.00</span>$30.00</span>
+          <span class="paymentSection__total__span"><span></span></span>
         </article>
         <p class="paymentSection__pixKey">Envie para esta chave pix:<br>71987986035</p>
         <label for="paymentVoucherInput" class="paymentSection__paymentVoucher">
@@ -245,7 +249,7 @@
               trigger="hover" colors="primary:#252525" style="width:40px;height:40px">
             </lord-icon></p>
         </label>
-        <p class="paymentSection__alertVouncher" id="alertVouncher">Anexe o comprovante para continuar</p>
+        <p class="paymentSection__alertVouncher" id="alertVouncher">Anexe o comprovante e escolha um serviço</p>
         <button class="paymentSection__confirmPay" id="confirmPayment">Solicitar agendamento</button>
       </section>
     </div>

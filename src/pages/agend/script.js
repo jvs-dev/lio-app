@@ -32,6 +32,22 @@ let actualUserHairCuts = ""
 let userAdmin = false
 let userSelectedCuts = ""
 let userSelectedCutsValue = 0
+let comboSelect = document.getElementById("comboSelect")
+let quantyCutsSelecteds = 0
+
+setInterval(() => {
+    let paymentSection_paymentVoucher = document.querySelector(".paymentSection__paymentVoucher")
+    let paymentSection_pixKey = document.querySelector(".paymentSection__pixKey")
+    let paymentSection_total_span = document.querySelector(".paymentSection__total__span")
+    paymentSection_total_span.innerHTML = `$${Number(userSelectedCutsValue) > 0 ? userSelectedCutsValue : `0.0`}`
+    if (userSelectedCutsValue > 0) {
+        paymentSection_paymentVoucher.style.display = ""
+        paymentSection_pixKey.style.display = ""
+    } else {
+        paymentSection_paymentVoucher.style.display = "none"
+        paymentSection_pixKey.style.display = "none"
+    }
+}, 1000);
 
 
 onAuthStateChanged(auth, (user) => {
@@ -47,78 +63,99 @@ onAuthStateChanged(auth, (user) => {
                 userAdmin = true
             }
         });
+        comboSelect.oninput = function () {
+            userSelectedCutsValue = 0
+            quantyCutsSelecteds = 0
+            loadServicesToPay()
+        }
         loadAgendCards()
         loadServicesToPay()
     }
 });
 
 async function loadServicesToPay() {
-    let paymentSectionServices = document.getElementById("paymentSectionServices")
-    paymentSectionServices.innerHTML = ""
-    let querySnapshot = await getDocs(collection(db, "service"));
-    querySnapshot.forEach((doc) => {
-        let article = document.createElement("article")
-        let selectThis = document.createElement("span")
-        paymentSectionServices.insertAdjacentElement("beforeend", article)
-        article.classList.add("serviceArticle")
-        article.innerHTML = `
-            <ul class="serviceArticle__ul">
-                ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
-                ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
-                ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
-            </ul>
-            <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
-        article.insertAdjacentElement("afterbegin", selectThis)
-        selectThis.classList.add("serviceArticle__selectThis")
-        selectThis.onclick = function () {
-            if (selectThis.classList.contains("active")) {
-                if (doc.data().ServiceValue != "A combinar") {
-                    userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+    if (comboSelect.value == "service") {
+        let paymentSectionServices = document.getElementById("paymentSectionServices")
+        paymentSectionServices.innerHTML = ""
+        let querySnapshot = await getDocs(collection(db, "service"));
+        querySnapshot.forEach((doc) => {
+            let article = document.createElement("article")
+            let selectThis = document.createElement("span")
+            paymentSectionServices.insertAdjacentElement("beforeend", article)
+            article.classList.add("serviceArticle")
+            article.innerHTML = `
+                <ul class="serviceArticle__ul">
+                    ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
+                    ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
+                    ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
+                </ul>
+                <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
+            article.insertAdjacentElement("afterbegin", selectThis)
+            selectThis.classList.add("serviceArticle__selectThis")
+            selectThis.onclick = function () {
+                if (selectThis.classList.contains("active")) {
+                    if (doc.data().ServiceValue != "A combinar") {
+                        userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+                    }
+                    selectThis.classList.remove("active")
+                    quantyCutsSelecteds = quantyCutsSelecteds - 1
+                    article.style.borderColor = ""
+                    let paymentSection_total_span = document.querySelector(".paymentSection__total__span")
+                    paymentSection_total_span.innerHTML = `$${Number(userSelectedCutsValue) > 0 ? userSelectedCutsValue : `0.0`}`
+                } else {
+                    if (doc.data().ServiceValue != "A combinar") {
+                        userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
+                    }
+                    selectThis.classList.add("active")
+                    quantyCutsSelecteds = quantyCutsSelecteds + 1
+                    article.style.borderColor = "var(--primary-color)"
+                    let paymentSection_total_span = document.querySelector(".paymentSection__total__span")
+                    paymentSection_total_span.innerHTML = `$${Number(userSelectedCutsValue) > 0 ? userSelectedCutsValue : `0.0`}`
                 }
-                selectThis.classList.remove("active")
-                article.style.borderColor = ""
-            } else {
-                if (doc.data().ServiceValue != "A combinar") {
-                    userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
-                }
-                selectThis.classList.add("active")
-                article.style.borderColor = "var(--primary-color)"
             }
-        }
-    });
-    /* let querySnapshot2 = await getDocs(collection(db, "serviceCombo"));
-    querySnapshot2.forEach((doc) => {
-        let article = document.createElement("article")
-        let selectThis = document.createElement("span")
-        paymentSectionServices.insertAdjacentElement("beforeend", article)
-        article.classList.add("serviceArticle")
-        article.innerHTML = `
-            <ul class="serviceArticle__ul">
-                ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
-                ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
-                ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
-            </ul>
-            <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
-        article.insertAdjacentElement("afterbegin", selectThis)
-        selectThis.classList.add("serviceArticle__selectThis")
-        selectThis.onclick = function () {
-            if (selectThis.classList.contains("active")) {
-                if (doc.data().ServiceValue != "A combinar") {
-                    userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+        });
+    }
+    if (comboSelect.value == "serviceCombo") {
+        let paymentSectionServices = document.getElementById("paymentSectionServices")
+        paymentSectionServices.innerHTML = ""
+        let querySnapshot2 = await getDocs(collection(db, "serviceCombo"));
+        querySnapshot2.forEach((doc) => {
+            let article = document.createElement("article")
+            let selectThis = document.createElement("span")
+            paymentSectionServices.insertAdjacentElement("beforeend", article)
+            article.classList.add("serviceArticle")
+            article.innerHTML = `
+                <ul class="serviceArticle__ul">
+                    ${doc.data().Service1 != undefined ? `<li>${doc.data().Service1}</li>` : ``}
+                    ${doc.data().Service2 != undefined ? `<li>${doc.data().Service2}</li>` : ``}
+                    ${doc.data().Service3 != undefined ? `<li>${doc.data().Service3}</li>` : ``}
+                </ul>
+                <span class="serviceArticle__span">${doc.data().ServiceValue != "A combinar" ? `$${doc.data().ServiceValue}` : "A combinar"}</span>`
+            article.insertAdjacentElement("afterbegin", selectThis)
+            selectThis.classList.add("serviceArticle__selectThis")
+            selectThis.onclick = function () {
+                if (selectThis.classList.contains("active")) {
+                    if (doc.data().ServiceValue != "A combinar") {
+                        userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
+                    }
+                    selectThis.classList.remove("active")
+                    quantyCutsSelecteds = quantyCutsSelecteds - 1
+                    article.style.borderColor = ""
+                    let paymentSection_total_span = document.querySelector(".paymentSection__total__span")
+                    paymentSection_total_span.innerHTML = `$${Number(userSelectedCutsValue) > 0 ? userSelectedCutsValue : `0.0`}`
+                } else {
+                    if (doc.data().ServiceValue != "A combinar") {
+                        userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
+                    }
+                    selectThis.classList.add("active")
+                    quantyCutsSelecteds = quantyCutsSelecteds + 1
+                    article.style.borderColor = "var(--primary-color)"
+                    let paymentSection_total_span = document.querySelector(".paymentSection__total__span")
+                    paymentSection_total_span.innerHTML = `$${Number(userSelectedCutsValue) > 0 ? userSelectedCutsValue : `0.0`}`
                 }
-                selectThis.classList.remove("active")
-                article.style.borderColor = ""
-            } else {
-                if (doc.data().ServiceValue != "A combinar") {
-                    userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
-                }
-                selectThis.classList.add("active")
-                article.style.borderColor = "var(--primary-color)"
-                console.log(userSelectedCutsValue);
             }
-        }
-    }); */
-
+        });
+    }
 }
 
 function loadAgendCards() {
@@ -225,16 +262,20 @@ async function verifyDate(dayName, hours, button) {
                         setTimeout(() => {
                             paymentDiv.style.opacity = "1"
                             setTimeout(() => {
-                                paymentSection.style.transform = "translateY(0%)"
+                                paymentSection.style.transform = "translateY(22%)"
                                 setTimeout(() => {
                                     paymentDiv.style.overflowY = "auto"
                                     let confirmPayment = document.getElementById("confirmPayment")
                                     confirmPayment.onclick = function () {
-                                        let alertVouncher = document.getElementById("alertVouncher")
-                                        alertVouncher.style.display = "flex"
-                                        setTimeout(() => {
-                                            alertVouncher.style.display = "none"
-                                        }, 7000);
+                                        if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                            requestAgend(dayName, hours, "")
+                                        } else {
+                                            let alertVouncher = document.getElementById("alertVouncher")
+                                            alertVouncher.style.display = "flex"
+                                            setTimeout(() => {
+                                                alertVouncher.style.display = "none"
+                                            }, 7000);
+                                        }
                                     }
                                     document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
                                         let file = event.target.files[0];
@@ -259,13 +300,25 @@ async function verifyDate(dayName, hours, button) {
                                                         img.src = canvas.toDataURL('image/jpeg');
                                                         confirmPayment.onclick = function () {
                                                             if (img.src != "") {
-                                                                scheduling(dayName, hours, img.src)
+                                                                if (Number(userSelectedCutsValue) > 0) {
+                                                                    requestAgend(dayName, hours, img.src)
+                                                                } else {
+                                                                    let alertVouncher = document.getElementById("alertVouncher")
+                                                                    alertVouncher.style.display = "flex"
+                                                                    setTimeout(() => {
+                                                                        alertVouncher.style.display = "none"
+                                                                    }, 7000);
+                                                                }
                                                             } else {
-                                                                let alertVouncher = document.getElementById("alertVouncher")
-                                                                alertVouncher.style.display = "flex"
-                                                                setTimeout(() => {
-                                                                    alertVouncher.style.display = "none"
-                                                                }, 7000);
+                                                                if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                                    requestAgend(dayName, hours, "")
+                                                                } else {
+                                                                    let alertVouncher = document.getElementById("alertVouncher")
+                                                                    alertVouncher.style.display = "flex"
+                                                                    setTimeout(() => {
+                                                                        alertVouncher.style.display = "none"
+                                                                    }, 7000);
+                                                                }
                                                             }
                                                         }
                                                     });
@@ -277,13 +330,25 @@ async function verifyDate(dayName, hours, button) {
                                                 confirmPayment.onclick = function () {
                                                     let paymentVoucherImg = document.getElementById('paymentVoucherImg');
                                                     if (paymentVoucherImg.src != "") {
-                                                        scheduling(dayName, hours, paymentVoucherImg.src)
+                                                        if (Number(userSelectedCutsValue) > 0) {
+                                                            requestAgend(dayName, hours, paymentVoucherImg.src)
+                                                        } else {
+                                                            let alertVouncher = document.getElementById("alertVouncher")
+                                                            alertVouncher.style.display = "flex"
+                                                            setTimeout(() => {
+                                                                alertVouncher.style.display = "none"
+                                                            }, 7000);
+                                                        }
                                                     } else {
-                                                        let alertVouncher = document.getElementById("alertVouncher")
-                                                        alertVouncher.style.display = "flex"
-                                                        setTimeout(() => {
-                                                            alertVouncher.style.display = "none"
-                                                        }, 7000);
+                                                        if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                            requestAgend(dayName, hours, "")
+                                                        } else {
+                                                            let alertVouncher = document.getElementById("alertVouncher")
+                                                            alertVouncher.style.display = "flex"
+                                                            setTimeout(() => {
+                                                                alertVouncher.style.display = "none"
+                                                            }, 7000);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -354,16 +419,20 @@ async function verifyDate(dayName, hours, button) {
                 setTimeout(() => {
                     paymentDiv.style.opacity = "1"
                     setTimeout(() => {
-                        paymentSection.style.transform = "translateY(0%)"
+                        paymentSection.style.transform = "translateY(22%)"
                         setTimeout(() => {
                             paymentDiv.style.overflowY = "auto"
                             let confirmPayment = document.getElementById("confirmPayment")
                             confirmPayment.onclick = function () {
-                                let alertVouncher = document.getElementById("alertVouncher")
-                                alertVouncher.style.display = "flex"
-                                setTimeout(() => {
-                                    alertVouncher.style.display = "none"
-                                }, 7000);
+                                if (Number(userSelectedCutsValue) == 0 && Number(userSelectedCutsValue) > 0) {
+                                    requestAgend(dayName, hours, "")
+                                } else {
+                                    let alertVouncher = document.getElementById("alertVouncher")
+                                    alertVouncher.style.display = "flex"
+                                    setTimeout(() => {
+                                        alertVouncher.style.display = "none"
+                                    }, 7000);
+                                }
                             }
                             document.getElementById('paymentVoucherInput').addEventListener('change', function (event) {
                                 let file = event.target.files[0];
@@ -388,13 +457,25 @@ async function verifyDate(dayName, hours, button) {
                                                 img.src = canvas.toDataURL('image/jpeg');
                                                 confirmPayment.onclick = function () {
                                                     if (img.src != "") {
-                                                        scheduling(dayName, hours, img.src)
+                                                        if (Number(userSelectedCutsValue) > 0) {
+                                                            requestAgend(dayName, hours, img.src)
+                                                        } else {
+                                                            let alertVouncher = document.getElementById("alertVouncher")
+                                                            alertVouncher.style.display = "flex"
+                                                            setTimeout(() => {
+                                                                alertVouncher.style.display = "none"
+                                                            }, 7000);
+                                                        }
                                                     } else {
-                                                        let alertVouncher = document.getElementById("alertVouncher")
-                                                        alertVouncher.style.display = "flex"
-                                                        setTimeout(() => {
-                                                            alertVouncher.style.display = "none"
-                                                        }, 7000);
+                                                        if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                            requestAgend(dayName, hours, "")
+                                                        } else {
+                                                            let alertVouncher = document.getElementById("alertVouncher")
+                                                            alertVouncher.style.display = "flex"
+                                                            setTimeout(() => {
+                                                                alertVouncher.style.display = "none"
+                                                            }, 7000);
+                                                        }
                                                     }
                                                 }
                                             });
@@ -405,14 +486,18 @@ async function verifyDate(dayName, hours, button) {
                                         reader.readAsDataURL(file);
                                         confirmPayment.onclick = function () {
                                             let paymentVoucherImg = document.getElementById('paymentVoucherImg');
-                                            if (paymentVoucherImg.src != "") {
-                                                scheduling(dayName, hours, paymentVoucherImg.src)
+                                            if (paymentVoucherImg.src != "" && Number(userSelectedCutsValue) > 0) {
+                                                requestAgend(dayName, hours, paymentVoucherImg.src)
                                             } else {
-                                                let alertVouncher = document.getElementById("alertVouncher")
-                                                alertVouncher.style.display = "flex"
-                                                setTimeout(() => {
-                                                    alertVouncher.style.display = "none"
-                                                }, 7000);
+                                                if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                    requestAgend(dayName, hours, "")
+                                                } else {
+                                                    let alertVouncher = document.getElementById("alertVouncher")
+                                                    alertVouncher.style.display = "flex"
+                                                    setTimeout(() => {
+                                                        alertVouncher.style.display = "none"
+                                                    }, 7000);
+                                                }
                                             }
                                         }
                                     }
@@ -525,7 +610,7 @@ async function requestAgend(dayName, hours, vouncher) {
         vouncherID: `${dayName}-${formatHours}`,
         userName: actualUserName,
         userEmail: actualUserEmail,
-        value: 0//inserir valor dos cortes
+        value: Number(userSelectedCutsValue)
     });
     animatedConfirmPay()
 }
@@ -534,7 +619,7 @@ async function requestAgend(dayName, hours, vouncher) {
     let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     await setDoc(doc(db, `${dayName}`, `${formatHours}`), {
         agended: true,
-        
+
     });
     animatedConfirmPay()
 } */
