@@ -1,6 +1,7 @@
 let goPerfil = document.getElementById("goPerfil")
 let goHome = document.getElementById("goHome")
 let goAgend = document.getElementById("goAgend")
+let goNotifier = document.getElementById("goNotifier")
 let navBar_div = document.querySelectorAll(".navBar__div")
 let navBar = document.getElementById("navBar")
 
@@ -34,4 +35,9 @@ goHome.addEventListener("click", ()=> {
 goAgend.addEventListener("click", ()=> {
     desativePages(document.getElementById("agendSection"))
     navBar.style.background="var(--dark-gray)"
+})
+
+goNotifier.addEventListener("click", ()=> {
+    desativePages(document.getElementById("notificationSection"))
+    navBar.style.background="var(--light-gray)"
 })
