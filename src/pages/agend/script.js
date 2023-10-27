@@ -98,7 +98,7 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
-                    userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                    
+                    userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
                     selectThis.classList.remove("active")
                     quantyCutsSelecteds = quantyCutsSelecteds - 1
                     article.style.borderColor = ""
@@ -108,7 +108,7 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                     }
-                    userSelectedCuts.push(`${doc.data().Service1}`)                    
+                    userSelectedCuts.push(`${doc.data().Service1}`)
                     selectThis.classList.add("active")
                     quantyCutsSelecteds = quantyCutsSelecteds + 1
                     article.style.borderColor = "var(--primary-color)"
@@ -142,13 +142,13 @@ async function loadServicesToPay() {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
                     if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
-                        userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                        
+                        userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
                     } else {
                         if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
-                            userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                            
+                            userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
                         } else {
                             if (doc.data().Service1 != undefined) {
-                                userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                                
+                                userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
                             }
                         }
                     }
@@ -162,13 +162,13 @@ async function loadServicesToPay() {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                     }
                     if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
-                        userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}/${doc.data().Service3}`)                        
+                        userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}/${doc.data().Service3}`)
                     } else {
                         if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
-                            userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}`)                            
+                            userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}`)
                         } else {
                             if (doc.data().Service1 != undefined) {
-                                userSelectedCuts.push(`${doc.data().Service1}`)                                
+                                userSelectedCuts.push(`${doc.data().Service1}`)
                             }
                         }
                     }
@@ -641,7 +641,8 @@ async function requestAgend(dayName, hours, vouncher) {
             vouncherID: `${dayName}-${formatHours}`,
             userName: actualUserName,
             userEmail: actualUserEmail,
-            value: "A combinar"
+            value: "A combinar",
+            services: userSelectedCuts
         });
     } else {
         let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
@@ -651,7 +652,8 @@ async function requestAgend(dayName, hours, vouncher) {
             vouncherID: `${dayName}-${formatHours}`,
             userName: actualUserName,
             userEmail: actualUserEmail,
-            value: Number(userSelectedCutsValue)
+            value: Number(userSelectedCutsValue),
+            services: userSelectedCuts
         });
     }
     animatedConfirmPay()
