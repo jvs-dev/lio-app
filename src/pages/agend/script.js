@@ -30,7 +30,7 @@ let actualUserCredits = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
 let userAdmin = false
-let userSelectedCuts = ""
+let userSelectedCuts = []
 let userSelectedCutsValue = 0
 let comboSelect = document.getElementById("comboSelect")
 let quantyCutsSelecteds = 0
@@ -66,6 +66,7 @@ onAuthStateChanged(auth, (user) => {
         comboSelect.oninput = function () {
             userSelectedCutsValue = 0
             quantyCutsSelecteds = 0
+            userSelectedCuts = []
             loadServicesToPay()
         }
         loadAgendCards()
@@ -97,6 +98,8 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
+                    userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
+                    console.log(userSelectedCuts);
                     selectThis.classList.remove("active")
                     quantyCutsSelecteds = quantyCutsSelecteds - 1
                     article.style.borderColor = ""
@@ -106,6 +109,8 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                     }
+                    userSelectedCuts.push(`${doc.data().Service1}`)
+                    console.log(userSelectedCuts);
                     selectThis.classList.add("active")
                     quantyCutsSelecteds = quantyCutsSelecteds + 1
                     article.style.borderColor = "var(--primary-color)"
@@ -138,6 +143,20 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
+                    if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
+                        userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
+                        console.log(userSelectedCuts);
+                    } else {
+                        if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
+                            userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
+                            console.log(userSelectedCuts);
+                        } else {
+                            if (doc.data().Service1 != undefined) {
+                                userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
+                                console.log(userSelectedCuts);
+                            }
+                        }
+                    }
                     selectThis.classList.remove("active")
                     quantyCutsSelecteds = quantyCutsSelecteds - 1
                     article.style.borderColor = ""
@@ -146,6 +165,20 @@ async function loadServicesToPay() {
                 } else {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
+                    }
+                    if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
+                        userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}/${doc.data().Service3}`)
+                        console.log(userSelectedCuts);
+                    } else {
+                        if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
+                            userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}`)
+                            console.log(userSelectedCuts);
+                        } else {
+                            if (doc.data().Service1 != undefined) {
+                                userSelectedCuts.push(`${doc.data().Service1}`)
+                                console.log(userSelectedCuts);
+                            }
+                        }
                     }
                     selectThis.classList.add("active")
                     quantyCutsSelecteds = quantyCutsSelecteds + 1
@@ -270,6 +303,7 @@ async function verifyDate(dayName, hours, button) {
                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
                                             requestAgend(dayName, hours, "")
                                         } else {
+                                            console.log(quantyCutsSelecteds);
                                             let alertVouncher = document.getElementById("alertVouncher")
                                             alertVouncher.style.display = "flex"
                                             setTimeout(() => {
@@ -313,6 +347,7 @@ async function verifyDate(dayName, hours, button) {
                                                                 if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
                                                                     requestAgend(dayName, hours, "")
                                                                 } else {
+                                                                    console.log(quantyCutsSelecteds);
                                                                     let alertVouncher = document.getElementById("alertVouncher")
                                                                     alertVouncher.style.display = "flex"
                                                                     setTimeout(() => {
@@ -343,6 +378,7 @@ async function verifyDate(dayName, hours, button) {
                                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
                                                             requestAgend(dayName, hours, "")
                                                         } else {
+                                                            console.log(quantyCutsSelecteds);
                                                             let alertVouncher = document.getElementById("alertVouncher")
                                                             alertVouncher.style.display = "flex"
                                                             setTimeout(() => {
@@ -424,7 +460,7 @@ async function verifyDate(dayName, hours, button) {
                             paymentDiv.style.overflowY = "auto"
                             let confirmPayment = document.getElementById("confirmPayment")
                             confirmPayment.onclick = function () {
-                                if (Number(userSelectedCutsValue) == 0 && Number(userSelectedCutsValue) > 0) {
+                                if (Number(userSelectedCutsValue) == 0 && Number(quantyCutsSelecteds) > 0) {
                                     requestAgend(dayName, hours, "")
                                 } else {
                                     let alertVouncher = document.getElementById("alertVouncher")
@@ -470,6 +506,7 @@ async function verifyDate(dayName, hours, button) {
                                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
                                                             requestAgend(dayName, hours, "")
                                                         } else {
+                                                            console.log(quantyCutsSelecteds);
                                                             let alertVouncher = document.getElementById("alertVouncher")
                                                             alertVouncher.style.display = "flex"
                                                             setTimeout(() => {
@@ -492,6 +529,7 @@ async function verifyDate(dayName, hours, button) {
                                                 if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
                                                     requestAgend(dayName, hours, "")
                                                 } else {
+                                                    console.log(quantyCutsSelecteds);
                                                     let alertVouncher = document.getElementById("alertVouncher")
                                                     alertVouncher.style.display = "flex"
                                                     setTimeout(() => {
@@ -603,15 +641,27 @@ async function openData(dayName, hours, button) {
 }
 
 async function requestAgend(dayName, hours, vouncher) {
-    let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
-    let docRef = await addDoc(collection(db, `requests`), {
-        dayName: dayName,
-        hours: hours,
-        vouncherID: `${dayName}-${formatHours}`,
-        userName: actualUserName,
-        userEmail: actualUserEmail,
-        value: Number(userSelectedCutsValue)
-    });
+    if (userSelectedCutsValue == 0) {
+        let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+        let docRef = await addDoc(collection(db, `requests`), {
+            dayName: dayName,
+            hours: hours,
+            vouncherID: `${dayName}-${formatHours}`,
+            userName: actualUserName,
+            userEmail: actualUserEmail,
+            value: "A combinar"
+        });
+    } else {
+        let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+        let docRef = await addDoc(collection(db, `requests`), {
+            dayName: dayName,
+            hours: hours,
+            vouncherID: `${dayName}-${formatHours}`,
+            userName: actualUserName,
+            userEmail: actualUserEmail,
+            value: Number(userSelectedCutsValue)
+        });
+    }
     animatedConfirmPay()
 }
 
