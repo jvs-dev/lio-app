@@ -98,8 +98,7 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
-                    userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
-                    console.log(userSelectedCuts);
+                    userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                    
                     selectThis.classList.remove("active")
                     quantyCutsSelecteds = quantyCutsSelecteds - 1
                     article.style.borderColor = ""
@@ -109,8 +108,7 @@ async function loadServicesToPay() {
                     if (doc.data().ServiceValue != "A combinar") {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                     }
-                    userSelectedCuts.push(`${doc.data().Service1}`)
-                    console.log(userSelectedCuts);
+                    userSelectedCuts.push(`${doc.data().Service1}`)                    
                     selectThis.classList.add("active")
                     quantyCutsSelecteds = quantyCutsSelecteds + 1
                     article.style.borderColor = "var(--primary-color)"
@@ -144,16 +142,13 @@ async function loadServicesToPay() {
                         userSelectedCutsValue = Number(userSelectedCutsValue) - Number(doc.data().ServiceValue)
                     }
                     if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
-                        userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
-                        console.log(userSelectedCuts);
+                        userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                        
                     } else {
                         if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
-                            userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
-                            console.log(userSelectedCuts);
+                            userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                            
                         } else {
                             if (doc.data().Service1 != undefined) {
-                                userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)
-                                console.log(userSelectedCuts);
+                                userSelectedCuts.splice(userSelectedCuts.indexOf(`${doc.data().Service1}`), 1)                                
                             }
                         }
                     }
@@ -167,16 +162,13 @@ async function loadServicesToPay() {
                         userSelectedCutsValue = Number(userSelectedCutsValue) + Number(doc.data().ServiceValue)
                     }
                     if (doc.data().Service1 != undefined && doc.data().Service2 != undefined && doc.data().Service3 != undefined) {
-                        userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}/${doc.data().Service3}`)
-                        console.log(userSelectedCuts);
+                        userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}/${doc.data().Service3}`)                        
                     } else {
                         if (doc.data().Service1 != undefined && doc.data().Service2 != undefined) {
-                            userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}`)
-                            console.log(userSelectedCuts);
+                            userSelectedCuts.push(`${doc.data().Service1}/${doc.data().Service2}`)                            
                         } else {
                             if (doc.data().Service1 != undefined) {
-                                userSelectedCuts.push(`${doc.data().Service1}`)
-                                console.log(userSelectedCuts);
+                                userSelectedCuts.push(`${doc.data().Service1}`)                                
                             }
                         }
                     }
