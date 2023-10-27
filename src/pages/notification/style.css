@@ -1,0 +1,14 @@
+.main__section.main__notification {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0px 80px 0px;
+    background: var(--dark-gray);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

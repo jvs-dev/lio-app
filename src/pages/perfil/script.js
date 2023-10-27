@@ -60,6 +60,7 @@ onAuthStateChanged(auth, (user) => {
                     homeSection.style.display = "none"
                     signinSection.style.display = "flex"
                     loadingResource.style.opacity = "0"
+                    window.location.reload();
                     setTimeout(() => {
                         loadingResource.style.display = "none"
                     }, 200);

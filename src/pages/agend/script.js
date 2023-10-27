@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 const firebaseConfig = {
     apiKey: `${import.meta.env.VITE_API_KEY}`,
@@ -633,6 +633,14 @@ async function openData(dayName, hours, button) {
 }
 
 async function requestAgend(dayName, hours, vouncher) {
+    let agora = new Date();
+    let hora = agora.getHours().toString().padStart(2, '0');
+    let minutos = agora.getMinutes().toString().padStart(2, '0');
+    let horaAtual = `${hora}:${minutos}`;
+    let dia = agora.getDate().toString().padStart(2, '0');
+    let mes = (agora.getMonth() + 1).toString().padStart(2, '0');
+    let ano = agora.getFullYear().toString().slice(-2);
+    let dataAtual = `${dia}/${mes}/${ano}`;
     if (userSelectedCutsValue == 0) {
         let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
         let docRef = await addDoc(collection(db, `requests`), {
@@ -642,7 +650,10 @@ async function requestAgend(dayName, hours, vouncher) {
             userName: actualUserName,
             userEmail: actualUserEmail,
             value: "A combinar",
-            services: userSelectedCuts
+            services: userSelectedCuts,
+            timestamp: serverTimestamp(),
+            notifierHours: horaAtual,
+            notifierDate: dataAtual
         });
     } else {
         let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
@@ -653,7 +664,10 @@ async function requestAgend(dayName, hours, vouncher) {
             userName: actualUserName,
             userEmail: actualUserEmail,
             value: Number(userSelectedCutsValue),
-            services: userSelectedCuts
+            services: userSelectedCuts,
+            timestamp: serverTimestamp(),
+            notifierHours: horaAtual,
+            notifierDate: dataAtual
         });
     }
     animatedConfirmPay()
