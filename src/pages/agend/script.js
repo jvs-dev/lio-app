@@ -34,6 +34,7 @@ let userSelectedCuts = []
 let userSelectedCutsValue = 0
 let comboSelect = document.getElementById("comboSelect")
 let quantyCutsSelecteds = 0
+let loadingResource = document.getElementById("loadingResource")
 
 setInterval(() => {
     let paymentSection_paymentVoucher = document.querySelector(".paymentSection__paymentVoucher")
@@ -293,6 +294,9 @@ async function verifyDate(dayName, hours, button) {
                                     let confirmPayment = document.getElementById("confirmPayment")
                                     confirmPayment.onclick = function () {
                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                            loadingResource.style.display = "flex"
+                                            loadingResource.style.opacity = "0.6"
+                                            loadingResource.style.zIndex = "1000"
                                             requestAgend(dayName, hours, "")
                                         } else {
                                             console.log(quantyCutsSelecteds);
@@ -327,6 +331,9 @@ async function verifyDate(dayName, hours, button) {
                                                         confirmPayment.onclick = function () {
                                                             if (img.src != "") {
                                                                 if (Number(userSelectedCutsValue) > 0) {
+                                                                    loadingResource.style.display = "flex"
+                                                                    loadingResource.style.opacity = "0.6"
+                                                                    loadingResource.style.zIndex = "1000"
                                                                     requestAgend(dayName, hours, img.src)
                                                                 } else {
                                                                     let alertVouncher = document.getElementById("alertVouncher")
@@ -337,6 +344,9 @@ async function verifyDate(dayName, hours, button) {
                                                                 }
                                                             } else {
                                                                 if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                                    loadingResource.style.display = "flex"
+                                                                    loadingResource.style.opacity = "0.6"
+                                                                    loadingResource.style.zIndex = "1000"
                                                                     requestAgend(dayName, hours, "")
                                                                 } else {
                                                                     console.log(quantyCutsSelecteds);
@@ -358,6 +368,9 @@ async function verifyDate(dayName, hours, button) {
                                                     let paymentVoucherImg = document.getElementById('paymentVoucherImg');
                                                     if (paymentVoucherImg.src != "") {
                                                         if (Number(userSelectedCutsValue) > 0) {
+                                                            loadingResource.style.display = "flex"
+                                                            loadingResource.style.opacity = "0.6"
+                                                            loadingResource.style.zIndex = "1000"
                                                             requestAgend(dayName, hours, paymentVoucherImg.src)
                                                         } else {
                                                             let alertVouncher = document.getElementById("alertVouncher")
@@ -368,6 +381,9 @@ async function verifyDate(dayName, hours, button) {
                                                         }
                                                     } else {
                                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                            loadingResource.style.display = "flex"
+                                                            loadingResource.style.opacity = "0.6"
+                                                            loadingResource.style.zIndex = "1000"
                                                             requestAgend(dayName, hours, "")
                                                         } else {
                                                             console.log(quantyCutsSelecteds);
@@ -453,6 +469,9 @@ async function verifyDate(dayName, hours, button) {
                             let confirmPayment = document.getElementById("confirmPayment")
                             confirmPayment.onclick = function () {
                                 if (Number(userSelectedCutsValue) == 0 && Number(quantyCutsSelecteds) > 0) {
+                                    loadingResource.style.display = "flex"
+                                    loadingResource.style.opacity = "0.6"
+                                    loadingResource.style.zIndex = "1000"
                                     requestAgend(dayName, hours, "")
                                 } else {
                                     let alertVouncher = document.getElementById("alertVouncher")
@@ -486,6 +505,9 @@ async function verifyDate(dayName, hours, button) {
                                                 confirmPayment.onclick = function () {
                                                     if (img.src != "") {
                                                         if (Number(userSelectedCutsValue) > 0) {
+                                                            loadingResource.style.display = "flex"
+                                                            loadingResource.style.opacity = "0.6"
+                                                            loadingResource.style.zIndex = "1000"
                                                             requestAgend(dayName, hours, img.src)
                                                         } else {
                                                             let alertVouncher = document.getElementById("alertVouncher")
@@ -496,6 +518,9 @@ async function verifyDate(dayName, hours, button) {
                                                         }
                                                     } else {
                                                         if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                            loadingResource.style.display = "flex"
+                                                            loadingResource.style.opacity = "0.6"
+                                                            loadingResource.style.zIndex = "1000"
                                                             requestAgend(dayName, hours, "")
                                                         } else {
                                                             console.log(quantyCutsSelecteds);
@@ -516,9 +541,15 @@ async function verifyDate(dayName, hours, button) {
                                         confirmPayment.onclick = function () {
                                             let paymentVoucherImg = document.getElementById('paymentVoucherImg');
                                             if (paymentVoucherImg.src != "" && Number(userSelectedCutsValue) > 0) {
+                                                loadingResource.style.display = "flex"
+                                                loadingResource.style.opacity = "0.6"
+                                                loadingResource.style.zIndex = "1000"
                                                 requestAgend(dayName, hours, paymentVoucherImg.src)
                                             } else {
                                                 if (Number(userSelectedCutsValue) == 0 && quantyCutsSelecteds > 0) {
+                                                    loadingResource.style.display = "flex"
+                                                    loadingResource.style.opacity = "0.6"
+                                                    loadingResource.style.zIndex = "1000"
                                                     requestAgend(dayName, hours, "")
                                                 } else {
                                                     console.log(quantyCutsSelecteds);
@@ -646,7 +677,6 @@ async function requestAgend(dayName, hours, vouncher) {
         let docRef = await addDoc(collection(db, `requests`), {
             dayName: dayName,
             hours: hours,
-            vouncherID: `${dayName}-${formatHours}`,
             userName: actualUserName,
             userEmail: actualUserEmail,
             value: "A combinar",
@@ -655,12 +685,14 @@ async function requestAgend(dayName, hours, vouncher) {
             notifierHours: horaAtual,
             notifierDate: dataAtual
         });
+        loadingResource.style.display = "none"
+        loadingResource.style.opacity = "0"
+        animatedConfirmPay()
     } else {
         let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
         let docRef = await addDoc(collection(db, `requests`), {
             dayName: dayName,
             hours: hours,
-            vouncherID: `${dayName}-${formatHours}`,
             userName: actualUserName,
             userEmail: actualUserEmail,
             value: Number(userSelectedCutsValue),
@@ -669,18 +701,15 @@ async function requestAgend(dayName, hours, vouncher) {
             notifierHours: horaAtual,
             notifierDate: dataAtual
         });
+        let itemsImagesRef = ref(storage, `vounchers/${docRef.id}.jpg`);
+        let image = `${vouncher}`;
+        uploadString(itemsImagesRef, image, 'data_url').then((snapshot) => {
+            loadingResource.style.display = "none"
+            loadingResource.style.opacity = "0"
+            animatedConfirmPay()
+        });
     }
-    animatedConfirmPay()
 }
-
-/* async function scheduling(dayName, hours, vouncher) {
-    let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
-    await setDoc(doc(db, `${dayName}`, `${formatHours}`), {
-        agended: true,
-
-    });
-    animatedConfirmPay()
-} */
 
 function animatedConfirmPay() {
     let animatedCheckPayment = document.getElementById("animatedCheckPayment")
