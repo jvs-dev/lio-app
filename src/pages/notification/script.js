@@ -27,6 +27,7 @@ let notificationCardsDiv = document.getElementById("notificationCardsDiv")
 let closeViewVouncherDiv = document.getElementById("closeViewVouncherDiv")
 let viewVouncherDiv = document.getElementById("viewVouncherDiv")
 let viewVouncherImg = document.getElementById("viewVouncherImg")
+let loadingResource = document.getElementById("loadingResource")
 closeViewVouncherDiv.onclick = function () {
     viewVouncherDiv.style.display = "none"
     viewVouncherImg.src = ""
@@ -68,6 +69,9 @@ function loadAdminNotifier() {
                         xhr.send();
                         let article = document.createElement("article")
                         let viewVouncherBtn = document.createElement("button")
+                        let rejectBtn = document.createElement("button")
+                        let confirmBtn = document.createElement("button")
+                        let div = document.createElement("div")
                         notificationCardsDiv.insertAdjacentElement("beforeend", article)
                         article.classList.add("adminNotification__card")
                         article.innerHTML = `
@@ -76,15 +80,21 @@ function loadAdminNotifier() {
                         <li class="notificationCard__li">De: ${doc.data().userEmail}</li>
                         <li class="notificationCard__li">Agendamento: ${doc.data().dayName} ás ${`${doc.data().hours}`.length == 1 ? `0${doc.data().hours}:00` : `${doc.data().hours}:00`}</li>
                         <li class="notificationCard__li">Serviço: ${`${doc.data().services}`.replace(",", ", ")}</li>
-                        <li class="notificationCard__li">Valor: $${doc.data().value}</li>
+                        <li class="notificationCard__li">Valor: ${doc.data().value != "A combinar" ? `$${doc.data().value}` : `${doc.data().value}`}</li>
                     </ul>
                     `
                         article.insertAdjacentElement("beforeend", viewVouncherBtn)
-                        article.insertAdjacentHTML("beforeend", `
-                            <div class="notificationCard__div">
-                                <button type="button" class="notificationCard__btn reject">Rejeitar</button>
-                                <button type="button" class="notificationCard__btn confirm">Confirmar</button>
-                            </div>
+                        article.insertAdjacentElement("beforeend", div)
+                        div.classList.add("notificationCard__div")
+                        div.insertAdjacentElement("beforeend", rejectBtn)
+                        div.insertAdjacentElement("beforeend", confirmBtn)
+                        rejectBtn.classList.add("notificationCard__btn")
+                        rejectBtn.classList.add("reject")
+                        confirmBtn.classList.add("notificationCard__btn")
+                        confirmBtn.classList.add("confirm")
+                        rejectBtn.textContent = "Rejeitar"
+                        confirmBtn.textContent = "confirm"
+                        article.insertAdjacentHTML("beforeend", `                        
                             <p class="notificationCard__date">${doc.data().notifierDate} ás ${doc.data().notifierHours}</p>`)
                         viewVouncherBtn.classList.add("notificationCard__viewVoucher")
                         viewVouncherBtn.type = "button"
@@ -94,19 +104,76 @@ function loadAdminNotifier() {
                             viewVouncherDiv.style.display = "block"
                             viewVouncherImg.src = `${url}`
                         }
+                        confirmBtn.onclick = function () {
+                            loadingResource.style.display = "flex"
+                            loadingResource.style.opacity = "0.8"
+                            scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
+                        }
                     })
                     .catch((error) => {
-                        // Handle any errors
+                        if (doc.data().value == "A combinar") {
+                            let article = document.createElement("article")
+                            let rejectBtn = document.createElement("button")
+                            let confirmBtn = document.createElement("button")
+                            let div = document.createElement("div")
+                            notificationCardsDiv.insertAdjacentElement("beforeend", article)
+                            article.classList.add("adminNotification__card")
+                            article.innerHTML = `
+                                <p class="notificationCard__title">Solicitação de agendamento</p>
+                                <ul class="notificationCard__ul">
+                                    <li class="notificationCard__li">De: ${doc.data().userEmail}</li>
+                                    <li class="notificationCard__li">Agendamento: ${doc.data().dayName} ás ${`${doc.data().hours}`.length == 1 ? `0${doc.data().hours}:00` : `${doc.data().hours}:00`}</li>
+                                    <li class="notificationCard__li">Serviço: ${`${doc.data().services}`.replace(",", ", ")}</li>
+                                    <li class="notificationCard__li">Valor: ${doc.data().value != "A combinar" ? `$${doc.data().value}` : `${doc.data().value}`}</li>
+                                </ul>
+                                `
+                            article.insertAdjacentElement("beforeend", div)
+                            div.classList.add("notificationCard__div")
+                            div.insertAdjacentElement("beforeend", rejectBtn)
+                            div.insertAdjacentElement("beforeend", confirmBtn)
+                            rejectBtn.classList.add("notificationCard__btn")
+                            rejectBtn.classList.add("reject")
+                            confirmBtn.classList.add("notificationCard__btn")
+                            confirmBtn.classList.add("confirm")
+                            rejectBtn.textContent = "Rejeitar"
+                            confirmBtn.textContent = "confirm"
+                            article.insertAdjacentHTML("beforeend", `                        
+                                <p class="notificationCard__date">${doc.data().notifierDate} ás ${doc.data().notifierHours}</p>`)
+                            article.style.order = `-${doc.data().timestamp.seconds}`
+                            confirmBtn.onclick = function () {
+                                loadingResource.style.display = "flex"
+                                loadingResource.style.opacity = "0.8"
+                                scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
+                                notificationCardsDiv.innerHTML = ``
+                            }
+                        }
                     });
             });
         });
     }
 }
 
-async function scheduling(dayName, hours, vouncherId) {
+async function scheduling(dayName, hours, vouncherId, userEmail, userName, services, value) {
     let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     await setDoc(doc(db, `${dayName}`, `${formatHours}`), {
         agended: true,
-
+        vouncherId: vouncherId,
+        userEmail: userEmail,
+        userName: userName,
+        services: services,
+        value: value,
+        dateAgended: `${dayName} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     });
+    notificationCardsDiv.innerHTML = ``
+    deleteRequest(vouncherId)
+    notificationCardsDiv.innerHTML = ``
+}
+
+async function deleteRequest(id) {
+    await deleteDoc(doc(db, "requests", `${id}`));
+    loadingResource.style.display = "none"
+    loadingResource.style.opacity = "0"
+    notificationCardsDiv.innerHTML = ``
+    loadAdminNotifier()
+    notificationCardsDiv.innerHTML = ``
 }

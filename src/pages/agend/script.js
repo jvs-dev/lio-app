@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, deleteField, query, where, getDocs, deleteDoc, getDoc, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 const firebaseConfig = {
     apiKey: `${import.meta.env.VITE_API_KEY}`,
@@ -622,7 +622,16 @@ async function verifyRemoveAgend(dayName, hours, button) {
     let minutosDeReferencia = parseInt(partesHorario[1]);
     if (horaAtual > horaDeReferencia || (horaAtual === horaDeReferencia && minutosAtuais > minutosDeReferencia)) {
         let cityRef = doc(db, `${dayName}`, `${hourFormated}`);
-        setDoc(cityRef, { agended: false }, { vouncherID: "" });
+        await updateDoc(cityRef, {
+            agended: false,
+            vouncherID: deleteField(),
+            userEmail: deleteField(),
+            userName: deleteField(),
+            services: deleteField(),
+            value: deleteField(),
+            dateAgended: deleteField()
+        });
+
     }
 }
 
