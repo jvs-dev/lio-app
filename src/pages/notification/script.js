@@ -24,6 +24,13 @@ let actualUserName = ""
 let actualUserHairCuts = ""
 let userAdmin = false
 let notificationCardsDiv = document.getElementById("notificationCardsDiv")
+let closeViewVouncherDiv = document.getElementById("closeViewVouncherDiv")
+let viewVouncherDiv = document.getElementById("viewVouncherDiv")
+let viewVouncherImg = document.getElementById("viewVouncherImg")
+closeViewVouncherDiv.onclick = function () {
+    viewVouncherDiv.style.display = "none"
+    viewVouncherImg.src = ""
+}
 
 
 onAuthStateChanged(auth, (user) => {
@@ -59,8 +66,8 @@ function loadAdminNotifier() {
                         };
                         xhr.open('GET', url);
                         xhr.send();
-
                         let article = document.createElement("article")
+                        let viewVouncherBtn = document.createElement("button")
                         notificationCardsDiv.insertAdjacentElement("beforeend", article)
                         article.classList.add("adminNotification__card")
                         article.innerHTML = `
@@ -71,14 +78,22 @@ function loadAdminNotifier() {
                         <li class="notificationCard__li">Serviço: ${`${doc.data().services}`.replace(",", ", ")}</li>
                         <li class="notificationCard__li">Valor: $${doc.data().value}</li>
                     </ul>
-                    <a href="${url}" class="notificationCard__viewVoucher--a" download><button class="notificationCard__viewVoucher" type="button">Ver comprovante</button></a>
-                    <div class="notificationCard__div">
-                        <button type="button" class="notificationCard__btn reject">Rejeitar</button>
-                        <button type="button" class="notificationCard__btn confirm">Confirmar</button>
-                    </div>
-                    <p class="notificationCard__date">${doc.data().notifierDate} ás ${doc.data().notifierHours}</p>
-                `
+                    `
+                        article.insertAdjacentElement("beforeend", viewVouncherBtn)
+                        article.insertAdjacentHTML("beforeend", `
+                            <div class="notificationCard__div">
+                                <button type="button" class="notificationCard__btn reject">Rejeitar</button>
+                                <button type="button" class="notificationCard__btn confirm">Confirmar</button>
+                            </div>
+                            <p class="notificationCard__date">${doc.data().notifierDate} ás ${doc.data().notifierHours}</p>`)
+                        viewVouncherBtn.classList.add("notificationCard__viewVoucher")
+                        viewVouncherBtn.type = "button"
+                        viewVouncherBtn.textContent = "Ver comprovante"
                         article.style.order = `-${doc.data().timestamp.seconds}`
+                        viewVouncherBtn.onclick = function () {
+                            viewVouncherDiv.style.display = "block"
+                            viewVouncherImg.src = `${url}`
+                        }
                     })
                     .catch((error) => {
                         // Handle any errors
