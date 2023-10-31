@@ -120,9 +120,6 @@ async function loadPosts() {
                         let likeNumber = document.querySelector(`#${elementsId} .postCard__span`)
                         let mainImg = document.querySelector(`#${elementsId} .postCard__mainImg`)
                         verifyDataLoop(doc.id, likeBtnInput, likeNumber)
-                        mainImg.ondblclick = function () {
-                            verifyLike(doc.id, likeBtn, likeNumber)
-                        }
                         likeBtn.addEventListener("click", () => {
                             verifyLike(doc.id, likeBtn, likeNumber)
                         })
