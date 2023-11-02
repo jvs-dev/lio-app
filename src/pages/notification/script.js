@@ -292,3 +292,45 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
         }
     });
 });
+
+
+let a = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
+let unsubscrib2 = onSnapshot(a, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+            if (userAdmin == true) {
+                let reloadNotification = document.getElementById("reloadNotification")
+                reloadNotification.style.transform = "translateY(0px)"
+                reloadNotification.onclick = () => {
+                    notificationCardsDiv.innerHTML = ``
+                    loadAdminNotifier()
+                    reloadNotification.style.transform = ""
+                }
+            } else {
+                loadUserNotifier()
+            }
+        }
+        if (change.type === "modified") {
+            if (userAdmin == true) {
+                let reloadNotification = document.getElementById("reloadNotification")
+                reloadNotification.style.transform = "translateY(0px)"
+                reloadNotification.onclick = () => {
+                    notificationCardsDiv.innerHTML = ``
+                    loadAdminNotifier()
+                    reloadNotification.style.transform = ""
+                }
+            } else {
+                loadUserNotifier()
+            }
+        }
+        if (change.type === "removed") {
+            if (userAdmin == true) {
+                notificationCardsDiv.innerHTML = ``
+                loadAdminNotifier()
+                notificationCardsDiv.innerHTML = ``
+            } else {
+                loadUserNotifier()
+            }
+        }
+    });
+});
