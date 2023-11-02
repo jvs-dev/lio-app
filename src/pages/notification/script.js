@@ -260,6 +260,8 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
                 })
+            } else {
+                loadUserNotifier()
             }
         }
         if (change.type === "modified") {
@@ -272,6 +274,8 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
                 })
+            } else {
+                loadUserNotifier()
             }
         }
         if (change.type === "removed") {
@@ -279,6 +283,8 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
                 notificationCardsDiv.innerHTML = ``
                 loadAdminNotifier()
                 notificationCardsDiv.innerHTML = ``
+            } else {
+                loadUserNotifier()
             }
         }
     });
