@@ -212,7 +212,7 @@ async function scheduling(dayName, hours, vouncherId, userEmail, userName, servi
     let docRef = await addDoc(collection(db, "notifys"), {
         for: `${userEmail}`,
         title: "Agendamento confirmado",
-        description: `Sua solicitação de agendamento de ${dayName} ás ${hours} foi aceita`,
+        description: `Sua solicitação de agendamento de ${dayName} ás ${formatHours} foi aceita`,
         date: `${dataFormatada}`,
         timestamp: serverTimestamp()
     }).then(() => {
@@ -254,12 +254,11 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
             if (userAdmin == true) {
                 let reloadNotification = document.getElementById("reloadNotification")
                 reloadNotification.style.transform = "translateY(0px)"
-                console.log("test");
-                reloadNotification.addEventListener("click", () => {
+                reloadNotification.onclick = () => {
                     notificationCardsDiv.innerHTML = ``
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
-                })
+                }
             } else {
                 loadUserNotifier()
             }
@@ -268,12 +267,11 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
             if (userAdmin == true) {
                 let reloadNotification = document.getElementById("reloadNotification")
                 reloadNotification.style.transform = "translateY(0px)"
-                console.log("test");
-                reloadNotification.addEventListener("click", () => {
+                reloadNotification.onclick = () => {
                     notificationCardsDiv.innerHTML = ``
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
-                })
+                }
             } else {
                 loadUserNotifier()
             }
