@@ -69,6 +69,7 @@ async function loadUserNotifier() {
                 <li class="notificationCard__li">${doc.data().description}</li>
             </ul>
         `
+        article.style.order = `-${doc.data().timestamp.seconds}`
         article.insertAdjacentElement("beforeend", confirmtBtn)
         confirmtBtn.classList.add("notificationCard__userConfirm")
         confirmtBtn.textContent = "Confirmar"
@@ -186,7 +187,11 @@ async function loadAdminNotifier() {
                             loadingResource.style.display = "flex"
                             loadingResource.style.opacity = "0.8"
                             scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
-                            notificationCardsDiv.innerHTML = ``
+                        }
+                        rejectBtn.onclick = function () {
+                            loadingResource.style.display = "flex"
+                            loadingResource.style.opacity = "0.8"
+                            recusing(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
                         }
                     }
                 });
