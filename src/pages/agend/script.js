@@ -624,7 +624,7 @@ async function verifyRemoveAgend(dayName, hours, button) {
         let cityRef = doc(db, `${dayName}`, `${hourFormated}`);
         await updateDoc(cityRef, {
             agended: false,
-            vouncherID: deleteField(),
+            vouncherId: deleteField(),
             userEmail: deleteField(),
             userName: deleteField(),
             services: deleteField(),

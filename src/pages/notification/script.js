@@ -46,11 +46,48 @@ onAuthStateChanged(auth, (user) => {
             if (doc.data().admin == true) {
                 userAdmin = true
                 loadAdminNotifier()
+            } else {
+                loadUserNotifier()
             }
         });
     }
 });
 
+
+async function loadUserNotifier() {
+    notificationCardsDiv.innerHTML = ``
+    let q = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
+    let querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        let article = document.createElement("article")
+        let confirmtBtn = document.createElement("button")
+        notificationCardsDiv.insertAdjacentElement("beforeend", article)
+        article.classList.add("adminNotification__card")
+        article.innerHTML = `
+            <p class="notificationCard__title" ${`${doc.data().title}`.includes("recusada") || `${doc.data().title}`.includes("cancelado") ? `style="color: #FF4A4A;"` : ``}><ion-icon name="notifications-outline"></ion-icon>${doc.data().title}</p>
+            <ul class="notificationCard__ul">
+                <li class="notificationCard__li">${doc.data().description}</li>
+            </ul>
+        `
+        article.insertAdjacentElement("beforeend", confirmtBtn)
+        confirmtBtn.classList.add("notificationCard__userConfirm")
+        confirmtBtn.textContent = "Confirmar"
+        article.insertAdjacentHTML("beforeend", `<span class="notificationCard__dateSpan">${doc.data().date}</span>`)
+        confirmtBtn.onclick = function () {
+            loadingResource.style.display = "flex"
+            loadingResource.style.opacity = "0.8"
+            deleteNotify(doc.id)
+        }
+    })
+}
+
+async function deleteNotify(id) {
+    await deleteDoc(doc(db, "notifys", `${id}`)).then(() => {
+        loadUserNotifier()
+        loadingResource.style.display = ""
+        loadingResource.style.opacity = ""
+    })
+}
 
 async function loadAdminNotifier() {
     notificationCardsDiv.innerHTML = ``
@@ -108,6 +145,11 @@ async function loadAdminNotifier() {
                         loadingResource.style.display = "flex"
                         loadingResource.style.opacity = "0.8"
                         scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
+                    }
+                    rejectBtn.onclick = function () {
+                        loadingResource.style.display = "flex"
+                        loadingResource.style.opacity = "0.8"
+                        recusing(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
                     }
                 })
                 .catch((error) => {
@@ -168,6 +210,24 @@ async function scheduling(dayName, hours, vouncherId, userEmail, userName, servi
     notificationCardsDiv.innerHTML = ``
 }
 
+async function recusing(dayName, hours, vouncherId, userEmail, userName, services, value) {
+    let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let dataAtual = new Date();
+    let dia = dataAtual.getDate().toString().padStart(2, '0');
+    let mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+    let dataFormatada = `${dia}/${mes}`;
+    let docRef = await addDoc(collection(db, "notifys"), {
+        for: `${userEmail}`,
+        title: "Solicitação recusada",
+        description: `Seu pedido de agendamento de ${dayName} ás ${formatHours} foi recusado`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    });
+    notificationCardsDiv.innerHTML = ``
+    deleteRequest(vouncherId)
+    notificationCardsDiv.innerHTML = ``
+}
+
 async function deleteRequest(id) {
     await deleteDoc(doc(db, "requests", `${id}`));
     loadingResource.style.display = "none"
@@ -180,16 +240,26 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
             if (userAdmin == true) {
-                notificationCardsDiv.innerHTML = ``
-                loadAdminNotifier()
-                notificationCardsDiv.innerHTML = ``
+                let reloadNotification = document.getElementById("reloadNotification")
+                reloadNotification.style.transform = "translateY(0px)"
+                console.log("test");
+                reloadNotification.addEventListener("click", () => {
+                    notificationCardsDiv.innerHTML = ``
+                    loadAdminNotifier()
+                    reloadNotification.style.transform = ""
+                })
             }
         }
         if (change.type === "modified") {
             if (userAdmin == true) {
-                notificationCardsDiv.innerHTML = ``
-                loadAdminNotifier()
-                notificationCardsDiv.innerHTML = ``
+                let reloadNotification = document.getElementById("reloadNotification")
+                reloadNotification.style.transform = "translateY(0px)"
+                console.log("test");
+                reloadNotification.addEventListener("click", () => {
+                    notificationCardsDiv.innerHTML = ``
+                    loadAdminNotifier()
+                    reloadNotification.style.transform = ""
+                })
             }
         }
         if (change.type === "removed") {

@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     position: fixed;
     transform: translateX(0vw);
     z-index: 2;
@@ -13,11 +13,15 @@
 
 .login__h1 {
     font-family: 'Jim Nightshade', cursive;
-    font-size: 14vw;
+    font-size: 36px;
     font-weight: 400;
     color: var(--primary-color);
-    margin: 7vh 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
     transition: 0.5s;
+    left: 0;
+    width: 100%;
+    text-align: left;
+    padding: 0px 0px 0px 40px;
 }
 
 .login__form {
@@ -25,11 +29,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 0px 40px;
-}
-
-.login__form.form--2 {
-    margin-top: 12vh;
+    padding: 40px 40px 0px 40px;
 }
 
 .login__h2 {
@@ -117,7 +117,7 @@ div.login__div:has(> input.login__input:focus) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0px 22vh 0px;
+    margin: 20px 0px 12vh 0px;
 }
 
 .login__p__span {

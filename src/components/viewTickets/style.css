@@ -1,0 +1,128 @@
+.openViewTickets {
+    background: var(--primary-color);
+    color: var(--dark-gray);
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 0px;
+    outline-width: 0px;
+    display: flex;
+    align-items: center;
+}
+
+.openViewTickets ion-icon {
+    color: var(--dark-gray);
+    margin-left: 5px;
+}
+
+#viewTickets {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background: var(--dark-gray);
+    transform: translateX(100%);
+    transition: 0.5s;
+}
+
+#closeViewTickets {
+    color: var(--white);
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    margin: 20px 20px 0px 0px;
+}
+
+#ticketsDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px 10px 40px 10px;
+}
+
+.viewTickets__h2 {
+    color: var(--primary-color);
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 34px;
+    width: 100%;
+    text-align: center;
+    margin: 40px 0px 0px 0px;
+}
+
+#alertCancelAgend {
+    display: none;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: var(--light-gray);
+    position: fixed;
+    z-index: 10;
+    transition: 0.2s;
+}
+
+#alertCancelAgend lord-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.alertCancelAgend__h3 {
+    color: #FF4A4A;
+    font-size: 35px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    margin: 0px 0px 30px 0px;
+}
+.alertCancelAgend__p {
+    font-family: 'Poppins', sans-serif;
+    padding: 0px 20px;
+    margin: 0px;
+    color: var(--white);
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.alertCancelAgend__p__span {
+    font-family: 'Poppins', sans-serif;
+    padding: 0px 20px;
+    text-align: center;
+    color: #FF4A4A;
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.alertCancelAgend__btn {
+    padding: 6px 0px;
+    margin: 0px 20px;
+    width: calc(100% - 40px);
+    font-size: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    border-radius: 20px;
+    border: 0px;
+    outline-width: 0px;
+}
+.alertCancelAgend__btn.cancel {
+    background: var(--dark-gray);
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.alertCancelAgend__btn.confirm {
+    background: #FF4A4A;
+    color: var(--dark-gray);
+}
