@@ -82,62 +82,64 @@ onAuthStateChanged(auth, (user) => {
 async function loadTickets() {
     let ticketsDiv = document.getElementById("ticketsDiv")
     ticketsDiv.innerHTML = ``
-    let q = query(collection(db, "Domingo"), where("userEmail", "==", `${actualUserEmail}`));
-    let querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-        let weekDayName = `${doc.data().dateAgended}`.replace(` ás ${doc.id}`, ``)
-        let article = document.createElement("article")
-        ticketsDiv.insertAdjacentElement("beforeend", article)
-        article.classList.add("ticket")
-        let dataAtual = new Date();
-        // Encontra o dia da semana atual (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
+    nomesDosDiasDaSemana.forEach(async ArrayDayName => {
+        let q = query(collection(db, `${ArrayDayName}`), where("userEmail", "==", `${actualUserEmail}`));
+        let querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            let weekDayName = `${doc.data().dateAgended}`.replace(` ás ${doc.id}`, ``)
+            let article = document.createElement("article")
+            ticketsDiv.insertAdjacentElement("beforeend", article)
+            article.classList.add("ticket")
+            let dataAtual = new Date();
+            // Encontra o dia da semana atual (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
 
-        let numberWeekDay = nomesDosDiasDaSemana.indexOf(`${weekDayName}`)
-        let diaSemanaAtual = dataAtual.getDay();
-        let diasAteProximaTerca = Number(numberWeekDay) - diaSemanaAtual;
-        if (diasAteProximaTerca <= 0) {
-            diasAteProximaTerca += 7;
-        }
-        let proximaTerca = new Date(dataAtual);
-        proximaTerca.setDate(dataAtual.getDate() + diasAteProximaTerca);
-        let dia = proximaTerca.getDate().toString().padStart(2, '0');
-        let mes = (proximaTerca.getMonth() + 1).toString().padStart(2, '0');
-        let ano = proximaTerca.getFullYear();
-        article.innerHTML = `
-            <div class="ticket__div--1">
-                <div class="ticket__div--2">
-                <p class="ticket__title">Lio Hairstyle</p>
-                <p class="ticket__name">${doc.data().userEmail}</p>
-                <div class="ticket__div--3">
-                    <p class="ticket__date">${dia}/${mes}<br>${weekDayName}</p>
-                    <p class="ticket__value">${doc.data().value == "A combinar" ? `${doc.data().value}` : `$${doc.data().value}`}</p>
-                    <p class="ticket__hours">${doc.id}</p>
+            let numberWeekDay = nomesDosDiasDaSemana.indexOf(`${weekDayName}`)
+            let diaSemanaAtual = dataAtual.getDay();
+            let diasAteProximaTerca = Number(numberWeekDay) - diaSemanaAtual;
+            if (diasAteProximaTerca <= 0) {
+                diasAteProximaTerca += 7;
+            }
+            let proximaTerca = new Date(dataAtual);
+            proximaTerca.setDate(dataAtual.getDate() + diasAteProximaTerca);
+            let dia = proximaTerca.getDate().toString().padStart(2, '0');
+            let mes = (proximaTerca.getMonth() + 1).toString().padStart(2, '0');
+            let ano = proximaTerca.getFullYear();
+            article.innerHTML = `
+                <div class="ticket__div--1">
+                    <div class="ticket__div--2">
+                    <p class="ticket__title">Lio Hairstyle</p>
+                    <p class="ticket__name">${doc.data().userEmail}</p>
+                    <div class="ticket__div--3">
+                        <p class="ticket__date">${dia}/${mes}<br>${weekDayName}</p>
+                        <p class="ticket__value">${doc.data().value == "A combinar" ? `${doc.data().value}` : `$${doc.data().value}`}</p>
+                        <p class="ticket__hours">${doc.id}</p>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-        `
-        let cancelAgendBtn = document.createElement("button")
-        article.insertAdjacentElement("afterend", cancelAgendBtn)
-        cancelAgendBtn.classList.add("cancelAgendBtn")
-        cancelAgendBtn.innerHTML = `<ion-icon name="trash-outline"></ion-icon> Desagendar`
-        cancelAgendBtn.addEventListener("click", () => {
-            alertCancelAgend.style.display = "flex"
-            setTimeout(() => {
-                alertCancelAgend.style.opacity = "1"
-                alertCancelAgendIcon.trigger = "in"
-                confirmCancelAgend.onclick = function () {
-                    loadingResource.style.display = "flex"
-                    loadingResource.style.opacity = "0.8"
-                    loadingResource.style.zIndex = "1000"
-                    alertCancelAgend.style.opacity = "0"
-                    setTimeout(() => {
-                        alertCancelAgend.style.display = "none"
-                        alertCancelAgendIcon.trigger = ""
-                    }, 200);
-                    verifyRemoveAgend(weekDayName, doc.id)
-                }
-            }, 1);
-        })
+            `
+            let cancelAgendBtn = document.createElement("button")
+            article.insertAdjacentElement("afterend", cancelAgendBtn)
+            cancelAgendBtn.classList.add("cancelAgendBtn")
+            cancelAgendBtn.innerHTML = `<ion-icon name="trash-outline"></ion-icon> Desagendar`
+            cancelAgendBtn.addEventListener("click", () => {
+                alertCancelAgend.style.display = "flex"
+                setTimeout(() => {
+                    alertCancelAgend.style.opacity = "1"
+                    alertCancelAgendIcon.trigger = "in"
+                    confirmCancelAgend.onclick = function () {
+                        loadingResource.style.display = "flex"
+                        loadingResource.style.opacity = "0.8"
+                        loadingResource.style.zIndex = "1000"
+                        alertCancelAgend.style.opacity = "0"
+                        setTimeout(() => {
+                            alertCancelAgend.style.display = "none"
+                            alertCancelAgendIcon.trigger = ""
+                        }, 200);
+                        verifyRemoveAgend(weekDayName, doc.id)
+                    }
+                }, 1);
+            })
+        });
     });
 }
 
