@@ -205,9 +205,21 @@ async function scheduling(dayName, hours, vouncherId, userEmail, userName, servi
         value: value,
         dateAgended: `${dayName} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     });
-    notificationCardsDiv.innerHTML = ``
-    deleteRequest(vouncherId)
-    notificationCardsDiv.innerHTML = ``
+    let dataAtual = new Date();
+    let dia = dataAtual.getDate().toString().padStart(2, '0');
+    let mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+    let dataFormatada = `${dia}/${mes}`;
+    let docRef = await addDoc(collection(db, "notifys"), {
+        for: `${userEmail}`,
+        title: "Agendamento confirmado",
+        description: `Sua solicitação de agendamento de ${dayName} ás ${hours} foi aceita`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    }).then(() => {
+        notificationCardsDiv.innerHTML = ``
+        deleteRequest(vouncherId)
+        notificationCardsDiv.innerHTML = ``
+    })
 }
 
 async function recusing(dayName, hours, vouncherId, userEmail, userName, services, value) {
