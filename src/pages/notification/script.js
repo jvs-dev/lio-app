@@ -87,6 +87,7 @@ onAuthStateChanged(auth, (user) => {
                         }
                     });
                 });
+                loadUserNotifier()
             }
         });
     }
