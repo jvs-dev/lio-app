@@ -50,21 +50,28 @@ onAuthStateChanged(auth, (user) => {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
                             if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
                                 loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
                             }
                         }
                         if (change.type === "modified") {
                             if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
                                 loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
                             }
                         }
                         if (change.type === "removed") {
                             if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
                                 loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
                             }
                         }
                     });
                 });
+                loadAdminNotifier()
             } else {
                 let q = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
                 let unsubscribe = onSnapshot(q, (snapshot) => {
