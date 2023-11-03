@@ -35,6 +35,18 @@ let userSelectedCutsValue = 0
 let comboSelect = document.getElementById("comboSelect")
 let quantyCutsSelecteds = 0
 let loadingResource = document.getElementById("loadingResource")
+let adminCancelCancelAgend = document.getElementById("adminCancelCancelAgend")
+
+adminCancelCancelAgend.addEventListener("click", () => {
+    let adminCancelAgend = document.getElementById("adminCancelAgend")
+    adminCancelAgend.style.opacity = "0"
+    setTimeout(() => {
+        let icon = document.querySelector("#adminCancelAgend lord-icon")
+        icon.trigger = ""
+        adminCancelAgend.style.display = "none"
+        adminCancelAgend.style.zIndex = ""
+    }, 200);
+})
 
 setInterval(() => {
     let paymentSection_paymentVoucher = document.querySelector(".paymentSection__paymentVoucher")
@@ -248,6 +260,38 @@ async function verifyDate(dayName, hours, button) {
                 button.textContent = `Agendado`
                 button.style.color = "var(--dark-gray)"
                 button.style.background = "#4AFF9D"
+                button.onclick = function () {
+                    let icon = document.querySelector("#adminCancelAgend lord-icon")
+                    let adminCancelAgend = document.getElementById("adminCancelAgend")
+                    let adminConfirmCancelAgend = document.getElementById("adminConfirmCancelAgend")
+                    icon.trigger = ""
+                    adminCancelAgend.style.display = "flex"
+                    adminCancelAgend.style.zIndex = "1000"
+                    setTimeout(() => {
+                        adminCancelAgend.style.opacity = "1"
+                        icon.trigger = "in"
+                        adminConfirmCancelAgend.onclick = function () {
+                            loadingResource.style.display = "flex"
+                            loadingResource.style.opacity = "0.8"
+                            adminCancelAgendFct(dayName, hourFormated, docSnap.data().userEmail, button).then(() => {
+                                loadingResource.style.display = ""
+                                loadingResource.style.opacity = ""
+                                adminCancelAgend.style.opacity = "0"
+                                setTimeout(() => {
+                                    icon.trigger = ""
+                                    adminCancelAgend.style.display = "none"
+                                    adminCancelAgend.style.zIndex = ""
+                                }, 200);
+                            })
+                        }
+                    }, 1);
+                }
+            } else {
+                if (docSnap.data().userEmail == actualUserEmail) {
+                    button.textContent = `Agendado`
+                    button.style.color = "var(--dark-gray)"
+                    button.style.background = "#4AFF9D"
+                }
             }
             button.addEventListener("click", (evt) => {
                 evt.stopPropagation()
@@ -758,4 +802,45 @@ function animatedConfirmPay() {
             }, 200);
         }, 1);
     }, 400);
+}
+
+
+async function adminCancelAgendFct(dayName, hours, docEmail, button) {
+    let cityRef = doc(db, `${dayName}`, `${hours}`);
+    await updateDoc(cityRef, {
+        agended: false,
+        vouncherId: deleteField(),
+        userEmail: deleteField(),
+        userName: deleteField(),
+        services: deleteField(),
+        value: deleteField(),
+        dateAgended: deleteField()
+    }).then(() => {
+        cancelAgendAddNotify(dayName, hours, docEmail)
+        button.textContent = `${hours}`
+        button.style.color = "var(--white)"
+        button.style.background = "var(--light-gray)"
+    });
+}
+
+async function cancelAgendAddNotify(dayName, hours, docEmail) {
+    let dataAtual = new Date();
+    let dia = dataAtual.getDate().toString().padStart(2, '0');
+    let mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+    let dataFormatada = `${dia}/${mes}`;
+    let docRef = await addDoc(collection(db, "notifys"), {
+        for: `${docEmail}`,
+        title: "Agendamento cancelado",
+        description: `O agendamento de ${dayName} ás ${hours} foi cancelado e você será reembolsado`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    });
+    let docRef2 = await addDoc(collection(db, "notifys"), {
+        for: `admin`,
+        title: "Agendamento cancelado",
+        description: `Você cancelou o agendamento de ${dayName} ás ${hours}`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    });
+
 }

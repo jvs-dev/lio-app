@@ -357,3 +357,22 @@
     justify-self: left;
     align-self: baseline;
 }
+
+#adminCancelAgend {
+    display: none;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: var(--light-gray);
+    position: fixed;
+    z-index: 10;
+    transition: 0.2s;
+}
+
+#adminCancelAgend lord-icon{
+    width: 100px;
+    height: 100px;
+}
