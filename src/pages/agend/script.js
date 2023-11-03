@@ -247,13 +247,22 @@ function loadAgendCards() {
     });
 }
 
-
-async function verifyDate(dayName, hours, button) {
+function realTimeDate(dayName, hours, button) {
     let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
-    let docRef = doc(db, `${dayName}`, `${hourFormated}`);
-    let docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        if (docSnap.data().agended == true) {
+    const unsub = onSnapshot(doc(db, `${dayName}`, `${hourFormated}`), (doc) => {
+        button.textContent = `${hourFormated}`
+        button.style.color = ""
+        button.style.background = ""
+        button.style.pointerEvents = ""
+        button.classList.remove("closed")
+        button.classList.remove("agended")
+        button.onclick = function () {
+
+        }
+        button.removeEventListener("click", () => {
+
+        })
+        if (doc.data().agended == true) {
             button.classList.add("closed")
             button.textContent = `Fechado`
             if (userAdmin == true) {
@@ -273,7 +282,7 @@ async function verifyDate(dayName, hours, button) {
                         adminConfirmCancelAgend.onclick = function () {
                             loadingResource.style.display = "flex"
                             loadingResource.style.opacity = "0.8"
-                            adminCancelAgendFct(dayName, hourFormated, docSnap.data().userEmail, button).then(() => {
+                            adminCancelAgendFct(dayName, hourFormated, doc.data().userEmail, button).then(() => {
                                 loadingResource.style.display = ""
                                 loadingResource.style.opacity = ""
                                 adminCancelAgend.style.opacity = "0"
@@ -287,10 +296,17 @@ async function verifyDate(dayName, hours, button) {
                     }, 1);
                 }
             } else {
-                if (docSnap.data().userEmail == actualUserEmail) {
+                if (doc.data().userEmail == actualUserEmail) {
                     button.textContent = `Agendado`
                     button.style.color = "var(--dark-gray)"
                     button.style.background = "#4AFF9D"
+                    button.style.pointerEvents = "none"
+                    button.onclick = function () {
+
+                    }
+                    button.addEventListener("click", (evt) => {
+                        evt.stopPropagation()
+                    })
                 }
             }
             button.addEventListener("click", (evt) => {
@@ -303,22 +319,33 @@ async function verifyDate(dayName, hours, button) {
                 })
             }
         } else {
-            if (docSnap.data().closed == true) {
+            if (doc.data().closed == true) {
                 button.classList.add("closed")
                 button.textContent = `Fechado`
                 if (userAdmin == true) {
                     button.addEventListener("click", (evt) => {
                         evt.stopPropagation()
-                        openCloseData(dayName, hours, button)
+                        if (doc.data().agended != true) {
+                            openCloseData(dayName, hours, button)
+                            console.log("oi");
+                        }
                     })
+                } else {
+                    button.style.pointerEvents = "none"
+                    button.onclick = function () {
+
+                    }
                 }
             } else {
                 if (userAdmin == true) {
                     button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
-                    button.addEventListener("click", (evt) => {
+                    button.onclick = function (evt) {
                         evt.stopPropagation()
-                        openCloseData(dayName, hours, button)
-                    })
+                        if (doc.data().agended != true) {
+                            openCloseData(dayName, hours, button)
+                            console.log("oi");
+                        }
+                    }
                 } else {
                     button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
                     button.addEventListener("click", (evt) => {
@@ -487,12 +514,22 @@ async function verifyDate(dayName, hours, button) {
                 }
             }
         }
+    });
+}
+
+async function verifyDate(dayName, hours, button) {
+    let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let docRef = doc(db, `${dayName}`, `${hourFormated}`);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {        
+        realTimeDate(dayName, hours, button)
     } else {
         if (userAdmin == true) {
             button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
             button.addEventListener("click", (evt) => {
                 evt.stopPropagation()
                 openCloseData(dayName, hours, button)
+                console.log("oi");
             })
         } else {
             button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`

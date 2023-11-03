@@ -45,49 +45,67 @@ onAuthStateChanged(auth, (user) => {
             userAdmin = false
             if (doc.data().admin == true) {
                 userAdmin = true
+                let indexReload = 0
                 let q = query(collection(db, "notifys"), where("for", "==", "admin"));
                 let unsubscribe = onSnapshot(q, (snapshot) => {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
                             if (userAdmin == true) {
-                                notificationCardsDiv.innerHTML = ``
-                                loadAdminNotifier()
-                                notificationCardsDiv.innerHTML = ``
+                                if (indexReload > 0) {
+                                    notificationCardsDiv.innerHTML = ``
+                                    loadAdminNotifier()
+                                    notificationCardsDiv.innerHTML = ``
+                                }
                             }
                         }
                         if (change.type === "modified") {
                             if (userAdmin == true) {
-                                notificationCardsDiv.innerHTML = ``
-                                loadAdminNotifier()
-                                notificationCardsDiv.innerHTML = ``
+                                if (indexReload > 0) {
+                                    notificationCardsDiv.innerHTML = ``
+                                    loadAdminNotifier()
+                                    notificationCardsDiv.innerHTML = ``
+                                }
                             }
                         }
                         if (change.type === "removed") {
                             if (userAdmin == true) {
-                                notificationCardsDiv.innerHTML = ``
-                                loadAdminNotifier()
-                                notificationCardsDiv.innerHTML = ``
+                                if (indexReload > 0) {
+                                    notificationCardsDiv.innerHTML = ``
+                                    loadAdminNotifier()
+                                    notificationCardsDiv.innerHTML = ``
+                                }
                             }
                         }
                     });
                 });
-                loadAdminNotifier()
+                loadAdminNotifier().then(() => {
+                    indexReload++
+                })
             } else {
+                let indexReload = 0
                 let q = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
                 let unsubscribe = onSnapshot(q, (snapshot) => {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
-                            loadUserNotifier()
+                            if (indexReload > 0) {
+                                loadUserNotifier()
+                            }
                         }
                         if (change.type === "modified") {
-                            loadUserNotifier()
+                            if (indexReload > 0) {
+                                loadUserNotifier()
+                            }
                         }
                         if (change.type === "removed") {
-                            loadUserNotifier()
+                            if (indexReload > 0) {
+                                loadUserNotifier()
+                            }
                         }
                     });
                 });
-                loadUserNotifier()
+                loadUserNotifier().then(() => {
+                    indexReload++
+                })
             }
         });
     }
@@ -127,6 +145,12 @@ async function deleteNotify(id) {
         loadUserNotifier()
         loadingResource.style.display = ""
         loadingResource.style.opacity = ""
+        if (userAdmin == true) {
+            loadingResource.style.display = ""
+            loadingResource.style.opacity = ""
+            notificationCardsDiv.innerHTML = ``
+            loadAdminNotifier()
+        }
     })
 }
 
