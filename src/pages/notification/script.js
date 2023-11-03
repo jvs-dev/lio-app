@@ -45,9 +45,47 @@ onAuthStateChanged(auth, (user) => {
             userAdmin = false
             if (doc.data().admin == true) {
                 userAdmin = true
-                loadAdminNotifier()
+                let q = query(collection(db, "notifys"), where("for", "==", "admin"));
+                let unsubscribe = onSnapshot(q, (snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "added") {
+                            if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
+                                loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
+                            }
+                        }
+                        if (change.type === "modified") {
+                            if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
+                                loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
+                            }
+                        }
+                        if (change.type === "removed") {
+                            if (userAdmin == true) {
+                                notificationCardsDiv.innerHTML = ``
+                                loadAdminNotifier()
+                                notificationCardsDiv.innerHTML = ``
+                            }
+                        }
+                    });
+                });
             } else {
-                loadUserNotifier()
+                let q = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
+                let unsubscribe = onSnapshot(q, (snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "added") {
+                            loadUserNotifier()
+                        }
+                        if (change.type === "modified") {
+                            loadUserNotifier()
+                        }
+                        if (change.type === "removed") {
+                            loadUserNotifier()
+                        }
+                    });
+                });
             }
         });
     }
@@ -196,6 +234,30 @@ async function loadAdminNotifier() {
                     }
                 });
         });
+        let q2 = query(collection(db, "notifys"), where("for", "==", `admin`));
+        let querySnapshot2 = await getDocs(q2);
+        querySnapshot2.forEach((doc) => {
+            let article = document.createElement("article")
+            let confirmtBtn = document.createElement("button")
+            notificationCardsDiv.insertAdjacentElement("beforeend", article)
+            article.classList.add("adminNotification__card")
+            article.innerHTML = `
+            <p class="notificationCard__title" ${`${doc.data().title}`.includes("recusada") || `${doc.data().title}`.includes("cancelado") ? `style="color: #FF4A4A;"` : ``}><ion-icon name="notifications-outline"></ion-icon>${doc.data().title}</p>
+            <ul class="notificationCard__ul">
+                <li class="notificationCard__li">${doc.data().description}</li>
+            </ul>
+        `
+            article.style.order = `-${doc.data().timestamp.seconds}`
+            article.insertAdjacentElement("beforeend", confirmtBtn)
+            confirmtBtn.classList.add("notificationCard__userConfirm")
+            confirmtBtn.textContent = "Confirmar"
+            article.insertAdjacentHTML("beforeend", `<span class="notificationCard__dateSpan">${doc.data().date}</span>`)
+            confirmtBtn.onclick = function () {
+                loadingResource.style.display = "flex"
+                loadingResource.style.opacity = "0.8"
+                deleteNotify(doc.id)
+            }
+        })
     }
 }
 
@@ -293,44 +355,3 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
     });
 });
 
-
-let a = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
-let unsubscrib2 = onSnapshot(a, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-            if (userAdmin == true) {
-                let reloadNotification = document.getElementById("reloadNotification")
-                reloadNotification.style.transform = "translateY(0px)"
-                reloadNotification.onclick = () => {
-                    notificationCardsDiv.innerHTML = ``
-                    loadAdminNotifier()
-                    reloadNotification.style.transform = ""
-                }
-            } else {
-                loadUserNotifier()
-            }
-        }
-        if (change.type === "modified") {
-            if (userAdmin == true) {
-                let reloadNotification = document.getElementById("reloadNotification")
-                reloadNotification.style.transform = "translateY(0px)"
-                reloadNotification.onclick = () => {
-                    notificationCardsDiv.innerHTML = ``
-                    loadAdminNotifier()
-                    reloadNotification.style.transform = ""
-                }
-            } else {
-                loadUserNotifier()
-            }
-        }
-        if (change.type === "removed") {
-            if (userAdmin == true) {
-                notificationCardsDiv.innerHTML = ``
-                loadAdminNotifier()
-                notificationCardsDiv.innerHTML = ``
-            } else {
-                loadUserNotifier()
-            }
-        }
-    });
-});

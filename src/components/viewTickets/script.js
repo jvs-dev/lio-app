@@ -175,4 +175,12 @@ async function addnotify(dayName, hours) {
         date: `${dataFormatada}`,
         timestamp: serverTimestamp()
     });
+    let docRef2 = await addDoc(collection(db, "notifys"), {
+        for: `admin`,
+        title: "Agendamento cancelado",
+        description: `${actualUserEmail} cancelou o agendamento de ${dayName} ás ${hours}`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    });
+    
 }
