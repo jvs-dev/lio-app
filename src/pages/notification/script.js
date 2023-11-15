@@ -209,7 +209,7 @@ async function loadAdminNotifier() {
                     confirmBtn.onclick = function () {
                         loadingResource.style.display = "flex"
                         loadingResource.style.opacity = "0.8"
-                        scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
+                        scheduling(doc.data().AgendDate, doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
                     }
                     rejectBtn.onclick = function () {
                         loadingResource.style.display = "flex"
@@ -250,7 +250,7 @@ async function loadAdminNotifier() {
                         confirmBtn.onclick = function () {
                             loadingResource.style.display = "flex"
                             loadingResource.style.opacity = "0.8"
-                            scheduling(doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
+                            scheduling(doc.data().AgendDate, doc.data().dayName, doc.data().hours, doc.id, doc.data().userEmail, doc.data().userName, doc.data().services, doc.data().value)
                         }
                         rejectBtn.onclick = function () {
                             loadingResource.style.display = "flex"
@@ -268,7 +268,7 @@ async function loadAdminNotifier() {
             notificationCardsDiv.insertAdjacentElement("beforeend", article)
             article.classList.add("adminNotification__card")
             article.innerHTML = `
-            <p class="notificationCard__title" ${`${doc.data().title}`.includes("recusada") || `${doc.data().title}`.includes("cancelado") ? `style="color: #FF4A4A;"` : ``}><ion-icon name="notifications-outline"></ion-icon>${doc.data().title}</p>
+            <p class="notificationCard__title" ${`${doc.data().title}`.includes("recusada") || `${doc.data().title}`.includes("cancelado") || `${doc.data().title}`.includes("Post reportado") ? `style="color: #FF4A4A;"` : ``}>${`${doc.data().title}`.includes("Post reportado") ? `<ion-icon name="image-outline"></ion-icon>` : `<ion-icon name="notifications-outline"></ion-icon>`}${doc.data().title}</p>
             <ul class="notificationCard__ul">
                 <li class="notificationCard__li">${doc.data().description}</li>
             </ul>
@@ -287,7 +287,7 @@ async function loadAdminNotifier() {
     }
 }
 
-async function scheduling(dayName, hours, vouncherId, userEmail, userName, services, value) {
+async function scheduling(AgendDate, dayName, hours, vouncherId, userEmail, userName, services, value) {
     let formatHours = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     await setDoc(doc(db, `${dayName}`, `${formatHours}`), {
         agended: true,
@@ -296,7 +296,8 @@ async function scheduling(dayName, hours, vouncherId, userEmail, userName, servi
         userName: userName,
         services: services,
         value: value,
-        dateAgended: `${dayName} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+        dateAgended: `${dayName} ás ${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`,
+        AgendDate: AgendDate
     });
     let dataAtual = new Date();
     let dia = dataAtual.getDate().toString().padStart(2, '0');

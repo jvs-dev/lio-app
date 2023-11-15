@@ -12,6 +12,7 @@
     padding: 40px 40px 120px 40px;
     opacity: 0;
     transition: 0.2s;
+    overflow: auto;
 }
 .editDataSection__div {
     position: relative;
@@ -54,4 +55,5 @@
 .editDataSection__btn--2.btn--cancel {
     background: var(--light-gray);
     margin-top: 10px;
+    margin-bottom: 50px;
 }

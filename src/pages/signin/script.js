@@ -51,8 +51,7 @@ replaceToLogin.addEventListener("click", () => {
     let loginTitle = document.getElementById("loginTitle")
     signinSection.style.transform = "translateX(100vw)"
     setTimeout(() => {
-        loginSection.style.transform = "translateX(0vw)"
-        loginTitle.style.transform = "translateX(0vw)"
+        loginSection.style.transform = "translateX(0vw)"        
     }, 100);
 })
 

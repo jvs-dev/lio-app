@@ -247,6 +247,21 @@ function loadAgendCards() {
     });
 }
 
+async function removeLastAgend(dayName, hours) {
+    let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
+    let cityRef = doc(db, `${dayName}`, `${hourFormated}`);
+    await updateDoc(cityRef, {
+        agended: false,
+        vouncherId: deleteField(),
+        userEmail: deleteField(),
+        userName: deleteField(),
+        services: deleteField(),
+        value: deleteField(),
+        dateAgended: deleteField(),
+        AgendDate: deleteField()
+    });
+}
+
 function realTimeDate(dayName, hours, button) {
     let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     const unsub = onSnapshot(doc(db, `${dayName}`, `${hourFormated}`), (doc) => {
@@ -263,60 +278,88 @@ function realTimeDate(dayName, hours, button) {
 
         })
         if (doc.data().agended == true) {
-            button.classList.add("closed")
-            button.textContent = `Fechado`
-            if (userAdmin == true) {
-                button.textContent = `Agendado`
-                button.style.color = "var(--dark-gray)"
-                button.style.background = "#4AFF9D"
-                button.onclick = function () {
-                    let icon = document.querySelector("#adminCancelAgend lord-icon")
-                    let adminCancelAgend = document.getElementById("adminCancelAgend")
-                    let adminConfirmCancelAgend = document.getElementById("adminConfirmCancelAgend")
-                    icon.trigger = ""
-                    adminCancelAgend.style.display = "flex"
-                    adminCancelAgend.style.zIndex = "1000"
-                    setTimeout(() => {
-                        adminCancelAgend.style.opacity = "1"
-                        icon.trigger = "in"
-                        adminConfirmCancelAgend.onclick = function () {
-                            loadingResource.style.display = "flex"
-                            loadingResource.style.opacity = "0.8"
-                            adminCancelAgendFct(dayName, hourFormated, doc.data().userEmail, button).then(() => {
-                                loadingResource.style.display = ""
-                                loadingResource.style.opacity = ""
-                                adminCancelAgend.style.opacity = "0"
-                                setTimeout(() => {
-                                    icon.trigger = ""
-                                    adminCancelAgend.style.display = "none"
-                                    adminCancelAgend.style.zIndex = ""
-                                }, 200);
-                            })
-                        }
-                    }, 1);
+            function converterStringParaData(dataString) {
+                var partesData = dataString.split("/");
+                var ano = parseInt("20" + partesData[2]);
+                var mes = parseInt(partesData[1]) - 1;
+                var dia = parseInt(partesData[0]);
+                return new Date(ano, mes, dia);
+            }
+            function compararDatas(dataString1, dataString2) {
+                var data1 = converterStringParaData(dataString1);
+                var data2 = converterStringParaData(dataString2);
+
+                if (data1 > data2) {
+                    return "A primeira data é depois da segunda data.";
+                } else if (data1 < data2) {
+                    return "A primeira data é antes da segunda data.";
+                } else {
+                    return "As datas são iguais.";
                 }
+            }
+
+            // Exemplo de uso            
+            var dataAtual = new Date();
+            var dataAtualFormatada = `${dataAtual.getDate()}/${dataAtual.getMonth() + 1}/${dataAtual.getFullYear().toString()}`;
+            var resultado = compararDatas(`${dataAtualFormatada}`, `${doc.data().AgendDate}`);            
+            if (resultado == "A primeira data é depois da segunda data.") {                
+                removeLastAgend(dayName, hours)
             } else {
-                if (doc.data().userEmail == actualUserEmail) {
+                button.classList.add("closed")
+                button.textContent = `Fechado`
+                if (userAdmin == true) {
                     button.textContent = `Agendado`
                     button.style.color = "var(--dark-gray)"
                     button.style.background = "#4AFF9D"
-                    button.style.pointerEvents = "none"
                     button.onclick = function () {
-
+                        let icon = document.querySelector("#adminCancelAgend lord-icon")
+                        let adminCancelAgend = document.getElementById("adminCancelAgend")
+                        let adminConfirmCancelAgend = document.getElementById("adminConfirmCancelAgend")
+                        icon.trigger = ""
+                        adminCancelAgend.style.display = "flex"
+                        adminCancelAgend.style.zIndex = "1000"
+                        setTimeout(() => {
+                            adminCancelAgend.style.opacity = "1"
+                            icon.trigger = "in"
+                            adminConfirmCancelAgend.onclick = function () {
+                                loadingResource.style.display = "flex"
+                                loadingResource.style.opacity = "0.8"
+                                adminCancelAgendFct(dayName, hourFormated, doc.data().userEmail, button).then(() => {
+                                    loadingResource.style.display = ""
+                                    loadingResource.style.opacity = ""
+                                    adminCancelAgend.style.opacity = "0"
+                                    setTimeout(() => {
+                                        icon.trigger = ""
+                                        adminCancelAgend.style.display = "none"
+                                        adminCancelAgend.style.zIndex = ""
+                                    }, 200);
+                                })
+                            }
+                        }, 1);
                     }
+                } else {
+                    if (doc.data().userEmail == actualUserEmail) {
+                        button.textContent = `Agendado`
+                        button.style.color = "var(--dark-gray)"
+                        button.style.background = "#4AFF9D"
+                        button.style.pointerEvents = "none"
+                        button.onclick = function () {
+
+                        }
+                        button.addEventListener("click", (evt) => {
+                            evt.stopPropagation()
+                        })
+                    }
+                }
+                button.addEventListener("click", (evt) => {
+                    evt.stopPropagation()
+                })
+                if (dayName == nomeDoDiaDaSemana) {
+                    verifyRemoveAgend(dayName, hours, button)
                     button.addEventListener("click", (evt) => {
                         evt.stopPropagation()
                     })
                 }
-            }
-            button.addEventListener("click", (evt) => {
-                evt.stopPropagation()
-            })
-            if (dayName == nomeDoDiaDaSemana) {
-                verifyRemoveAgend(dayName, hours, button)
-                button.addEventListener("click", (evt) => {
-                    evt.stopPropagation()
-                })
             }
         } else {
             if (doc.data().closed == true) {
@@ -521,7 +564,7 @@ async function verifyDate(dayName, hours, button) {
     let hourFormated = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
     let docRef = doc(db, `${dayName}`, `${hourFormated}`);
     let docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {        
+    if (docSnap.exists()) {
         realTimeDate(dayName, hours, button)
     } else {
         if (userAdmin == true) {
@@ -529,7 +572,6 @@ async function verifyDate(dayName, hours, button) {
             button.addEventListener("click", (evt) => {
                 evt.stopPropagation()
                 openCloseData(dayName, hours, button)
-                console.log("oi");
             })
         } else {
             button.textContent = `${`${hours}`.length == 1 ? `0${hours}:00` : `${hours}:00`}`
@@ -710,7 +752,8 @@ async function verifyRemoveAgend(dayName, hours, button) {
             userName: deleteField(),
             services: deleteField(),
             value: deleteField(),
-            dateAgended: deleteField()
+            dateAgended: deleteField(),
+            AgendDate: deleteField()
         });
 
     }
@@ -754,6 +797,44 @@ async function openData(dayName, hours, button) {
 }
 
 async function requestAgend(dayName, hours, vouncher) {
+    let proximaDataSemana
+    function obterProximaData(diaSemana) {
+        let dataAtual = new Date();
+        let diaSemanaAtual = dataAtual.getDay();
+        let diferencaDias = (diaSemana - diaSemanaAtual + 7) % 7;
+        let proximaData = new Date(dataAtual);
+        proximaData.setDate(dataAtual.getDate() + diferencaDias);
+        let dia = proximaData.getDate();
+        let mes = proximaData.getMonth() + 1;
+        let ano = proximaData.getFullYear();
+        dia = dia < 10 ? '0' + dia : dia;
+        mes = mes < 10 ? '0' + mes : mes;
+        let dataFormatada = dia + '/' + mes + '/' + ano;
+        return dataFormatada;
+    }
+    switch (dayName) {
+        case "Domingo":
+            proximaDataSemana = obterProximaData(0);
+            break;
+        case "Segunda-feira":
+            proximaDataSemana = obterProximaData(1);
+            break;
+        case "Terça-feira":
+            proximaDataSemana = obterProximaData(2);
+            break;
+        case "Quarta-feira":
+            proximaDataSemana = obterProximaData(3);
+            break;
+        case "Quinta-feira":
+            proximaDataSemana = obterProximaData(4);
+            break;
+        case "Sexta-feira":
+            proximaDataSemana = obterProximaData(5);
+            break;
+        case "Sábado":
+            proximaDataSemana = obterProximaData(6);
+            break;
+    }
     let agora = new Date();
     let hora = agora.getHours().toString().padStart(2, '0');
     let minutos = agora.getMinutes().toString().padStart(2, '0');
@@ -773,7 +854,8 @@ async function requestAgend(dayName, hours, vouncher) {
             services: userSelectedCuts,
             timestamp: serverTimestamp(),
             notifierHours: horaAtual,
-            notifierDate: dataAtual
+            notifierDate: dataAtual,
+            AgendDate: proximaDataSemana
         });
         loadingResource.style.display = "none"
         loadingResource.style.opacity = "0"
@@ -789,7 +871,8 @@ async function requestAgend(dayName, hours, vouncher) {
             services: userSelectedCuts,
             timestamp: serverTimestamp(),
             notifierHours: horaAtual,
-            notifierDate: dataAtual
+            notifierDate: dataAtual,
+            AgendDate: proximaDataSemana
         });
         let itemsImagesRef = ref(storage, `vounchers/${docRef.id}.jpg`);
         let image = `${vouncher}`;
@@ -851,7 +934,8 @@ async function adminCancelAgendFct(dayName, hours, docEmail, button) {
         userName: deleteField(),
         services: deleteField(),
         value: deleteField(),
-        dateAgended: deleteField()
+        dateAgended: deleteField(),
+        AgendDate: deleteField()
     }).then(() => {
         cancelAgendAddNotify(dayName, hours, docEmail)
         button.textContent = `${hours}`

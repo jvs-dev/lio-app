@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, addDoc, collection, updateDoc, query, where, getDocs, increment, arrayUnion, arrayRemove, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, addDoc, collection, serverTimestamp, updateDoc, query, where, getDocs, increment, arrayUnion, arrayRemove, getDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 const firebaseConfig = {
     apiKey: `${import.meta.env.VITE_API_KEY}`,
@@ -24,6 +24,7 @@ let actualUserPhoto = ""
 let actualUserCredits = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
+let userAdmin = false
 let homePostsSection = document.getElementById("homePostsSection")
 
 onAuthStateChanged(auth, (user) => {
@@ -34,6 +35,10 @@ onAuthStateChanged(auth, (user) => {
             actualUserCredits = doc.data().credits
             actualUserName = doc.data().userName
             actualUserHairCuts = doc.data().hairCuts
+            userAdmin = false
+            if (doc.data().admin == true) {
+                userAdmin = true
+            }
             loadPosts()
         });
     }
@@ -110,15 +115,62 @@ async function loadPosts() {
                                     <polygon points="80,80 70,70"></polygon>
                                 </svg>
                             </div>
-                        </div><span
-                                class="postCard__span">${doc.data().likedBy.length} Likes</span><ion-icon class="postCard__elipsis"
-                                name="ellipsis-vertical"></ion-icon></div>
-                            <p class="postCard__text">${doc.data().description}</p>
-                            <div class="postCard__div--4"></div>`
+                        </div>
+                        <span class="postCard__span">${doc.data().likedBy.length} Likes</span>
+                        <div class="postCard__more">
+                            <ion-icon class="postCard__elipsis" name="ellipsis-vertical"></ion-icon>
+                            <ul class="postCard__ul"></ul>
+                            </div>
+                        </div>
+                        <p class="postCard__text">${doc.data().description}</p>
+                        <div class="postCard__div--4"></div>`
                         let likeBtn = document.querySelector(`#${elementsId} .postCard__likeThis`)
                         let likeBtnInput = document.querySelector(`#${elementsId} .postCard__checkbox`)
                         let likeNumber = document.querySelector(`#${elementsId} .postCard__span`)
                         let mainImg = document.querySelector(`#${elementsId} .postCard__mainImg`)
+                        let ellipsis = document.querySelector(`#${elementsId} .postCard__elipsis`)
+                        let ul = document.querySelector(`#${elementsId} .postCard__ul`)
+                        let liShare = document.createElement("li")
+                        let liReport = document.createElement("li")
+                        let liDelete = document.createElement("li")
+                        ul.insertAdjacentElement("beforeend", liShare)
+                        liShare.innerHTML = `<ion-icon name="share-social-outline"></ion-icon>Compartilhar`
+                        liShare.classList.add("postCard__li")
+                        liShare.addEventListener("click", () => {
+                            share(doc.id, liReport)
+                        })
+                        if (userAdmin == true) {
+                            ul.insertAdjacentElement("beforeend", liDelete)
+                            liDelete.innerHTML = `<ion-icon name="trash-outline"></ion-icon>Apagar`
+                            liDelete.style.color = "#FF4A4A"
+                            liDelete.classList.add("postCard__li")
+                            liDelete.addEventListener("click", () => {
+                                deletePost(doc.id, liReport, article)
+                            })
+                        } else {
+                            ul.insertAdjacentElement("beforeend", liReport)
+                            liReport.innerHTML = `<ion-icon name="alert-circle-outline"></ion-icon>Reportar`
+                            liReport.style.color = "#FF4A4A"
+                            liReport.classList.add("postCard__li")
+                            liReport.onclick = function () {
+                                reportPost(doc.id, liReport)
+                            }
+                        }
+                        ul.insertAdjacentElement("beforeend", liReport)
+
+                        ellipsis.addEventListener("click", (evt) => {
+                            evt.stopPropagation()
+                            ul.style.display = "flex"
+                            setTimeout(() => {
+                                ul.style.opacity = "1"
+                                window.addEventListener("click", () => {
+                                    ul.style.opacity = "0"
+                                    setTimeout(() => {
+                                        ul.style.display = "none"
+                                    }, 200);
+                                })
+                            }, 1);
+                        })
                         verifyDataLoop(doc.id, likeBtnInput, likeNumber)
                         likeBtn.addEventListener("click", () => {
                             verifyLike(doc.id, likeBtn, likeNumber)
@@ -128,6 +180,48 @@ async function loadPosts() {
         i++
     });
     addListener(i)
+}
+
+async function deletePost(id, component, article) {
+    let desertRef = ref(storage, `posts/${id}.jpg`);
+    deleteObject(desertRef).then(async () => {
+        await deleteDoc(doc(db, "posts", `${id}`)).then(() => {
+            article.style.display = "none"
+            article.innerHTML = ""
+        })
+    })
+}
+async function share(id, component) {
+    let shareData = {
+        title: "Lio Hairstyle",
+        text: "Deixe reluzir sua melhor versão",
+        url: `${window.location.pathname}`,
+    };
+    try {
+        await navigator.share(shareData);
+    } catch (err) {
+    }
+}
+
+async function reportPost(id, component) {
+    let dataAtual = new Date();
+    let dia = dataAtual.getDate();
+    let mes = dataAtual.getMonth() + 1;
+    let ano = dataAtual.getFullYear();
+    dia = dia < 10 ? '0' + dia : dia;
+    mes = mes < 10 ? '0' + mes : mes;
+    let dataFormatada = dia + '/' + mes + '/' + ano;
+    let docRef2 = await addDoc(collection(db, "notifys"), {
+        for: `admin`,
+        title: `Post reportado`,
+        description: `Post de id:${id} reportado por ${actualUserName}`,
+        date: `${dataFormatada}`,
+        timestamp: serverTimestamp()
+    });
+    component.innerHTML = "Reportado"
+    component.onclick = function () {
+
+    }
 }
 
 async function verifyDataLoop(id, component, txt) {
