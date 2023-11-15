@@ -161,16 +161,21 @@ async function loadPosts(email) {
                 actualUserPosts = i
                 perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
                 if (i == 0) {
-                    allUserPhotos.innerHTML = `<span class="emptyData">Sem notificações</span>`
+                    allUserPhotos.style.display = "flex"
+                    allUserPhotos.innerHTML = `<span class="emptyData">Sem Fotos 😢</span>`
+                } else {
+                    let emptyData = document.querySelector("#allUserPhotos .emptyData")
+                    emptyData.style.display = "none"
                 }
             })
     });
     perfilPosts.textContent = `${i != 0 ? `${i}` : `0`}`
     if (i == 0) {
         allUserPhotos.style.display = "flex"
-        allUserPhotos.innerHTML = `<span class="emptyData">Sem Fotos</span>`
+        allUserPhotos.innerHTML = `<span class="emptyData">Sem Fotos 😢</span>`
     } else {
-        allUserPhotos.style.display = ""
+        let emptyData = document.querySelector("#allUserPhotos .emptyData")
+        emptyData.style.display = "none"
     }
 }
 
