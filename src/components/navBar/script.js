@@ -38,27 +38,10 @@ onAuthStateChanged(auth, (user) => {
             userAdmin = false
             if (doc.data().admin == true) {
                 userAdmin = true
-            }
-            notifyCounter()
+            }            
         });
     }
 });
-
-
-function notifyCounter() {
-    const q = query(collection(db, "notifys"), where("for", "==", `${userAdmin == false ? `${actualUserEmail}` : `admin`}`));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            notifys++
-        });
-        if (notifys > 0) {
-            navBarNotify.style.display = "flex"
-            navBarNotify.textContent = notifys
-        } else {
-            navBarNotify.style.display = "none"
-        }
-    });
-}
 
 
 

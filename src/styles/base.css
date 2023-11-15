@@ -15,3 +15,12 @@ body {
 #main {
     background: var(--dark-gray);
 }
+.emptyData {
+    text-align: center;
+    width: 100%;
+    font-size: 22px;
+    padding: 40px 40px;
+    color: var(--white);
+    opacity: 0.7;
+    text-transform: capitalize;
+}

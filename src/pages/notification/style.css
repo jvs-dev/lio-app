@@ -179,6 +179,7 @@
     box-shadow: 0px 2px 20px #000;
     transform: translateY(-50vh);
     transition: 1s;
+    z-index: 10;
 }
 .notification__reload lord-icon {
     margin-right: 5px;

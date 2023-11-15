@@ -20,6 +20,7 @@ const storage = getStorage(app);
 let actualUserEmail = ""
 let actualUserPhoto = ""
 let actualUserCredits = 0
+let quantyNotifier = 0
 let actualUserName = ""
 let actualUserHairCuts = ""
 let userAdmin = false
@@ -53,6 +54,7 @@ onAuthStateChanged(auth, (user) => {
                             if (userAdmin == true) {
                                 if (indexReload > 0) {
                                     notificationCardsDiv.innerHTML = ``
+                                    quantyNotifier = 0
                                     loadAdminNotifier()
                                     notificationCardsDiv.innerHTML = ``
                                 }
@@ -62,6 +64,7 @@ onAuthStateChanged(auth, (user) => {
                             if (userAdmin == true) {
                                 if (indexReload > 0) {
                                     notificationCardsDiv.innerHTML = ``
+                                    quantyNotifier = 0
                                     loadAdminNotifier()
                                     notificationCardsDiv.innerHTML = ``
                                 }
@@ -71,6 +74,7 @@ onAuthStateChanged(auth, (user) => {
                             if (userAdmin == true) {
                                 if (indexReload > 0) {
                                     notificationCardsDiv.innerHTML = ``
+                                    quantyNotifier = 0
                                     loadAdminNotifier()
                                     notificationCardsDiv.innerHTML = ``
                                 }
@@ -88,16 +92,19 @@ onAuthStateChanged(auth, (user) => {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
                             if (indexReload > 0) {
+                                quantyNotifier = 0
                                 loadUserNotifier()
                             }
                         }
                         if (change.type === "modified") {
                             if (indexReload > 0) {
+                                quantyNotifier = 0
                                 loadUserNotifier()
                             }
                         }
                         if (change.type === "removed") {
                             if (indexReload > 0) {
+                                quantyNotifier = 0
                                 loadUserNotifier()
                             }
                         }
@@ -117,6 +124,7 @@ async function loadUserNotifier() {
     let q = query(collection(db, "notifys"), where("for", "==", `${actualUserEmail}`));
     let querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
+        quantyNotifier++
         let article = document.createElement("article")
         let confirmtBtn = document.createElement("button")
         notificationCardsDiv.insertAdjacentElement("beforeend", article)
@@ -160,6 +168,7 @@ async function loadAdminNotifier() {
         let q = query(collection(db, "requests"), where("userEmail", "!=", ""));
         let querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
+            quantyNotifier++
             getDownloadURL(ref(storage, `vounchers/${doc.id}.jpg`))
                 .then((url) => {
                     const xhr = new XMLHttpRequest();
@@ -263,6 +272,7 @@ async function loadAdminNotifier() {
         let q2 = query(collection(db, "notifys"), where("for", "==", `admin`));
         let querySnapshot2 = await getDocs(q2);
         querySnapshot2.forEach((doc) => {
+            quantyNotifier++
             let article = document.createElement("article")
             let confirmtBtn = document.createElement("button")
             notificationCardsDiv.insertAdjacentElement("beforeend", article)
@@ -284,6 +294,21 @@ async function loadAdminNotifier() {
                 deleteNotify(doc.id)
             }
         })
+        if (quantyNotifier == 0) {
+            let navBarNotify = document.getElementById("navBarNotify")
+            notificationCardsDiv.innerHTML = `<span class="emptyData">Sem notificações</span>`
+            navBarNotify.style.display = "none"
+        } else {
+            if (quantyNotifier > 0) {
+                let navBarNotify = document.getElementById("navBarNotify")
+                navBarNotify.style.display = "flex"
+                navBarNotify.textContent = quantyNotifier
+                quantyNotifier = 0
+            } else {
+                let navBarNotify = document.getElementById("navBarNotify")
+                navBarNotify.style.display = "none"
+            }
+        }
     }
 }
 
@@ -348,11 +373,11 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
             if (userAdmin == true) {
                 let reloadNotification = document.getElementById("reloadNotification")
                 reloadNotification.style.transform = "translateY(0px)"
-                reloadNotification.onclick = () => {
+                reloadNotification.addEventListener("click", () => {
                     notificationCardsDiv.innerHTML = ``
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
-                }
+                })
             } else {
                 loadUserNotifier()
             }
@@ -361,11 +386,11 @@ let unsubscribe = onSnapshot(q, (snapshot) => {
             if (userAdmin == true) {
                 let reloadNotification = document.getElementById("reloadNotification")
                 reloadNotification.style.transform = "translateY(0px)"
-                reloadNotification.onclick = () => {
+                reloadNotification.addEventListener("click", () => {
                     notificationCardsDiv.innerHTML = ``
                     loadAdminNotifier()
                     reloadNotification.style.transform = ""
-                }
+                })
             } else {
                 loadUserNotifier()
             }
