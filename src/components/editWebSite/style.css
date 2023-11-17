@@ -1,0 +1,69 @@
+.goEditBtn {
+    background: transparent;
+    color: var(--white);
+    border: 0px;
+    outline-width: 0px;
+    padding: 0px;
+    margin: 0px 10px 0px 0px;
+    font-size: 26px;
+}
+.main__editWebSection {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: var(--light-gray);
+    z-index: 20;
+    transform: translateX(100vw);
+    transition: 0.2s;
+    padding: 80px 40px 80px 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.editWebSection__close {
+    color: var(--white);
+    font-size: 32px;
+}
+.editWebSection__h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--primary-color);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    margin: 20px 0px 10px 0px;
+}
+.editWebSection__formDiv {
+    display: flex;
+    align-items: center;    
+    border-radius: 20px;
+    border: solid 1px var(--white);
+    color: var(--white);
+    padding: 4px 12px;
+    width: 100%;
+    max-width: 270px;
+    transition: 0.2s;
+    margin: 10px 0px;
+}
+.editWebSection__formIcon {    
+    font-size: 22px;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+.editWebSection__formInput {
+    background: transparent;
+    color: var(--white);
+    font-size: 16px;
+    width: 100%;
+    border: 0px;
+    outline-width: 0px;
+}
+.editWebSection__formInput::placeholder {
+    opacity: 0.8;
+}
+
+div.editWebSection__formDiv:has(> input.editWebSection__formInput:focus) {
+    border: solid 1px var(--primary-color);
+    color: var(--primary-color);
+}

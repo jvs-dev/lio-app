@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="src/pages/notification/style.css">
   <link rel="stylesheet" href="src/components/viewTickets/style.css">
   <link rel="stylesheet" href="src/components/ticket/style.css">
+  <link rel="stylesheet" href="src/components/editWebSite/style.css">
 </head>
 
 <body>
@@ -114,6 +115,52 @@
     </section>
     <section id="welcomeSection">
       <h2>Bem vindo</h2>
+    </section>
+
+    <section class="main__editWebSection" id="editWebSection">
+      <header class="section__header">
+        <p>Lio Hairstyle</p>
+        <ion-icon class="editWebSection__close" id="closeEditWebSection" name="close-outline"></ion-icon>
+      </header>
+      <h2 class="editWebSection__h2">Dados</h2>
+      <div class="editWebSection__formDiv">
+        <i class="bi bi-wallet2 editWebSection__formIcon"></i>
+        <input type="text" placeholder="Chave Pix" class="editWebSection__formInput" id="EditpixKey">
+      </div>
+      <h2 class="editWebSection__h2">Website</h2>
+
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="text-outline"></ion-icon>
+        <input type="text" placeholder="Introdução" class="editWebSection__formInput" id="EditIntro">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="call-outline"></ion-icon>
+        <input type="text" placeholder="Telefone" class="editWebSection__formInput" id="EditTell">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="link-outline"></ion-icon>
+        <input type="text" placeholder="Link para contato" class="editWebSection__formInput" id="EditLink">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="image-outline"></ion-icon>
+        <input type="text" placeholder="Capa desktop" class="editWebSection__formInput" id="EditCover">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="image-outline"></ion-icon>
+        <input type="text" placeholder="Capa mobile" class="editWebSection__formInput" id="EditMobileCover">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="image-outline"></ion-icon>
+        <input type="text" placeholder="Amostra 1" class="editWebSection__formInput" id="EditShow1">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="image-outline"></ion-icon>
+        <input type="text" placeholder="Amostra 2" class="editWebSection__formInput" id="EditShow2">
+      </div>
+      <div class="editWebSection__formDiv">
+        <ion-icon class="editWebSection__formIcon" name="image-outline"></ion-icon>
+        <input type="text" placeholder="Amostra 3" class="editWebSection__formInput" id="EditShow3">
+      </div>   
     </section>
 
     <section class="main__section main__home" id="homeSection">
@@ -261,7 +308,7 @@
           <p class="paymentSection__total__p">Total</p>
           <span class="paymentSection__total__span"><span></span></span>
         </article>
-        <p class="paymentSection__pixKey">Envie para esta chave pix:<br>71987986035</p>
+        <p class="paymentSection__pixKey" id="barberPixKey">Envie para esta chave pix:<br>71987986035</p>
         <label for="paymentVoucherInput" class="paymentSection__paymentVoucher">
           <input type="file" name="paymentVoucherInput" id="paymentVoucherInput" accept=".pdf, image/*">
           <img src="" class="paymentVoucher__img" id="paymentVoucherImg">
@@ -388,6 +435,7 @@
   <script type="module" src="src/components/createServices/script.js"></script>
   <script type="module" src="src/pages/notification/script.js"></script>
   <script type="module" src="src/components/viewTickets/script.js"></script>
+  <script type="module" src="src/components/editWebSite/script.js"></script>
 
   <script type="module" src="src/script/getUserInfo.js"></script>
   <script type="module" src="src/script/authVerifier.js"></script>

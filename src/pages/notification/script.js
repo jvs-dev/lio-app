@@ -146,6 +146,21 @@ async function loadUserNotifier() {
             deleteNotify(doc.id)
         }
     })
+    if (quantyNotifier == 0) {
+        let navBarNotify = document.getElementById("navBarNotify")
+        notificationCardsDiv.innerHTML = `<span class="emptyData">Sem notificações</span>`
+        navBarNotify.style.display = "none"
+    } else {
+        if (quantyNotifier > 0) {
+            let navBarNotify = document.getElementById("navBarNotify")
+            navBarNotify.style.display = "flex"
+            navBarNotify.textContent = quantyNotifier
+            quantyNotifier = 0
+        } else {
+            let navBarNotify = document.getElementById("navBarNotify")
+            navBarNotify.style.display = "none"
+        }
+    }
 }
 
 async function deleteNotify(id) {

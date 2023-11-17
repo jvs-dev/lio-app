@@ -36,6 +36,13 @@ let comboSelect = document.getElementById("comboSelect")
 let quantyCutsSelecteds = 0
 let loadingResource = document.getElementById("loadingResource")
 let adminCancelCancelAgend = document.getElementById("adminCancelCancelAgend")
+let barberPixKey = document.getElementById("barberPixKey")
+
+let pixDocRef = doc(db, "AllData", "Data");
+let docSnapPix = await getDoc(pixDocRef);
+if (docSnapPix.exists()) {
+    barberPixKey.innerHTML = `Envie para esta chave pix:<br>${docSnapPix.data().pixKey}`
+}
 
 adminCancelCancelAgend.addEventListener("click", () => {
     let adminCancelAgend = document.getElementById("adminCancelAgend")
@@ -301,8 +308,8 @@ function realTimeDate(dayName, hours, button) {
             // Exemplo de uso            
             var dataAtual = new Date();
             var dataAtualFormatada = `${dataAtual.getDate()}/${dataAtual.getMonth() + 1}/${dataAtual.getFullYear().toString()}`;
-            var resultado = compararDatas(`${dataAtualFormatada}`, `${doc.data().AgendDate}`);            
-            if (resultado == "A primeira data é depois da segunda data.") {                
+            var resultado = compararDatas(`${dataAtualFormatada}`, `${doc.data().AgendDate}`);
+            if (resultado == "A primeira data é depois da segunda data.") {
                 removeLastAgend(dayName, hours)
             } else {
                 button.classList.add("closed")
