@@ -32,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
                 goEditBtn.innerHTML = `<ion-icon name="construct-outline"></ion-icon>`
                 goEditBtn.classList.add("goEditBtn")
                 goEditBtn.addEventListener("click", () => {
-                    let editWebSection = document.getElementById("editWebSection")
+                    /* let editWebSection = document.getElementById("editWebSection")
                     let closeEditWebSection = document.getElementById("closeEditWebSection")
                     let editWebSectionInput = document.querySelectorAll(".editWebSection__formInput")
                     editWebSectionInput.forEach(element => {
@@ -48,7 +48,7 @@ onAuthStateChanged(auth, (user) => {
                             let EditShow3 = document.getElementById("EditShow3").value
                             saveData(EditpixKey, EditIntro, EditTell, EditLink, EditCover, EditMobileCover, EditShow1, EditShow2, EditShow3)
                         })
-                    });
+                    }); */
                     closeEditWebSection.addEventListener("click", () => {
                         editWebSection.style.transform = "translateX(100vw)"
                     })
