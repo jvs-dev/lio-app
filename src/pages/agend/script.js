@@ -64,14 +64,12 @@ setInterval(() => {
 }, 1000);
 
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, (user) => {
     if (user) {
         actualUserEmail = user.email
-        let pixDocRef = doc(db, "AllData", "Data");
-        let docSnapPix = await getDoc(pixDocRef);
-        if (docSnapPix.exists()) {
+        let unsub2 = onSnapshot(doc(db, "AllData", `Data`), (doc) => {
             barberPixKey.innerHTML = `Envie para esta chave pix:<br>${docSnapPix.data().pixKey}`
-        }
+        })
         let unsub = onSnapshot(doc(db, "users", `${user.email}`), (doc) => {
             actualUserPhoto = doc.data().userPhoto
             actualUserCredits = doc.data().credits
