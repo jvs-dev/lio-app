@@ -68,7 +68,7 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         actualUserEmail = user.email
         let unsub2 = onSnapshot(doc(db, "AllData", `Data`), (doc) => {
-            barberPixKey.innerHTML = `Envie para esta chave pix:<br>${docSnapPix.data().pixKey}`
+            barberPixKey.innerHTML = `Envie para esta chave pix:<br>${doc.data().pixKey}`
         })
         let unsub = onSnapshot(doc(db, "users", `${user.email}`), (doc) => {
             actualUserPhoto = doc.data().userPhoto
