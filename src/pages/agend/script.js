@@ -38,12 +38,6 @@ let loadingResource = document.getElementById("loadingResource")
 let adminCancelCancelAgend = document.getElementById("adminCancelCancelAgend")
 let barberPixKey = document.getElementById("barberPixKey")
 
-let pixDocRef = doc(db, "AllData", "Data");
-let docSnapPix = await getDoc(pixDocRef);
-if (docSnapPix.exists()) {
-    barberPixKey.innerHTML = `Envie para esta chave pix:<br>${docSnapPix.data().pixKey}`
-}
-
 adminCancelCancelAgend.addEventListener("click", () => {
     let adminCancelAgend = document.getElementById("adminCancelAgend")
     adminCancelAgend.style.opacity = "0"
@@ -70,9 +64,14 @@ setInterval(() => {
 }, 1000);
 
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         actualUserEmail = user.email
+        let pixDocRef = doc(db, "AllData", "Data");
+        let docSnapPix = await getDoc(pixDocRef);
+        if (docSnapPix.exists()) {
+            barberPixKey.innerHTML = `Envie para esta chave pix:<br>${docSnapPix.data().pixKey}`
+        }
         let unsub = onSnapshot(doc(db, "users", `${user.email}`), (doc) => {
             actualUserPhoto = doc.data().userPhoto
             actualUserCredits = doc.data().credits
