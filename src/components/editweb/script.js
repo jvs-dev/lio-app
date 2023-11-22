@@ -56,39 +56,40 @@ onAuthStateChanged(auth, (user) => {
                 })
             }
         });
+        async function loadData() {
+            let docRef = doc(db, "AllData", "Data");
+            let docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                document.getElementById("EditpixKey").value = docSnap.data().pixKey
+                document.getElementById("EditIntro").value = docSnap.data().Intro
+                document.getElementById("EditTell").value = docSnap.data().Tell
+                document.getElementById("EditLink").value = docSnap.data().Link
+                document.getElementById("EditCover").value = docSnap.data().Cover
+                document.getElementById("EditMobileCover").value = docSnap.data().MobileCover
+                document.getElementById("EditShow1").value = docSnap.data().Show1
+                document.getElementById("EditShow2").value = docSnap.data().Show2
+                document.getElementById("EditShow3").value = docSnap.data().Show3
+            }
+        }
+
+        async function saveData(EditpixKey, EditIntro, EditTell, EditLink, EditCover, EditMobileCover, EditShow1, EditShow2, EditShow3) {
+            if (userAdmin == true) {
+                await setDoc(doc(db, "AllData", "Data"), {
+                    pixKey: `${EditpixKey == undefined ? "" : EditpixKey}`,
+                    Intro: `${EditIntro == undefined ? "" : EditIntro}`,
+                    Tell: `${EditTell == undefined ? "" : EditTell}`,
+                    Link: `${EditLink == undefined ? "" : EditLink}`,
+                    Cover: `${EditCover == undefined ? "" : EditCover}`,
+                    MobileCover: `${EditMobileCover == undefined ? "" : EditMobileCover}`,
+                    Show1: `${EditShow1 == undefined ? "" : EditShow1}`,
+                    Show2: `${EditShow2 == undefined ? "" : EditShow2}`,
+                    Show3: `${EditShow3 == undefined ? "" : EditShow3}`
+                });
+            }
+        }
+
     }
 });
 
-async function loadData() {
-    let docRef = doc(db, "AllData", "Data");
-    let docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        document.getElementById("EditpixKey").value = docSnap.data().pixKey
-        document.getElementById("EditIntro").value = docSnap.data().Intro
-        document.getElementById("EditTell").value = docSnap.data().Tell
-        document.getElementById("EditLink").value = docSnap.data().Link
-        document.getElementById("EditCover").value = docSnap.data().Cover
-        document.getElementById("EditMobileCover").value = docSnap.data().MobileCover
-        document.getElementById("EditShow1").value = docSnap.data().Show1
-        document.getElementById("EditShow2").value = docSnap.data().Show2
-        document.getElementById("EditShow3").value = docSnap.data().Show3
-    }
-}
-
-async function saveData(EditpixKey, EditIntro, EditTell, EditLink, EditCover, EditMobileCover, EditShow1, EditShow2, EditShow3) {
-    if (userAdmin == true) {
-        await setDoc(doc(db, "AllData", "Data"), {
-            pixKey: `${EditpixKey == undefined ? "" : EditpixKey}`,
-            Intro: `${EditIntro == undefined ? "" : EditIntro}`,
-            Tell: `${EditTell == undefined ? "" : EditTell}`,
-            Link: `${EditLink == undefined ? "" : EditLink}`,
-            Cover: `${EditCover == undefined ? "" : EditCover}`,
-            MobileCover: `${EditMobileCover == undefined ? "" : EditMobileCover}`,
-            Show1: `${EditShow1 == undefined ? "" : EditShow1}`,
-            Show2: `${EditShow2 == undefined ? "" : EditShow2}`,
-            Show3: `${EditShow3 == undefined ? "" : EditShow3}`
-        });
-    }
-}
 
 
