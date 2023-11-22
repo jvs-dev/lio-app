@@ -91,4 +91,4 @@ async function saveData(EditpixKey, EditIntro, EditTell, EditLink, EditCover, Ed
     }
 } */
 
-console.log("Oi");
+alert("oi")
